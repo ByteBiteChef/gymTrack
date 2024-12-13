@@ -5,7 +5,6 @@ import {
 	setDoc,
 	getFirestore,
 	collection,
-	updateDoc,
 	arrayUnion,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
