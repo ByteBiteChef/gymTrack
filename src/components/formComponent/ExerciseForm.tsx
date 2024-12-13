@@ -1,5 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
+import { app } from "../../../firebase/firebase";
+
+const db = getFirestore(app);
 
 const ExerciseForm = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -7,6 +11,19 @@ const ExerciseForm = () => {
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
+	};
+
+	const handleAddExercise = async (): Promise<void> => {
+		const exerciseName = inputValue.trim();
+		if (!exerciseName) return;
+
+		const exerciseDocRef = doc(collection(db, "exercises"), exerciseName);
+
+		await setDoc(exerciseDocRef, {
+			createdAt: new Date(),
+		});
+		setInputValue("");
+		setIsOpen(false);
 	};
 
 	return (
@@ -20,13 +37,18 @@ const ExerciseForm = () => {
 
 			{isOpen && (
 				<div className="ml-2 bg-white border shadow-lg w-36">
-					<input
-						type="text"
-						value={inputValue}
-						onChange={handleInputChange}
-						placeholder="Add an Exercise"
-						className="border p-2 w-full"
-					/>
+					<div className="flex">
+						<input
+							type="text"
+							value={inputValue}
+							onChange={handleInputChange}
+							placeholder="Add an Exercise"
+							className="border p-2 w-full"
+						/>
+						<button onClick={handleAddExercise} className="border">
+							Add
+						</button>
+					</div>
 				</div>
 			)}
 		</div>
