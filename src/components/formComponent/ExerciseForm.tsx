@@ -60,17 +60,13 @@ const ExerciseForm = () => {
 		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
 		const timestampFieldName = Date.now().toString();
 
-		await updateDoc(exerciseDocRef, {
-			dates: arrayUnion(timestampFieldName),
-		}).catch(async (error) => {
-			if (error.code === "not-found") {
-				await setDoc(exerciseDocRef, {
-					dates: [timestampFieldName],
-				});
-			} else {
-				throw error;
-			}
-		});
+		await setDoc(
+			exerciseDocRef,
+			{
+				dates: arrayUnion(timestampFieldName),
+			},
+			{ merge: true }
+		);
 
 		await setDoc(
 			exerciseDocRef,
