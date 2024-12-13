@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
+import ExerciseCard from "../card/ExerciseCard";
 
 const db = getFirestore(app);
 
@@ -27,30 +28,37 @@ const ExerciseForm = () => {
 	};
 
 	return (
-		<div className="bg-blue-500 h-full m-8">
-			<button
-				onClick={() => setIsOpen(!isOpen)}
-				className="border w-36 m-2"
-			>
-				Pick an Exercise
-			</button>
-
-			{isOpen && (
-				<div className="ml-2 bg-white border shadow-lg w-36">
-					<div className="flex">
-						<input
-							type="text"
-							value={inputValue}
-							onChange={handleInputChange}
-							placeholder="Add an Exercise"
-							className="border p-2 w-full"
-						/>
-						<button onClick={handleAddExercise} className="border">
-							Add
-						</button>
+		<div className="flex bg-blue-500 h-full m-8">
+			<div className="bg-red-300 m-8 flex-1">
+				<button
+					onClick={() => setIsOpen(!isOpen)}
+					className="border w-36"
+				>
+					Pick an Exercise
+				</button>
+				{isOpen && (
+					<div className="bg-white border shadow-lg w-36">
+						<div className="flex">
+							<input
+								type="text"
+								value={inputValue}
+								onChange={handleInputChange}
+								placeholder="Add an Exercise"
+								className="border p-2 w-full"
+							/>
+							<button
+								onClick={handleAddExercise}
+								className="border"
+							>
+								Add
+							</button>
+						</div>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
+			<div className="m-8 flex-1">
+				<ExerciseCard />
+			</div>
 		</div>
 	);
 };
