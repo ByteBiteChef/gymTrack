@@ -20,9 +20,18 @@ const ExerciseForm = () => {
 
 		const exerciseDocRef = doc(collection(db, "exercises"), exerciseName);
 
-		await setDoc(exerciseDocRef, {
-			createdAt: new Date(),
-		});
+		const timestampFieldName = Date.now().toString();
+
+		await setDoc(
+			exerciseDocRef,
+			{
+				[timestampFieldName]: {
+					series: [10, 12, 8],
+				},
+			},
+			{ merge: true }
+		);
+
 		setInputValue("");
 		setIsOpen(false);
 	};
