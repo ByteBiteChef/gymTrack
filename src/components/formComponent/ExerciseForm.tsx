@@ -10,6 +10,7 @@ const ExerciseForm = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [exerciseName, setExerciseName] = useState("");
 	const [seriesInput, setSeriesInput] = useState("");
+	const [weightInput, setWeightInput] = useState("");
 
 	const handleExerciseNameChange = (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -21,6 +22,10 @@ const ExerciseForm = () => {
 		setSeriesInput(e.target.value);
 	};
 
+	const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setWeightInput(e.target.value);
+	};
+
 	const handleAddExercise = async (): Promise<void> => {
 		const trimmedName = exerciseName.trim();
 		if (!trimmedName) return;
@@ -29,7 +34,19 @@ const ExerciseForm = () => {
 			.split(",")
 			.map((value) => parseInt(value.trim(), 10))
 			.filter((num) => !isNaN(num));
-		if (seriesArray.length === 0) {
+
+		const weightArray = weightInput
+			.split(",")
+			.map((value) => parseInt(value.trim(), 10))
+			.filter((num) => !isNaN(num));
+
+		if (seriesArray.length === 0 || weightArray.length === 0) {
+			console.error("You must provide valid series and weight values.");
+			return;
+		}
+
+		if (seriesArray.length !== weightArray.length) {
+			console.error("The number of series and weights must match.");
 			return;
 		}
 
@@ -41,6 +58,7 @@ const ExerciseForm = () => {
 			{
 				[timestampFieldName]: {
 					series: seriesArray,
+					weight: weightArray,
 				},
 			},
 			{ merge: true }
@@ -48,6 +66,7 @@ const ExerciseForm = () => {
 
 		setExerciseName("");
 		setSeriesInput("");
+		setWeightInput("");
 		setIsOpen(false);
 	};
 
@@ -79,6 +98,15 @@ const ExerciseForm = () => {
 						value={seriesInput}
 						onChange={handleSeriesChange}
 						placeholder="Add Series (e.g. 10,12,8)"
+						className="border p-2 w-full"
+					/>
+				</div>
+				<div className="mb-2">
+					<input
+						type="text"
+						value={weightInput}
+						onChange={handleWeightChange}
+						placeholder="Weights (e.g. 40,45,50)"
 						className="border p-2 w-full"
 					/>
 				</div>
