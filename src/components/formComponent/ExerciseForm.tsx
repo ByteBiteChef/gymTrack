@@ -1,6 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
+import {
+	doc,
+	setDoc,
+	getFirestore,
+	collection,
+	updateDoc,
+	arrayUnion,
+} from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
 import ExerciseCard from "../card/ExerciseCard";
 
@@ -52,6 +59,18 @@ const ExerciseForm = () => {
 
 		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
 		const timestampFieldName = Date.now().toString();
+
+		await updateDoc(exerciseDocRef, {
+			dates: arrayUnion(timestampFieldName),
+		}).catch(async (error) => {
+			if (error.code === "not-found") {
+				await setDoc(exerciseDocRef, {
+					dates: [timestampFieldName],
+				});
+			} else {
+				throw error;
+			}
+		});
 
 		await setDoc(
 			exerciseDocRef,
