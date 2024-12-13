@@ -8,31 +8,46 @@ const db = getFirestore(app);
 
 const ExerciseForm = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [inputValue, setInputValue] = useState("");
+	const [exerciseName, setExerciseName] = useState("");
+	const [seriesInput, setSeriesInput] = useState("");
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setInputValue(e.target.value);
+	const handleExerciseNameChange = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setExerciseName(e.target.value);
+	};
+
+	const handleSeriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSeriesInput(e.target.value);
 	};
 
 	const handleAddExercise = async (): Promise<void> => {
-		const exerciseName = inputValue.trim();
-		if (!exerciseName) return;
+		const trimmedName = exerciseName.trim();
+		if (!trimmedName) return;
 
-		const exerciseDocRef = doc(collection(db, "exercises"), exerciseName);
+		const seriesArray = seriesInput
+			.split(",")
+			.map((value) => parseInt(value.trim(), 10))
+			.filter((num) => !isNaN(num));
+		if (seriesArray.length === 0) {
+			return;
+		}
 
+		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
 		const timestampFieldName = Date.now().toString();
 
 		await setDoc(
 			exerciseDocRef,
 			{
 				[timestampFieldName]: {
-					series: [10, 12, 8],
+					series: seriesArray,
 				},
 			},
 			{ merge: true }
 		);
 
-		setInputValue("");
+		setExerciseName("");
+		setSeriesInput("");
 		setIsOpen(false);
 	};
 
@@ -46,24 +61,33 @@ const ExerciseForm = () => {
 					Pick an Exercise
 				</button>
 				{isOpen && (
-					<div className="bg-white border shadow-lg w-36">
-						<div className="flex">
+					<div className="bg-white shadow-lg w-64">
+						<div className="mb-2">
 							<input
 								type="text"
-								value={inputValue}
-								onChange={handleInputChange}
-								placeholder="Add an Exercise"
+								value={exerciseName}
+								onChange={handleExerciseNameChange}
+								placeholder="Add Exercise Name"
 								className="border p-2 w-full"
 							/>
-							<button
-								onClick={handleAddExercise}
-								className="border"
-							>
-								Add
-							</button>
 						</div>
 					</div>
 				)}
+				<div className="mb-2">
+					<input
+						type="text"
+						value={seriesInput}
+						onChange={handleSeriesChange}
+						placeholder="Add Series (e.g. 10,12,8)"
+						className="border p-2 w-full"
+					/>
+				</div>
+				<button
+					onClick={handleAddExercise}
+					className="border p-2 w-full"
+				>
+					Add
+				</button>
 			</div>
 			<div className="m-8 flex-1">
 				<ExerciseCard />
