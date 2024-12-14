@@ -18,6 +18,7 @@ const ExerciseForm = () => {
 	const [exerciseName, setExerciseName] = useState("");
 	const [seriesInput, setSeriesInput] = useState("");
 	const [weightInput, setWeightInput] = useState("");
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises]: any = useState([]);
 
 	const handleExerciseNameChange = (
@@ -130,6 +131,7 @@ const ExerciseForm = () => {
 						</div>
 						<div className="exercise-list">
 							{exercises.length > 0 ? (
+								/* eslint-disable @typescript-eslint/no-explicit-any */
 								exercises.map((exercise: any) => (
 									<div
 										key={exercise.id}
