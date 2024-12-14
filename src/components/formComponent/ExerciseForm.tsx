@@ -6,7 +6,6 @@ import {
 	getFirestore,
 	collection,
 	arrayUnion,
-	getDocs,
 	onSnapshot,
 	query,
 	where,
