@@ -8,6 +8,8 @@ import {
 	arrayUnion,
 	getDocs,
 	onSnapshot,
+	query,
+	where,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
 import { toast } from "sonner";
@@ -21,6 +23,7 @@ const ExerciseForm = () => {
 	const [weightInput, setWeightInput] = useState("");
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises]: any = useState([]);
+	const [currentUser, setCurrentUser] = useState("");
 
 	useEffect(() => {
 		// Attach a listener to the exercises collection
@@ -38,6 +41,11 @@ const ExerciseForm = () => {
 		// Cleanup listener on component unmount
 		return () => unsubscribe();
 	}, []);
+
+	const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setCurrentUser(e.target.value); // Update the current user
+		fetchExercises(e.target.value); // Fetch exercises for the entered user
+	};
 
 	const handleExerciseNameChange = (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -89,6 +97,7 @@ const ExerciseForm = () => {
 			exerciseDocRef,
 			{
 				dates: arrayUnion(timestampFieldName),
+				user: currentUser,
 			},
 			{ merge: true }
 		);
@@ -110,22 +119,28 @@ const ExerciseForm = () => {
 		setIsOpen(false);
 	};
 
-	const fetchExercises = async () => {
-		try {
-			const querySnapshot = await getDocs(collection(db, "exercises"));
-			const exercisesData = querySnapshot.docs.map((doc) => ({
+	const fetchExercises = (user: string) => {
+		const exercisesQuery = query(
+			collection(db, "exercises"),
+			where("user", "==", user)
+		);
+
+		const unsubscribe = onSnapshot(exercisesQuery, (snapshot) => {
+			const updatedExercises = snapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
-			setExercises(exercisesData);
-		} catch (error) {
-			console.error("Error fetching exercises:", error);
-		}
+			setExercises(updatedExercises);
+		});
+
+		return () => unsubscribe();
 	};
 
 	useEffect(() => {
-		fetchExercises();
-	}, []);
+		if (currentUser) {
+			fetchExercises(currentUser);
+		}
+	}, [currentUser]);
 
 	let selectedExercise = null;
 	let recentData = null;
@@ -147,6 +162,23 @@ const ExerciseForm = () => {
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-8 p-4">
+			<div className="mb-4">
+				<select
+					value={currentUser}
+					onChange={(e) =>
+						handleUserChange(
+							e as unknown as React.ChangeEvent<HTMLInputElement>
+						)
+					}
+					className="border p-2 w-full"
+				>
+					<option value="" disabled>
+						Who&apos;s there?
+					</option>
+					<option value="nuny">nuny</option>
+					<option value="max">max</option>
+				</select>
+			</div>
 			<div className="shadow flex-1 items-center flex flex-col p-4">
 				<button
 					onClick={() => setIsOpen(!isOpen)}
