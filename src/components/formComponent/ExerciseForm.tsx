@@ -204,15 +204,25 @@ const ExerciseForm = () => {
 						<h3 className="font-bold text-lg mb-2">
 							{exerciseName}
 						</h3>
-						<p>Date: {new Date(mostRecentDate).toLocaleString()}</p>
-						<p>
-							Series:{" "}
+						<p className="border p-2 justify-between flex">
+							<strong>Last Training: </strong>
+							{new Date(mostRecentDate).toLocaleDateString(
+								"en-GB",
+								{
+									weekday: "short",
+									day: "numeric",
+									month: "short",
+								}
+							)}
+						</p>{" "}
+						<p className="border p-2 justify-between flex">
+							<strong>Series: </strong>
 							{Array.isArray(recentData.series)
 								? recentData.series.join(", ")
 								: ""}
 						</p>
-						<p>
-							Weight:{" "}
+						<p className="border p-2 justify-between flex">
+							<strong>Weight: </strong>
 							{Array.isArray(recentData.weight)
 								? recentData.weight.join(", ")
 								: ""}
