@@ -127,11 +127,11 @@ const ExerciseForm = () => {
 	}
 
 	return (
-		<div className="flex flex-col bg-blue-500 h-full m-8">
-			<div className="bg-red-300 m-8 flex-1">
+		<div className="flex flex-col border h-auto rounded-md m-8 p-4">
+			<div className="shadow flex-1 items-center flex flex-col p-4">
 				<button
 					onClick={() => setIsOpen(!isOpen)}
-					className="border w-36"
+					className="border w-36 "
 				>
 					{exerciseName || "Pick an Exercise"}{" "}
 				</button>
@@ -188,18 +188,18 @@ const ExerciseForm = () => {
 				</div>
 				<button
 					onClick={handleAddExercise}
-					className="border p-2 w-full"
+					className="border p-2 w-3/6 bg-green-200"
 				>
 					Add
 				</button>
 			</div>
-			<div className="m-8 flex-1">
+			<div className="mt-8 flex-1">
 				{exerciseName &&
 				exercises.length > 0 &&
 				selectedExercise &&
 				mostRecentDate &&
 				recentData ? (
-					<div className="bg-white p-4 mt-4 rounded shadow">
+					<div className="bg-white p-4 rounded shadow">
 						<h3 className="font-bold text-lg mb-2">
 							{exerciseName}
 						</h3>
