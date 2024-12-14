@@ -9,6 +9,7 @@ import {
 	getDocs,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
+import { Toaster, toast } from "sonner";
 
 const db = getFirestore(app);
 
@@ -54,12 +55,12 @@ const ExerciseForm = () => {
 			.filter((num) => !isNaN(num));
 
 		if (seriesArray.length === 0 || weightArray.length === 0) {
-			console.error("You must provide valid series and weight values.");
+			toast.error("You must provide valid series and weight values.");
 			return;
 		}
 
 		if (seriesArray.length !== weightArray.length) {
-			console.error("The number of series and weights must match.");
+			toast.error("The number of series and weights must match.");
 			return;
 		}
 
@@ -84,7 +85,7 @@ const ExerciseForm = () => {
 			},
 			{ merge: true }
 		);
-
+		toast.success("Exercise added successfully!");
 		setExerciseName("");
 		setSeriesInput("");
 		setWeightInput("");
