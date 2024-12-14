@@ -9,7 +9,7 @@ import {
 	getDocs,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const db = getFirestore(app);
 
