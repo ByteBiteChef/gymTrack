@@ -9,7 +9,6 @@ import {
 	getDocs,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
-import ExerciseCard from "../card/ExerciseCard";
 
 const db = getFirestore(app);
 
@@ -109,6 +108,24 @@ const ExerciseForm = () => {
 		fetchExercises();
 	}, []);
 
+	let selectedExercise = null;
+	let recentData = null;
+	let mostRecentDate: number | null = null;
+
+	if (exerciseName && exercises.length > 0) {
+		/* eslint-disable @typescript-eslint/no-explicit-any */
+		selectedExercise = exercises.find((ex: any) => ex.id === exerciseName);
+
+		if (
+			selectedExercise &&
+			selectedExercise.dates &&
+			selectedExercise.dates.length > 0
+		) {
+			mostRecentDate = Math.max(...selectedExercise.dates);
+			recentData = selectedExercise[mostRecentDate];
+		}
+	}
+
 	return (
 		<div className="flex flex-col bg-blue-500 h-full m-8">
 			<div className="bg-red-300 m-8 flex-1">
@@ -177,7 +194,36 @@ const ExerciseForm = () => {
 				</button>
 			</div>
 			<div className="m-8 flex-1">
-				<ExerciseCard />
+				{exerciseName &&
+				exercises.length > 0 &&
+				selectedExercise &&
+				mostRecentDate &&
+				recentData ? (
+					<div className="bg-white p-4 mt-4 rounded shadow">
+						<h3 className="font-bold text-lg mb-2">
+							{exerciseName}
+						</h3>
+						<p>Date: {new Date(mostRecentDate).toLocaleString()}</p>
+						<p>
+							Series:{" "}
+							{Array.isArray(recentData.series)
+								? recentData.series.join(", ")
+								: ""}
+						</p>
+						<p>
+							Weight:{" "}
+							{Array.isArray(recentData.weight)
+								? recentData.weight.join(", ")
+								: ""}
+						</p>
+					</div>
+				) : (
+					exerciseName && (
+						<p className="text-white">
+							No data found for the selected exercise.
+						</p>
+					)
+				)}
 			</div>
 		</div>
 	);
