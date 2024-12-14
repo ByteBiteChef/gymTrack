@@ -7,6 +7,7 @@ import {
 	collection,
 	arrayUnion,
 	getDocs,
+	onSnapshot,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
 import { toast } from "sonner";
@@ -20,6 +21,23 @@ const ExerciseForm = () => {
 	const [weightInput, setWeightInput] = useState("");
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises]: any = useState([]);
+
+	useEffect(() => {
+		// Attach a listener to the exercises collection
+		const unsubscribe = onSnapshot(
+			collection(db, "exercises"),
+			(snapshot) => {
+				const updatedExercises = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+				setExercises(updatedExercises);
+			}
+		);
+
+		// Cleanup listener on component unmount
+		return () => unsubscribe();
+	}, []);
 
 	const handleExerciseNameChange = (
 		e: React.ChangeEvent<HTMLInputElement>
