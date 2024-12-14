@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	doc,
 	setDoc,
 	getFirestore,
 	collection,
 	arrayUnion,
+	getDocs,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
 import ExerciseCard from "../card/ExerciseCard";
@@ -17,11 +18,17 @@ const ExerciseForm = () => {
 	const [exerciseName, setExerciseName] = useState("");
 	const [seriesInput, setSeriesInput] = useState("");
 	const [weightInput, setWeightInput] = useState("");
+	const [exercises, setExercises]: any = useState([]);
 
 	const handleExerciseNameChange = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
 		setExerciseName(e.target.value);
+	};
+
+	const handleInputClick = (exerciseId: string) => {
+		setExerciseName(exerciseId);
+		setIsOpen(false);
 	};
 
 	const handleSeriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +64,7 @@ const ExerciseForm = () => {
 		}
 
 		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
-		const timestampFieldName = Date.now().toString();
+		const timestampFieldName = Date.now();
 
 		await setDoc(
 			exerciseDocRef,
@@ -84,14 +91,31 @@ const ExerciseForm = () => {
 		setIsOpen(false);
 	};
 
+	const fetchExercises = async () => {
+		try {
+			const querySnapshot = await getDocs(collection(db, "exercises"));
+			const exercisesData = querySnapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setExercises(exercisesData);
+		} catch (error) {
+			console.error("Error fetching exercises:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchExercises();
+	}, []);
+
 	return (
-		<div className="flex bg-blue-500 h-full m-8">
+		<div className="flex flex-col bg-blue-500 h-full m-8">
 			<div className="bg-red-300 m-8 flex-1">
 				<button
 					onClick={() => setIsOpen(!isOpen)}
 					className="border w-36"
 				>
-					Pick an Exercise
+					{exerciseName || "Pick an Exercise"}{" "}
 				</button>
 				{isOpen && (
 					<div className="bg-white shadow-lg w-64">
@@ -104,9 +128,28 @@ const ExerciseForm = () => {
 								className="border p-2 w-full"
 							/>
 						</div>
+						<div className="exercise-list">
+							{exercises.length > 0 ? (
+								exercises.map((exercise: any) => (
+									<div
+										key={exercise.id}
+										className="p-2 hover:bg-gray-100 cursor-pointer border-b"
+										onClick={() =>
+											handleInputClick(exercise.id)
+										}
+									>
+										{exercise.id}
+									</div>
+								))
+							) : (
+								<p className="p-2 text-gray-500">
+									No exercises added yet
+								</p>
+							)}
+						</div>
 					</div>
 				)}
-				<div className="mb-2">
+				<div className="mb-2 mt-2">
 					<input
 						type="text"
 						value={seriesInput}
