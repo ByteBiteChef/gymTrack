@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
 import { toast } from "sonner";
+import { fetchUsers } from "@/services/exerciseService";
 
 const db = getFirestore(app);
 
@@ -136,15 +137,6 @@ const ExerciseForm = () => {
 		return () => unsubscribe();
 	};
 
-	const fetchUsers = () => {
-		const usersRef = collection(db, "users");
-		const unsubscribe = onSnapshot(usersRef, (snapshot) => {
-			const userList = snapshot.docs.map((doc) => doc.id);
-			setUsers(userList);
-		});
-		return () => unsubscribe();
-	};
-
 	const handleAddUser = async () => {
 		const trimmedUser = newUser.trim();
 		if (!trimmedUser) {
@@ -166,7 +158,7 @@ const ExerciseForm = () => {
 	};
 
 	useEffect(() => {
-		return fetchUsers();
+		return fetchUsers(setUsers);
 	}, []);
 
 	useEffect(() => {
