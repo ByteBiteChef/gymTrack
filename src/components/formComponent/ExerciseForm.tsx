@@ -7,8 +7,7 @@ import {
 	collection,
 	arrayUnion,
 	onSnapshot,
-	query,
-	where,
+	serverTimestamp,
 } from "firebase/firestore";
 import { app } from "../../../firebase/firebase";
 import { toast } from "sonner";
@@ -23,6 +22,8 @@ const ExerciseForm = () => {
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises]: any = useState([]);
 	const [currentUser, setCurrentUser] = useState("");
+	const [users, setUsers] = useState<string[]>([]);
+	const [newUser, setNewUser] = useState("");
 
 	useEffect(() => {
 		// Attach a listener to the exercises collection
@@ -41,9 +42,10 @@ const ExerciseForm = () => {
 		return () => unsubscribe();
 	}, []);
 
-	const handleUserChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setCurrentUser(e.target.value); // Update the current user
-		fetchExercises(e.target.value); // Fetch exercises for the entered user
+	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		const user = e.target.value;
+		setCurrentUser(user);
+		fetchExercises(user);
 	};
 
 	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -122,21 +124,50 @@ const ExerciseForm = () => {
 	};
 
 	const fetchExercises = (user: string) => {
-		const exercisesQuery = query(
-			collection(db, "exercises"),
-			where("user", "==", user)
-		);
-
-		const unsubscribe = onSnapshot(exercisesQuery, (snapshot) => {
-			const updatedExercises = snapshot.docs.map((doc) => ({
-				id: doc.id,
-				...doc.data(),
-			}));
+		if (!user) return;
+		const exercisesRef = collection(db, "exercises");
+		const unsubscribe = onSnapshot(exercisesRef, (snapshot) => {
+			const updatedExercises = snapshot.docs
+				.map((doc) => ({ id: doc.id, ...doc.data() }))
+				/* eslint-disable @typescript-eslint/no-explicit-any */
+				.filter((exercise: any) => exercise.user === user);
 			setExercises(updatedExercises);
 		});
-
 		return () => unsubscribe();
 	};
+
+	const fetchUsers = () => {
+		const usersRef = collection(db, "users");
+		const unsubscribe = onSnapshot(usersRef, (snapshot) => {
+			const userList = snapshot.docs.map((doc) => doc.id);
+			setUsers(userList);
+		});
+		return () => unsubscribe();
+	};
+
+	const handleAddUser = async () => {
+		const trimmedUser = newUser.trim();
+		if (!trimmedUser) {
+			toast.error("User name cannot be empty.");
+			return;
+		}
+
+		try {
+			// Create a doc in 'users' collection with the user's name as the doc ID
+			await setDoc(doc(db, "users", trimmedUser), {
+				createdAt: serverTimestamp(),
+			});
+			toast.success("User added successfully!");
+			setNewUser("");
+		} catch (error) {
+			console.error(error);
+			toast.error("Failed to add user.");
+		}
+	};
+
+	useEffect(() => {
+		return fetchUsers();
+	}, []);
 
 	useEffect(() => {
 		if (currentUser) {
@@ -164,23 +195,38 @@ const ExerciseForm = () => {
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-8 p-4">
+			<div className="mb-4 flex">
+				<input
+					type="text"
+					value={newUser}
+					onChange={(e) => setNewUser(e.target.value)}
+					placeholder="Add new user"
+					className="border p-1 w-full"
+				/>
+				<button
+					onClick={handleAddUser}
+					className="w-1/3 ml-2 border bg-green-200"
+				>
+					Add User
+				</button>
+			</div>
 			<div className="mb-4">
 				<select
 					value={currentUser}
-					onChange={(e) =>
-						handleUserChange(
-							e as unknown as ChangeEvent<HTMLInputElement>
-						)
-					}
+					onChange={handleUserChange}
 					className="border p-2 w-full"
 				>
 					<option value="" disabled>
 						Who&apos;s there?
 					</option>
-					<option value="nuny">nuny</option>
-					<option value="max">max</option>
+					{users.map((user) => (
+						<option key={user} value={user}>
+							{user}
+						</option>
+					))}
 				</select>
 			</div>
+
 			<div className="shadow flex-1 items-center flex flex-col p-4">
 				<button
 					onClick={() => setIsOpen(!isOpen)}
