@@ -77,13 +77,18 @@ const ExerciseForm = () => {
 			.map((value) => parseInt(value.trim(), 10))
 			.filter((num) => !isNaN(num));
 
-		if (seriesArray.length === 0 || weightArray.length === 0) {
-			toast.error("You must provide valid series and weight values.");
+		if (seriesArray.length === 0) {
+			toast.error("You must provide valid series values.");
 			return;
 		}
 
-		if (seriesArray.length !== weightArray.length) {
-			toast.error("The number of series and weights must match.");
+		if (
+			seriesArray.length !== weightArray.length &&
+			weightArray.length > 0
+		) {
+			toast.error(
+				"Either leave the weight field empty, or ensure the number of series and weights match."
+			);
 			return;
 		}
 
