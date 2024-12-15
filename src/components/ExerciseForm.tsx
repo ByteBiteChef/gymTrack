@@ -69,13 +69,7 @@ const ExerciseForm = () => {
 			return;
 		}
 
-		if (!currentUser) {
-			toast.error("User information is missing.");
-			return;
-		}
-
-		const documentId = `${currentUser}%%${trimmedName}`;
-		const exerciseDocRef = doc(collection(db, "exercises"), documentId);
+		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
 		const timestamp = Date.now();
 
 		try {
