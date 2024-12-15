@@ -53,58 +53,45 @@ const ExerciseForm = () => {
 		const trimmedName = exerciseName.trim();
 		if (!trimmedName) return;
 
-		const seriesArray = seriesInput
-			.split(",")
-			.map((value) => parseInt(value.trim(), 10))
-			.filter((num) => !isNaN(num));
-
-		const weightArray = weightInput
-			.split(",")
-			.map((value) => parseInt(value.trim(), 10))
-			.filter((num) => !isNaN(num));
+		const seriesArray = seriesInput.split(",").map(Number).filter(Boolean);
 
 		if (seriesArray.length === 0) {
-			toast.error("You must provide valid series values.");
+			toast.error("Please provide valid series values.");
 			return;
 		}
 
-		if (
-			seriesArray.length !== weightArray.length &&
-			weightArray.length > 0
-		) {
-			toast.error(
-				"Either leave the weight field empty, or ensure the number of series and weights match."
-			);
+		const weightArray = weightInput.trim()
+			? weightInput.split(",").map(Number).filter(Boolean)
+			: Array(seriesArray.length).fill(0);
+
+		if (weightInput.trim() && weightArray.length !== seriesArray.length) {
+			toast.error("Ensure the number of series and weights match.");
 			return;
 		}
 
 		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
-		const timestampFieldName = Date.now();
+		const timestamp = Date.now();
 
-		await setDoc(
-			exerciseDocRef,
-			{
-				dates: arrayUnion(timestampFieldName),
-				user: currentUser,
-			},
-			{ merge: true }
-		);
-
-		await setDoc(
-			exerciseDocRef,
-			{
-				[timestampFieldName]: {
-					series: seriesArray,
-					weight: weightArray,
+		try {
+			await setDoc(
+				exerciseDocRef,
+				{
+					dates: arrayUnion(timestamp),
+					user: currentUser,
+					[timestamp]: { series: seriesArray, weight: weightArray },
 				},
-			},
-			{ merge: true }
-		);
-		toast.success("Exercise added successfully!");
-		setExerciseName("");
-		setSeriesInput("");
-		setWeightInput("");
-		setIsOpen(false);
+				{ merge: true }
+			);
+
+			toast.success("Exercise added successfully!");
+			setExerciseName("");
+			setSeriesInput("");
+			setWeightInput("");
+			setIsOpen(false);
+		} catch (error) {
+			console.error("Error adding exercise:", error);
+			toast.error("Failed to add exercise. Please try again.");
+		}
 	};
 
 	const fetchExercises = (user: string) => {
