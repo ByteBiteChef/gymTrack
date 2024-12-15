@@ -7,6 +7,9 @@ const Home = () => {
 				<h1>Gym Tracker</h1>
 			</div>
 			<ExerciseForm />
+			<div className="bg-green-200 justify-center items-center flex p-2">
+				<a href="/progress">Progress</a>
+			</div>
 		</div>
 	);
 };
