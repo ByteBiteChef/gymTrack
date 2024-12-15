@@ -247,7 +247,6 @@ const ExerciseForm = () => {
 				{exerciseName &&
 				exercises.length > 0 &&
 				selectedExercise &&
-				mostRecentDate &&
 				recentData ? (
 					<div className="bg-white p-4 rounded shadow">
 						<h3 className="font-bold text-lg mb-2">
@@ -255,15 +254,17 @@ const ExerciseForm = () => {
 						</h3>
 						<p className="border p-2 justify-between flex">
 							<strong>Last Training: </strong>
-							{new Date(mostRecentDate).toLocaleDateString(
-								"en-GB",
-								{
-									weekday: "short",
-									day: "numeric",
-									month: "short",
-								}
-							)}
-						</p>{" "}
+							{typeof window !== "undefined" && mostRecentDate
+								? new Date(mostRecentDate).toLocaleDateString(
+										"en-GB",
+										{
+											weekday: "short",
+											day: "numeric",
+											month: "short",
+										}
+								  )
+								: "Loading..."}
+						</p>
 						<p className="border p-2 justify-between flex">
 							<strong>Series: </strong>
 							{Array.isArray(recentData.series)
