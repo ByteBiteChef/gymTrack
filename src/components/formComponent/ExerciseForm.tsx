@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
 	doc,
 	setDoc,
@@ -41,7 +41,7 @@ const ExerciseForm = () => {
 		return () => unsubscribe();
 	}, []);
 
-	const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleUserChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setCurrentUser(e.target.value); // Update the current user
 		fetchExercises(e.target.value); // Fetch exercises for the entered user
 	};
@@ -57,11 +57,11 @@ const ExerciseForm = () => {
 		setIsOpen(false);
 	};
 
-	const handleSeriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSeriesChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSeriesInput(e.target.value);
 	};
 
-	const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleWeightChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setWeightInput(e.target.value);
 	};
 
@@ -166,7 +166,7 @@ const ExerciseForm = () => {
 					value={currentUser}
 					onChange={(e) =>
 						handleUserChange(
-							e as unknown as React.ChangeEvent<HTMLInputElement>
+							e as unknown as ChangeEvent<HTMLInputElement>
 						)
 					}
 					className="border p-2 w-full"
