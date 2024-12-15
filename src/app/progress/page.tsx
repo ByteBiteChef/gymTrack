@@ -7,8 +7,10 @@ const Progress = () => {
 				<h1>Gym Tracker</h1>
 			</div>
 			<ProgressViewer />
-			<div className="bg-background justify-center items-center flex p-2">
-				<Link href="/">Add training</Link>
+			<div className="flex w-full items-center justify-center">
+				<div className="bg-background justify-center items-center w-1/2 flex p-2">
+					<Link href="/">Add training</Link>
+				</div>
 			</div>
 		</div>
 	);

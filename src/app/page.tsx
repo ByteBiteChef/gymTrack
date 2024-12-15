@@ -8,8 +8,10 @@ const Home = () => {
 				<h1>Gym Tracker</h1>
 			</div>
 			<ExerciseForm />
-			<div className="bg-background justify-center items-center flex p-2">
-				<Link href="/progress">Progress</Link>
+			<div className="flex w-full items-center justify-center">
+				<div className="bg-background justify-center items-center w-1/2 flex p-2">
+					<Link href="/progress">Progress</Link>
+				</div>
 			</div>
 		</div>
 	);
