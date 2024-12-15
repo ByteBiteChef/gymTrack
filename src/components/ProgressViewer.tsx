@@ -18,6 +18,7 @@ const db = getFirestore(app);
 const Progress = () => {
 	const [currentUser, setCurrentUser] = useState("");
 	const [users, setUsers] = useState<string[]>([]);
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises] = useState<any[]>([]);
 	const [exerciseName, setExerciseName] = useState("");
 
@@ -44,6 +45,7 @@ const Progress = () => {
 			}));
 			// Filter by current user
 			const userExercises = allExercises.filter(
+				/* eslint-disable @typescript-eslint/no-explicit-any */
 				(exercise: any) => exercise.user === currentUser
 			);
 			setExercises(userExercises);
@@ -60,14 +62,15 @@ const Progress = () => {
 	const handleExerciseChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setExerciseName(e.target.value);
 	};
-
-	let selectedExercise = null;
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	let selectedExercise: any = null;
 	let recentData = null;
 	let mostRecentDate: number | null = null;
 	let chartData: { date: string; avgSeries: number; avgWeight: number }[] =
 		[];
 
 	if (exerciseName && exercises.length > 0) {
+		/* eslint-disable @typescript-eslint/no-explicit-any */
 		selectedExercise = exercises.find((ex: any) => ex.id === exerciseName);
 
 		if (
@@ -105,7 +108,8 @@ const Progress = () => {
 						avgWeight,
 					};
 				})
-				.sort((a, b) =>
+				/* eslint-disable @typescript-eslint/no-explicit-any */
+				.sort((a: any, b: any) =>
 					new Date(a.date).getTime() > new Date(b.date).getTime()
 						? 1
 						: -1
@@ -142,6 +146,7 @@ const Progress = () => {
 						<option value="" disabled>
 							Pick an Exercise
 						</option>
+						{/* eslint-disable @typescript-eslint/no-explicit-any  */}
 						{exercises.map((ex: any) => (
 							<option key={ex.id} value={ex.id}>
 								{ex.id}

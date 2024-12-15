@@ -26,23 +26,6 @@ const ExerciseForm = () => {
 	const [users, setUsers] = useState<string[]>([]);
 	const [newUser, setNewUser] = useState("");
 
-	useEffect(() => {
-		// Attach a listener to the exercises collection
-		const unsubscribe = onSnapshot(
-			collection(db, "exercises"),
-			(snapshot) => {
-				const updatedExercises = snapshot.docs.map((doc) => ({
-					id: doc.id,
-					...doc.data(),
-				}));
-				setExercises(updatedExercises);
-			}
-		);
-
-		// Cleanup listener on component unmount
-		return () => unsubscribe();
-	}, []);
-
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		const user = e.target.value;
 		setCurrentUser(user);
@@ -197,7 +180,7 @@ const ExerciseForm = () => {
 				/>
 				<button
 					onClick={handleAddUser}
-					className={`bg-background"w-1/3 ml-2 border px-2`}
+					className="bg-background w-1/3 ml-2 border px-2"
 				>
 					Add User
 				</button>
@@ -281,7 +264,7 @@ const ExerciseForm = () => {
 				</div>
 				<button
 					onClick={handleAddExercise}
-					className={`bg-background border p-2 w-3/6`}
+					className="bg-background border p-2 w-3/6"
 				>
 					Add Exercise
 				</button>
