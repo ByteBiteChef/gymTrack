@@ -1,5 +1,6 @@
-import ExerciseForm from "@/components/formComponent/ExerciseForm";
+import ExerciseForm from "@/components/ExerciseForm";
 import { BRAND_BACKGROUND_COLOR } from "@/styles/constants";
+import Link from "next/link";
 
 const Home = () => {
 	return (
@@ -13,7 +14,7 @@ const Home = () => {
 			<div
 				className={`${BRAND_BACKGROUND_COLOR} justify-center items-center flex p-2`}
 			>
-				<a href="/progress">Progress</a>
+				<Link href="/progress">Progress</Link>
 			</div>
 		</div>
 	);
