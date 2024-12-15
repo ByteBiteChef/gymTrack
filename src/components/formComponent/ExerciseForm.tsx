@@ -216,21 +216,23 @@ const ExerciseForm = () => {
 						</div>
 					</div>
 				)}
-				<div className="mb-2 mt-2">
+				<div className="items-center mb-2 mt-2">
+					<label className="block mb-1 font-medium">Series</label>
 					<input
 						type="text"
 						value={seriesInput}
 						onChange={handleSeriesChange}
-						placeholder="Add Series (e.g. 10,12,8)"
+						placeholder="10,12,8"
 						className="border p-2 w-full"
 					/>
 				</div>
-				<div className="mb-2">
+				<div className="items-center mb-2">
+					<label className="block mb-1 font-medium">Weight</label>
 					<input
 						type="text"
 						value={weightInput}
 						onChange={handleWeightChange}
-						placeholder="Weights (e.g. 40,45,50)"
+						placeholder="40,45,50"
 						className="border p-2 w-full"
 					/>
 				</div>
