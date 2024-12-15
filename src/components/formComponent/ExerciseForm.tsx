@@ -205,7 +205,7 @@ const ExerciseForm = () => {
 				/>
 				<button
 					onClick={handleAddUser}
-					className="w-1/3 ml-2 border bg-green-200"
+					className="w-1/3 ml-2 border bg-green-200 px-2"
 				>
 					Add User
 				</button>
@@ -291,7 +291,7 @@ const ExerciseForm = () => {
 					onClick={handleAddExercise}
 					className="border p-2 w-3/6 bg-green-200"
 				>
-					Add
+					Add Exercise
 				</button>
 			</div>
 			<div className="mt-8 flex-1">
