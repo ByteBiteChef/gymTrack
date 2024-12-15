@@ -176,7 +176,7 @@ const ExerciseForm = () => {
 					value={newUser}
 					onChange={(e) => setNewUser(e.target.value)}
 					placeholder="Add new user"
-					className="border p-1 w-full"
+					className="border p-1 w-2/3"
 				/>
 				<button
 					onClick={handleAddUser}

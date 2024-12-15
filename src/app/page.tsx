@@ -9,7 +9,7 @@ const Home = () => {
 			</div>
 			<ExerciseForm />
 			<div className="flex w-full items-center justify-center">
-				<div className="bg-background justify-center items-center w-1/2 flex p-2">
+				<div className="bg-background justify-center items-center w-1/2 flex p-2 mb-8">
 					<Link href="/progress">Progress</Link>
 				</div>
 			</div>
