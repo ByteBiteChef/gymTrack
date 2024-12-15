@@ -46,9 +46,7 @@ const ExerciseForm = () => {
 		fetchExercises(e.target.value); // Fetch exercises for the entered user
 	};
 
-	const handleExerciseNameChange = (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setExerciseName(e.target.value);
 	};
 
