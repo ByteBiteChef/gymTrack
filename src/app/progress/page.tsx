@@ -5,13 +5,13 @@ const Progress = () => {
 	return (
 		<div className="flex flex-col h-screen w-screen">
 			<div
-				className={`${BRAND_BACKGROUND_COLOR} justify-center items-center flex p-2`}
+				className={`bg-background justify-center items-center flex p-2`}
 			>
 				<h1>Gym Tracker</h1>
 			</div>
 			<ProgressViewer />
 			<div
-				className={`${BRAND_BACKGROUND_COLOR} justify-center items-center flex p-2`}
+				className={`bg-background justify-center items-center flex p-2`}
 			>
 				<Link href="/">Add training</Link>
 			</div>
