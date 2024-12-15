@@ -1,5 +1,4 @@
 import ProgressViewer from "@/components/ProgressViewer";
-import { BRAND_BACKGROUND_COLOR } from "@/styles/constants";
 import Link from "next/link";
 const Progress = () => {
 	return (
