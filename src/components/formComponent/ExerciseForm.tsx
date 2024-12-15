@@ -12,6 +12,7 @@ import {
 import { app } from "../../../firebase/firebase";
 import { toast } from "sonner";
 import { fetchUsers } from "@/services/exerciseService";
+import { BRAND_BACKGROUND_COLOR } from "@/styles/constants";
 
 const db = getFirestore(app);
 
@@ -197,7 +198,7 @@ const ExerciseForm = () => {
 				/>
 				<button
 					onClick={handleAddUser}
-					className="w-1/3 ml-2 border bg-green-200 px-2"
+					className={`${BRAND_BACKGROUND_COLOR}"w-1/3 ml-2 border px-2`}
 				>
 					Add User
 				</button>
@@ -281,7 +282,7 @@ const ExerciseForm = () => {
 				</div>
 				<button
 					onClick={handleAddExercise}
-					className="border p-2 w-3/6 bg-green-200"
+					className={`${BRAND_BACKGROUND_COLOR} border p-2 w-3/6`}
 				>
 					Add Exercise
 				</button>
