@@ -225,7 +225,7 @@ const ExerciseForm = () => {
 				</select>
 				<button
 					onClick={handleCloseSelect}
-					className="bg-red-200 w-auto ml-2 border px-2"
+					className="w-auto ml-2 px-2 text-center text-xs uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 				>
 					x
 				</button>
@@ -239,7 +239,7 @@ const ExerciseForm = () => {
 						value={newUser}
 						onChange={(e) => setNewUser(e.target.value)}
 						placeholder="Not in the list?"
-						className="border p-1 w-2/3 rounded-md"
+						className="border-gray-300 p-1 w-2/3 rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none appearance-none"
 					/>
 					<button
 						onClick={handleAddUser}
