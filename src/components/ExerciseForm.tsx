@@ -363,7 +363,7 @@ const ExerciseForm = () => {
 							</button>
 						)}
 						{isOpenShowMore && (
-							<div className="bg-white shadow-lg p-4 w-96 rounded">
+							<div className="bg-white shadow-lg p-4 rounded">
 								<h2 className="font-bold text-lg mb-4">
 									Exercise Details
 								</h2>
