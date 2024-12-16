@@ -39,6 +39,7 @@ const ExerciseForm = () => {
 	const handleCloseSelect = () => {
 		setIsOpen(false);
 		setCurrentUser("");
+		setExerciseName("");
 	};
 	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setExerciseName(e.target.value);
@@ -320,40 +321,44 @@ const ExerciseForm = () => {
 					</button>
 				</div>
 			)}
-			<div className="mt-8 flex-1">
+			<div className="mt-2 flex-1">
 				{exerciseName &&
 				exercises.length > 0 &&
 				selectedExercise &&
 				recentData ? (
-					<div className="bg-white p-4 rounded shadow">
-						<h3 className="font-bold text-lg mb-2">
-							{exerciseName.replace(currentUser + "%%", "")}
-						</h3>
-						<p className="border p-2 justify-between flex">
-							<strong>Last Training: </strong>
-							{typeof window !== "undefined" && mostRecentDate
-								? new Date(mostRecentDate).toLocaleDateString(
-										"en-GB",
-										{
-											weekday: "short",
-											day: "numeric",
-											month: "short",
-										}
-								  )
-								: "Loading..."}
-						</p>
-						<p className="border p-2 justify-between flex">
-							<strong>Series: </strong>
-							{Array.isArray(recentData.series)
-								? recentData.series.join(", ")
-								: ""}
-						</p>
-						<p className="border p-2 justify-between flex">
-							<strong>Weight: </strong>
-							{Array.isArray(recentData.weight)
-								? recentData.weight.join(", ")
-								: ""}
-						</p>
+					<div className="bg-white p-2 shodow border">
+						<div className="bg-white shadow p-4 rounded border">
+							<h3 className="font-bold text-lg mb-2">
+								{exerciseName.replace(currentUser + "%%", "")}
+							</h3>
+							<div className="border rounded-md p-2">
+								<p className="justify-between flex">
+									<strong>Last Training: </strong>
+									{typeof window !== "undefined" &&
+									mostRecentDate
+										? new Date(
+												mostRecentDate
+										  ).toLocaleDateString("en-GB", {
+												weekday: "short",
+												day: "numeric",
+												month: "short",
+										  })
+										: "Loading..."}
+								</p>
+								<p className="justify-between flex">
+									<strong>Series: </strong>
+									{Array.isArray(recentData.series)
+										? recentData.series.join(", ")
+										: ""}
+								</p>
+								<p className="justify-between flex">
+									<strong>Weight: </strong>
+									{Array.isArray(recentData.weight)
+										? recentData.weight.join(", ")
+										: ""}
+								</p>
+							</div>
+						</div>
 						{!isOpenShowMore && (
 							<button
 								onClick={() => setIsOpenShowMore(true)}
@@ -363,9 +368,9 @@ const ExerciseForm = () => {
 							</button>
 						)}
 						{isOpenShowMore && (
-							<div className="bg-white shadow-lg p-4 rounded">
-								<h2 className="font-bold text-lg mb-4">
-									Exercise Details
+							<div className="bg-white shadow-md p-4 rounded border mt-2">
+								<h2 className="font-bold text-lg mb-2">
+									Exercise List
 								</h2>
 								{selectedExercise &&
 								selectedExercise.dates &&
