@@ -36,11 +36,13 @@ const ExerciseForm = () => {
 		setCurrentUser(user);
 		fetchExercises(user);
 	};
+
 	const handleCloseSelect = () => {
 		setIsOpen(false);
 		setCurrentUser("");
 		setExerciseName("");
 	};
+
 	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setExerciseName(e.target.value);
 	};
@@ -241,7 +243,7 @@ const ExerciseForm = () => {
 					/>
 					<button
 						onClick={handleAddUser}
-						className="bg-background w-1/3 ml-2 border px-2"
+						className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						Add User
 					</button>
@@ -250,7 +252,7 @@ const ExerciseForm = () => {
 			{!currentUser ? (
 				<></>
 			) : (
-				<div className="shadow flex-1 items-center flex flex-col p-4">
+				<div className="shadow flex-1 items-center flex flex-col p-4 bg-white">
 					<button
 						onClick={() => setIsOpen(!isOpen)}
 						className="border w-36 "
@@ -315,7 +317,7 @@ const ExerciseForm = () => {
 					</div>
 					<button
 						onClick={handleAddExercise}
-						className="bg-background border p-2 w-3/6"
+						className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						Add Exercise
 					</button>
