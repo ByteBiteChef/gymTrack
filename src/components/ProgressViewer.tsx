@@ -118,7 +118,7 @@ const Progress = () => {
 	}
 
 	return (
-		<div className="flex flex-col border h-auto rounded-md m-8 p-4">
+		<div className="flex flex-col border h-auto rounded-md m-4 p-4">
 			<div className="mb-4">
 				<select
 					value={currentUser}
@@ -156,7 +156,7 @@ const Progress = () => {
 				</div>
 			)}
 
-			<div className="mt-8 flex-1">
+			<div className="mt-4 flex-1">
 				{exerciseName && selectedExercise && recentData ? (
 					<div className="bg-white p-4 rounded shadow">
 						<div className="bg-white shadow p-2 rounded border">
