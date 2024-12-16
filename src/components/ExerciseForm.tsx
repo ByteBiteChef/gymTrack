@@ -212,7 +212,7 @@ const ExerciseForm = () => {
 				<select
 					value={currentUser}
 					onChange={handleUserChange}
-					className="border p-2 w-full"
+					className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 				>
 					<option value="" disabled>
 						Who&apos;s there?
@@ -239,11 +239,11 @@ const ExerciseForm = () => {
 						value={newUser}
 						onChange={(e) => setNewUser(e.target.value)}
 						placeholder="Not in the list?"
-						className="border p-1 w-2/3"
+						className="border p-1 w-2/3 rounded-md"
 					/>
 					<button
 						onClick={handleAddUser}
-						className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						className="w-1/3 ml-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						Add User
 					</button>

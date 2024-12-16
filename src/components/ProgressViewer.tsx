@@ -123,7 +123,7 @@ const Progress = () => {
 				<select
 					value={currentUser}
 					onChange={handleUserChange}
-					className="border p-2 w-full"
+					className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 				>
 					<option value="" disabled>
 						Who&apos;s there?
@@ -141,7 +141,7 @@ const Progress = () => {
 					<select
 						value={exerciseName}
 						onChange={handleExerciseChange}
-						className="border p-2 w-full"
+						className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 					>
 						<option value="" disabled>
 							Pick an Exercise
