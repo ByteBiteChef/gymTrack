@@ -8,6 +8,8 @@ import {
 	arrayUnion,
 	onSnapshot,
 	serverTimestamp,
+	query,
+	where,
 } from "firebase/firestore";
 import { app } from "../../firebase/firebase";
 import { toast } from "sonner";
@@ -25,6 +27,7 @@ const ExerciseForm = () => {
 	const [currentUser, setCurrentUser] = useState("");
 	const [users, setUsers] = useState<string[]>([]);
 	const [newUser, setNewUser] = useState("");
+	const PREFIX_DELIMITER = "%%";
 
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		const user = e.target.value;
@@ -51,9 +54,26 @@ const ExerciseForm = () => {
 
 	const handleAddExercise = async (): Promise<void> => {
 		const trimmedName = exerciseName.trim();
-		if (!trimmedName) return;
+		if (!trimmedName) {
+			toast.error("Exercise name cannot be empty.");
+			return;
+		}
 
-		const seriesArray = seriesInput.split(",").map(Number).filter(Boolean);
+		if (!currentUser) {
+			toast.error("Please select a user.");
+			return;
+		}
+
+		const prefixedExerciseName = trimmedName.startsWith(
+			currentUser + PREFIX_DELIMITER
+		)
+			? trimmedName
+			: currentUser + PREFIX_DELIMITER + trimmedName;
+
+		const seriesArray = seriesInput
+			.split(",")
+			.map((num) => Number(num.trim()))
+			.filter((num) => !isNaN(num));
 
 		if (seriesArray.length === 0) {
 			toast.error("Please provide valid series values.");
@@ -61,7 +81,10 @@ const ExerciseForm = () => {
 		}
 
 		const weightArray = weightInput.trim()
-			? weightInput.split(",").map(Number).filter(Boolean)
+			? weightInput
+					.split(",")
+					.map((num) => Number(num.trim()))
+					.filter((num) => !isNaN(num))
 			: Array(seriesArray.length).fill(0);
 
 		if (weightInput.trim() && weightArray.length !== seriesArray.length) {
@@ -69,7 +92,10 @@ const ExerciseForm = () => {
 			return;
 		}
 
-		const exerciseDocRef = doc(collection(db, "exercises"), trimmedName);
+		const exerciseDocRef = doc(
+			collection(db, "exercises"),
+			prefixedExerciseName
+		);
 		const timestamp = Date.now();
 
 		try {
@@ -96,14 +122,23 @@ const ExerciseForm = () => {
 
 	const fetchExercises = (user: string) => {
 		if (!user) return;
+
 		const exercisesRef = collection(db, "exercises");
-		const unsubscribe = onSnapshot(exercisesRef, (snapshot) => {
-			const updatedExercises = snapshot.docs
-				.map((doc) => ({ id: doc.id, ...doc.data() }))
-				/* eslint-disable @typescript-eslint/no-explicit-any */
-				.filter((exercise: any) => exercise.user === user);
+
+		const q = query(
+			exercisesRef,
+			where("__name__", ">=", user + "%%"),
+			where("__name__", "<", user + "%%\uffff")
+		);
+
+		const unsubscribe = onSnapshot(q, (snapshot) => {
+			const updatedExercises = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
 			setExercises(updatedExercises);
 		});
+
 		return () => unsubscribe();
 	};
 
@@ -218,7 +253,10 @@ const ExerciseForm = () => {
 											handleInputClick(exercise.id)
 										}
 									>
-										{exercise.id}
+										{exercise.id.replace(
+											currentUser + "%%",
+											""
+										)}{" "}
 									</div>
 								))
 							) : (
@@ -263,7 +301,7 @@ const ExerciseForm = () => {
 				recentData ? (
 					<div className="bg-white p-4 rounded shadow">
 						<h3 className="font-bold text-lg mb-2">
-							{exerciseName}
+							{exerciseName.replace(currentUser + "%%", "")}
 						</h3>
 						<p className="border p-2 justify-between flex">
 							<strong>Last Training: </strong>
