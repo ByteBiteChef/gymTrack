@@ -10,6 +10,7 @@ import {
 	serverTimestamp,
 	query,
 	where,
+	getDoc,
 } from "firebase/firestore";
 import { app } from "../../firebase/firebase";
 import { toast } from "sonner";
@@ -149,7 +150,16 @@ const ExerciseForm = () => {
 			return;
 		}
 
+		const userDocRef = doc(db, "users", trimmedUser);
+		const userDocSnapshot = await getDoc(userDocRef);
+
 		try {
+			if (userDocSnapshot.exists()) {
+				toast.error(
+					"User name already exists. Please choose a different name."
+				);
+				return;
+			}
 			// Create a doc in 'users' collection with the user's name as the doc ID
 			await setDoc(doc(db, "users", trimmedUser), {
 				createdAt: serverTimestamp(),
