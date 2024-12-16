@@ -9,7 +9,7 @@ const Home = () => {
 				<Image
 					src="/gym-tracker-logo.png"
 					alt="App Logo"
-					width={250}
+					width={300}
 					height={200}
 				/>
 			</div>
