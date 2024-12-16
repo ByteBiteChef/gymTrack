@@ -327,7 +327,7 @@ const ExerciseForm = () => {
 				selectedExercise &&
 				recentData ? (
 					<div className="bg-white p-2 shodow border">
-						<div className="bg-white shadow p-4 rounded border">
+						<div className="bg-white shadow p-2 rounded border">
 							<h3 className="font-bold text-lg mb-2">
 								{exerciseName.replace(currentUser + "%%", "")}
 							</h3>

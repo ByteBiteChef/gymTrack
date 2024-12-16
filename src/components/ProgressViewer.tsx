@@ -149,7 +149,7 @@ const Progress = () => {
 						{/* eslint-disable @typescript-eslint/no-explicit-any  */}
 						{exercises.map((ex: any) => (
 							<option key={ex.id} value={ex.id}>
-								{ex.id}
+								{ex.id.replace(currentUser + "%%", "")}
 							</option>
 						))}
 					</select>
@@ -159,35 +159,38 @@ const Progress = () => {
 			<div className="mt-8 flex-1">
 				{exerciseName && selectedExercise && recentData ? (
 					<div className="bg-white p-4 rounded shadow">
-						<h3 className="font-bold text-lg mb-2">
-							{exerciseName}
-						</h3>
-						<p className="border p-2 justify-between flex">
-							<strong>Last Training: </strong>
-							{typeof window !== "undefined" && mostRecentDate
-								? new Date(mostRecentDate).toLocaleDateString(
-										"en-GB",
-										{
-											weekday: "short",
-											day: "numeric",
-											month: "short",
-										}
-								  )
-								: "Loading..."}
-						</p>
-						<p className="border p-2 justify-between flex">
-							<strong>Series: </strong>
-							{Array.isArray(recentData.series)
-								? recentData.series.join(", ")
-								: ""}
-						</p>
-						<p className="border p-2 justify-between flex">
-							<strong>Weight: </strong>
-							{Array.isArray(recentData.weight)
-								? recentData.weight.join(", ")
-								: ""}
-						</p>
-
+						<div className="bg-white shadow p-2 rounded border">
+							<h3 className="font-bold text-lg mb-2">
+								{exerciseName.replace(currentUser + "%%", "")}
+							</h3>
+							<div className="border rounded-md p-2">
+								<p className="justify-between flex">
+									<strong>Last Training: </strong>
+									{typeof window !== "undefined" &&
+									mostRecentDate
+										? new Date(
+												mostRecentDate
+										  ).toLocaleDateString("en-GB", {
+												weekday: "short",
+												day: "numeric",
+												month: "short",
+										  })
+										: "Loading..."}
+								</p>
+								<p className="justify-between flex">
+									<strong>Series: </strong>
+									{Array.isArray(recentData.series)
+										? recentData.series.join(", ")
+										: ""}
+								</p>
+								<p className="justify-between flex">
+									<strong>Weight: </strong>
+									{Array.isArray(recentData.weight)
+										? recentData.weight.join(", ")
+										: ""}
+								</p>
+							</div>
+						</div>
 						{/* Render the chart if we have multiple data points */}
 						{chartData && chartData.length > 0 && (
 							<div className="mt-8">
