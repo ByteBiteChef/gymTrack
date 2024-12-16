@@ -118,7 +118,7 @@ const Progress = () => {
 	}
 
 	return (
-		<div className="flex flex-col border h-auto rounded-md m-4 p-4">
+		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
 			<div className="mb-4">
 				<select
 					value={currentUser}

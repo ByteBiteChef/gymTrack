@@ -207,7 +207,7 @@ const ExerciseForm = () => {
 		}
 	}
 	return (
-		<div className="flex flex-col border h-auto rounded-md m-8 p-4">
+		<div className="flex flex-col border h-auto rounded-md m-8 p-4 border-orange-400">
 			<div className="mb-4 flex">
 				<select
 					value={currentUser}
