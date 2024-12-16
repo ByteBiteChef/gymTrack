@@ -35,7 +35,10 @@ const ExerciseForm = () => {
 		setCurrentUser(user);
 		fetchExercises(user);
 	};
-
+	const handleCloseSelect = () => {
+		setIsOpen(false);
+		setCurrentUser("");
+	};
 	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setExerciseName(e.target.value);
 	};
@@ -199,25 +202,9 @@ const ExerciseForm = () => {
 			recentData = selectedExercise[mostRecentDate];
 		}
 	}
-
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-8 p-4">
 			<div className="mb-4 flex">
-				<input
-					type="text"
-					value={newUser}
-					onChange={(e) => setNewUser(e.target.value)}
-					placeholder="Add new user"
-					className="border p-1 w-2/3"
-				/>
-				<button
-					onClick={handleAddUser}
-					className="bg-background w-1/3 ml-2 border px-2"
-				>
-					Add User
-				</button>
-			</div>
-			<div className="mb-4">
 				<select
 					value={currentUser}
 					onChange={handleUserChange}
@@ -232,79 +219,106 @@ const ExerciseForm = () => {
 						</option>
 					))}
 				</select>
-			</div>
-
-			<div className="shadow flex-1 items-center flex flex-col p-4">
 				<button
-					onClick={() => setIsOpen(!isOpen)}
-					className="border w-36 "
+					onClick={handleCloseSelect}
+					className="bg-red-200 w-auto ml-2 border px-2"
 				>
-					{exerciseName.replace(currentUser + "%%", "") ||
-						"Pick an Exercise"}{" "}
+					x
 				</button>
-				{isOpen && (
-					<div className="bg-white shadow-lg w-64">
-						<div className="mb-2">
-							<input
-								type="text"
-								value={exerciseName}
-								onChange={handleExerciseNameChange}
-								placeholder="Add Exercise Name"
-								className="border p-2 w-full"
-							/>
+			</div>
+			{currentUser ? (
+				<></>
+			) : (
+				<div className="mb-4 flex">
+					<input
+						type="text"
+						value={newUser}
+						onChange={(e) => setNewUser(e.target.value)}
+						placeholder="Not in the list?"
+						className="border p-1 w-2/3"
+					/>
+					<button
+						onClick={handleAddUser}
+						className="bg-background w-1/3 ml-2 border px-2"
+					>
+						Add User
+					</button>
+				</div>
+			)}
+			{!currentUser ? (
+				<></>
+			) : (
+				<div className="shadow flex-1 items-center flex flex-col p-4">
+					<button
+						onClick={() => setIsOpen(!isOpen)}
+						className="border w-36 "
+					>
+						{exerciseName.replace(currentUser + "%%", "") ||
+							"Pick an Exercise"}{" "}
+					</button>
+					{isOpen && (
+						<div className="bg-white shadow-lg w-64">
+							<div className="mb-2">
+								<input
+									type="text"
+									onChange={handleExerciseNameChange}
+									placeholder="Add Exercise Name"
+									className="border p-2 w-full"
+								/>
+							</div>
+							<div className="exercise-list">
+								{exercises.length > 0 ? (
+									/* eslint-disable @typescript-eslint/no-explicit-any */
+									exercises.map((exercise: any) => (
+										<div
+											key={exercise.id}
+											className="p-2 hover:bg-gray-100 cursor-pointer border-b"
+											onClick={() =>
+												handleInputClick(exercise.id)
+											}
+										>
+											{exercise.id.replace(
+												currentUser + "%%",
+												""
+											)}{" "}
+										</div>
+									))
+								) : (
+									<p className="p-2 text-gray-500">
+										No exercises added yet
+									</p>
+								)}
+							</div>
 						</div>
-						<div className="exercise-list">
-							{exercises.length > 0 ? (
-								/* eslint-disable @typescript-eslint/no-explicit-any */
-								exercises.map((exercise: any) => (
-									<div
-										key={exercise.id}
-										className="p-2 hover:bg-gray-100 cursor-pointer border-b"
-										onClick={() =>
-											handleInputClick(exercise.id)
-										}
-									>
-										{exercise.id.replace(
-											currentUser + "%%",
-											""
-										)}{" "}
-									</div>
-								))
-							) : (
-								<p className="p-2 text-gray-500">
-									No exercises added yet
-								</p>
-							)}
-						</div>
+					)}
+					<div className="items-center mb-2 mt-2">
+						<label className="block mb-1 font-medium">Series</label>
+						<input
+							type="text"
+							value={seriesInput}
+							onChange={handleSeriesChange}
+							placeholder="10,12,8"
+							className="border p-2 w-full"
+						/>
 					</div>
-				)}
-				<div className="items-center mb-2 mt-2">
-					<label className="block mb-1 font-medium">Series</label>
-					<input
-						type="text"
-						value={seriesInput}
-						onChange={handleSeriesChange}
-						placeholder="10,12,8"
-						className="border p-2 w-full"
-					/>
+					<div className="items-center mb-2">
+						<label className="block mb-1 font-medium">Weight</label>
+						<input
+							type="text"
+							value={weightInput}
+							onChange={handleWeightChange}
+							placeholder="40,45,50"
+							className="border p-2 w-full"
+						/>
+					</div>
+					<button
+						onClick={handleAddExercise}
+						className="bg-background border p-2 w-3/6"
+					>
+						Add Exercise
+					</button>
 				</div>
-				<div className="items-center mb-2">
-					<label className="block mb-1 font-medium">Weight</label>
-					<input
-						type="text"
-						value={weightInput}
-						onChange={handleWeightChange}
-						placeholder="40,45,50"
-						className="border p-2 w-full"
-					/>
-				</div>
-				<button
-					onClick={handleAddExercise}
-					className="bg-background border p-2 w-3/6"
-				>
-					Add Exercise
-				</button>
-			</div>
+			)}
 			<div className="mt-8 flex-1">
 				{exerciseName &&
 				exercises.length > 0 &&
