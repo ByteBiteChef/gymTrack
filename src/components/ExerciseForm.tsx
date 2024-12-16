@@ -354,14 +354,14 @@ const ExerciseForm = () => {
 								? recentData.weight.join(", ")
 								: ""}
 						</p>
-						<button
-							onClick={() =>
-								setIsOpenShowMore((prevState) => !prevState)
-							}
-							className="mt-4 border p-2 bg-gray-200 rounded w-full"
-						>
-							{isOpenShowMore ? "Close" : "Show more"}{" "}
-						</button>
+						{!isOpenShowMore && (
+							<button
+								onClick={() => setIsOpenShowMore(true)}
+								className="mt-4 border p-2 bg-gray-200 rounded w-full"
+							>
+								Show more
+							</button>
+						)}
 						{isOpenShowMore && (
 							<div className="bg-white shadow-lg p-4 w-96 rounded">
 								<h2 className="font-bold text-lg mb-4">
