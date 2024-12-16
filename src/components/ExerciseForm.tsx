@@ -29,6 +29,7 @@ const ExerciseForm = () => {
 	const [users, setUsers] = useState<string[]>([]);
 	const [newUser, setNewUser] = useState("");
 	const PREFIX_DELIMITER = "%%";
+	const [isOpenShowMore, setIsOpenShowMore] = useState(false);
 
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		const user = e.target.value;
@@ -353,6 +354,89 @@ const ExerciseForm = () => {
 								? recentData.weight.join(", ")
 								: ""}
 						</p>
+						<button
+							onClick={() =>
+								setIsOpenShowMore((prevState) => !prevState)
+							}
+							className="mt-4 border p-2 bg-gray-200 rounded w-full"
+						>
+							{isOpenShowMore ? "Close" : "Show more"}{" "}
+						</button>
+						{isOpenShowMore && (
+							<div className="bg-white shadow-lg p-4 w-96 rounded">
+								<h2 className="font-bold text-lg mb-4">
+									Exercise Details
+								</h2>
+								{selectedExercise &&
+								selectedExercise.dates &&
+								selectedExercise.dates.length > 0 ? (
+									<div className="flex flex-col gap-2">
+										{selectedExercise.dates.map(
+											(date: any) => {
+												const seriesData =
+													selectedExercise[date]
+														?.series || [];
+												const weightData =
+													selectedExercise[date]
+														?.weight || [];
+												return (
+													<div
+														key={date}
+														className="border p-2 rounded"
+													>
+														<p className="text-sm text-gray-600">
+															{new Date(
+																date
+															).toLocaleDateString(
+																"en-GB",
+																{
+																	weekday:
+																		"short",
+																	day: "numeric",
+																	month: "short",
+																}
+															)}
+														</p>
+														<p className="flex justify-between">
+															<strong>
+																Series:
+															</strong>
+															{seriesData.length >
+															0
+																? seriesData.join(
+																		", "
+																  )
+																: "N/A"}
+														</p>
+														<p className="flex justify-between">
+															<strong>
+																Weight:
+															</strong>
+															{weightData.length >
+															0
+																? weightData.join(
+																		", "
+																  )
+																: "N/A"}
+														</p>
+													</div>
+												);
+											}
+										)}
+									</div>
+								) : (
+									<p className="text-gray-500">
+										No data available for this exercise.
+									</p>
+								)}
+								<button
+									onClick={() => setIsOpenShowMore(false)}
+									className="mt-4 border p-2 bg-gray-200 rounded w-full"
+								>
+									Close
+								</button>
+							</div>
+						)}
 					</div>
 				) : (
 					exerciseName && (
