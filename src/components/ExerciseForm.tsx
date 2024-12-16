@@ -229,7 +229,8 @@ const ExerciseForm = () => {
 					onClick={() => setIsOpen(!isOpen)}
 					className="border w-36 "
 				>
-					{exerciseName || "Pick an Exercise"}{" "}
+					{exerciseName.replace(currentUser + "%%", "") ||
+						"Pick an Exercise"}{" "}
 				</button>
 				{isOpen && (
 					<div className="bg-white shadow-lg w-64">
