@@ -63,14 +63,16 @@ const CaloriesForm = () => {
 			</div>
 			{/*Add Food Button && Modal*/}
 			<div className="flex flex-col items-center">
-				<button
-					onClick={() => {
-						setIsModalOpen(true);
-					}}
-					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-				>
-					Add Food
-				</button>
+				{!isModalOpen && (
+					<button
+						onClick={() => {
+							setIsModalOpen(true);
+						}}
+						className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+					>
+						Add Food
+					</button>
+				)}
 				{isModalOpen && (
 					<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white m-2">
 						<button
