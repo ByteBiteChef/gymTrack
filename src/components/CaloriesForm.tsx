@@ -1,8 +1,9 @@
 "use client";
 
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
+import { toast } from "sonner";
 
 const CaloriesForm = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -11,7 +12,6 @@ const CaloriesForm = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [foodName, setFoodName] = useState<string>("");
 	const [calories, setCalories] = useState<string>("");
-	const [portion, setPortion] = useState<string>("");
 
 	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedDate(e.target.value);
@@ -29,6 +29,31 @@ const CaloriesForm = () => {
 
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setCurrentUser(e.target.value);
+	};
+
+	const handleAddFood = async () => {
+		if (!currentUser || !foodName || !calories) {
+			toast.error("Please fill all fields!");
+			return;
+		}
+
+		const documentId = `${currentUser}%%${foodName}`;
+
+		const foodRef = doc(db, "food", documentId);
+
+		try {
+			await setDoc(foodRef, {
+				caloriesPer100g: Number(calories),
+			});
+
+			toast.success("Food added successfully!");
+			setCalories("");
+			setFoodName("");
+			setIsModalOpen(false);
+		} catch (error) {
+			console.error("Error adding food:", error);
+			toast.error("Failed to add food.");
+		}
 	};
 
 	return (
@@ -51,15 +76,6 @@ const CaloriesForm = () => {
 						))}
 					</select>
 				</div>
-				<div>
-					<label className="text-white">Pick a date </label>
-					<input
-						id="datePicker"
-						type="date"
-						value={selectedDate}
-						onChange={handleDateChange}
-					/>
-				</div>
 			</div>
 			{/*Add Food Button && Modal*/}
 			<div className="flex flex-col items-center">
@@ -70,7 +86,7 @@ const CaloriesForm = () => {
 						}}
 						className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
-						Add Food
+						Add favorite food
 					</button>
 				)}
 				{isModalOpen && (
@@ -83,6 +99,7 @@ const CaloriesForm = () => {
 						>
 							X
 						</button>
+
 						<div className="w-full items-center m-2">
 							<label className="block mb-1 font-medium">
 								Food Name
@@ -107,28 +124,10 @@ const CaloriesForm = () => {
 								className="border p-1 w-full"
 							/>
 						</div>
-						<div className="w-full items-center m-2">
-							<label className="block mb-1 font-medium">
-								Portion
-							</label>
-							<input
-								type="number"
-								value={portion}
-								onChange={(e) => setPortion(e.target.value)}
-								placeholder="Portion in gr"
-								className="border p-1 w-full"
-							/>
-						</div>
+
 						<div>
 							<button
-								onClick={() => {
-									console.log("User:", currentUser);
-									console.log("Food Name:", foodName);
-									console.log("Calories:", calories);
-									console.log("Date:", selectedDate);
-									setCalories("");
-									setFoodName("");
-								}}
+								onClick={handleAddFood}
 								className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 							>
 								Add Food
@@ -136,6 +135,15 @@ const CaloriesForm = () => {
 						</div>
 					</div>
 				)}
+			</div>
+			<div className="bg-red-200 mt-2">
+				<label className="text-white">Pick a date </label>
+				<input
+					id="datePicker"
+					type="date"
+					value={selectedDate}
+					onChange={handleDateChange}
+				/>
 			</div>
 		</div>
 	);
