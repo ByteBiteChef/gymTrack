@@ -1,6 +1,13 @@
 "use client";
 
-import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	onSnapshot,
+	query,
+	setDoc,
+	where,
+} from "firebase/firestore";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
@@ -12,6 +19,8 @@ const CaloriesForm = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [foodName, setFoodName] = useState<string>("");
 	const [calories, setCalories] = useState<string>("");
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	const [foodList, setFoodList] = useState<any>([]);
 
 	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedDate(e.target.value);
@@ -26,6 +35,28 @@ const CaloriesForm = () => {
 
 		return () => unsubscribeUsers();
 	}, []);
+
+	const fetchFood = (user: string) => {
+		if (!user) return;
+
+		const foodRef = collection(db, "food");
+
+		const q = query(
+			foodRef,
+			where("__name__", ">=", user + "%%"),
+			where("__name__", "<", user + "%%\uffff")
+		);
+
+		const unsubscribe = onSnapshot(q, (snapshot) => {
+			const updatedFoodList = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setFoodList(updatedFoodList);
+		});
+
+		return () => unsubscribe();
+	};
 
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setCurrentUser(e.target.value);
@@ -55,6 +86,15 @@ const CaloriesForm = () => {
 			toast.error("Failed to add food.");
 		}
 	};
+
+	useEffect(() => {
+		if (currentUser) {
+			const unsubscribe = fetchFood(currentUser);
+			return () => unsubscribe && unsubscribe();
+		}
+	}, [currentUser]);
+
+	console.log(foodList);
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
