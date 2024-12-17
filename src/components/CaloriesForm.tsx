@@ -32,6 +32,7 @@ const CaloriesForm = () => {
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
+			{/*Pick User Select && Date Picker*/}
 			<div className="p-2">
 				<div className="mb-4">
 					<select
@@ -60,6 +61,7 @@ const CaloriesForm = () => {
 					{selectedDate && <p>Selected Date: {selectedDate}</p>}
 				</div>
 			</div>
+			{/*Add Food Button && Modal*/}
 			<div className="flex flex-col items-center">
 				<button
 					onClick={() => {
@@ -104,9 +106,22 @@ const CaloriesForm = () => {
 								className="border p-2 w-full"
 							/>
 						</div>
+						<div className="items-center mb-2">
+							<label className="block mb-1 font-medium">
+								Portion
+							</label>
+							<input
+								type="text"
+								value={calories}
+								onChange={(e) => setCalories(e.target.value)}
+								placeholder="Portion in gr"
+								className="border p-2 w-full"
+							/>
+						</div>
 						<div>
 							<button
 								onClick={() => {
+									console.log("User:", currentUser);
 									console.log("Food Name:", foodName);
 									console.log("Calories:", calories);
 									setCalories("");
