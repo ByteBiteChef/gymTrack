@@ -8,9 +8,10 @@ const CaloriesForm = () => {
 	const [currentUser, setCurrentUser] = useState("");
 	const [users, setUsers] = useState<string[]>([]);
 	const [selectedDate, setSelectedDate] = useState<string>("");
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [foodName, setFoodName] = useState<string>("");
 	const [calories, setCalories] = useState<string>("");
+	const [portion, setPortion] = useState<string>("");
 
 	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedDate(e.target.value);
@@ -58,30 +59,29 @@ const CaloriesForm = () => {
 						value={selectedDate}
 						onChange={handleDateChange}
 					/>
-					{selectedDate && <p>Selected Date: {selectedDate}</p>}
 				</div>
 			</div>
 			{/*Add Food Button && Modal*/}
 			<div className="flex flex-col items-center">
 				<button
 					onClick={() => {
-						setIsOpen(true);
+						setIsModalOpen(true);
 					}}
-					className="w-1/3 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 				>
-					Add New Food
+					Add Food
 				</button>
-				{isOpen && (
+				{isModalOpen && (
 					<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white m-2">
 						<button
 							onClick={() => {
-								setIsOpen(false);
+								setIsModalOpen(false);
 							}}
-							className="absolute right-1 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+							className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 						>
 							X
 						</button>
-						<div className="items-center mb-2 mt-2">
+						<div className="w-full items-center m-2">
 							<label className="block mb-1 font-medium">
 								Food Name
 							</label>
@@ -90,32 +90,31 @@ const CaloriesForm = () => {
 								value={foodName}
 								onChange={(e) => setFoodName(e.target.value)}
 								placeholder="Food name"
-								className="border p-2 w-full"
+								className="border p-1 w-full"
 							/>
 						</div>
-
-						<div className="items-center mb-2">
+						<div className="w-full items-center m-2">
 							<label className="block mb-1 font-medium">
 								Calories
 							</label>
 							<input
-								type="text"
+								type="number"
 								value={calories}
 								onChange={(e) => setCalories(e.target.value)}
 								placeholder="Calories/100g"
-								className="border p-2 w-full"
+								className="border p-1 w-full"
 							/>
 						</div>
-						<div className="items-center mb-2">
+						<div className="w-full items-center m-2">
 							<label className="block mb-1 font-medium">
 								Portion
 							</label>
 							<input
-								type="text"
-								value={calories}
-								onChange={(e) => setCalories(e.target.value)}
+								type="number"
+								value={portion}
+								onChange={(e) => setPortion(e.target.value)}
 								placeholder="Portion in gr"
-								className="border p-2 w-full"
+								className="border p-1 w-full"
 							/>
 						</div>
 						<div>
@@ -124,6 +123,7 @@ const CaloriesForm = () => {
 									console.log("User:", currentUser);
 									console.log("Food Name:", foodName);
 									console.log("Calories:", calories);
+									console.log("Date:", selectedDate);
 									setCalories("");
 									setFoodName("");
 								}}
