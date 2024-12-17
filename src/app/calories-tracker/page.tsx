@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import CaloriesForm from "@/components/CaloriesForm";
 
 const CaloriesTracker = () => {
 	return (
@@ -13,6 +14,7 @@ const CaloriesTracker = () => {
 					height={200}
 				/>
 			</div>
+			<CaloriesForm />
 		</div>
 	);
 };
