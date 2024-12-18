@@ -17,10 +17,12 @@ const CaloriesForm = () => {
 	const [users, setUsers] = useState<string[]>([]);
 	const [selectedDate, setSelectedDate] = useState<string>("");
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [foodName, setFoodName] = useState<string>("");
 	const [calories, setCalories] = useState<string>("");
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [foodList, setFoodList] = useState<any>([]);
+	const [selectedFood, setSelectedFood] = useState("");
 
 	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedDate(e.target.value);
@@ -98,7 +100,7 @@ const CaloriesForm = () => {
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
-			{/*Pick User Select && Date Picker*/}
+			{/*Pick User Select*/}
 			<div className="p-2">
 				<div className="mb-4">
 					<select
@@ -176,15 +178,53 @@ const CaloriesForm = () => {
 					</div>
 				)}
 			</div>
-			<div className="bg-red-200 mt-2">
-				<label className="text-white">Pick a date </label>
-				<input
-					id="datePicker"
-					type="date"
-					value={selectedDate}
-					onChange={handleDateChange}
-				/>
-			</div>
+			{!isOpen && (
+				<button
+					onClick={() => {
+						setIsOpen(true);
+					}}
+					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+				>
+					add food calories
+				</button>
+			)}
+			{isOpen && (
+				<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
+					<button
+						onClick={() => {
+							setIsOpen(false);
+						}}
+						className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+					>
+						X
+					</button>
+					<div>
+						<label className="text-white">Pick a date </label>
+						<input
+							id="datePicker"
+							type="date"
+							value={selectedDate}
+							onChange={handleDateChange}
+						/>
+					</div>
+					<div className="mb-4">
+						<select
+							value={selectedFood}
+							onChange={(e) => setSelectedFood(e.target.value)}
+							className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+						>
+							<option value="" disabled>
+								Pick a food
+							</option>
+							{foodList.map((food: any) => (
+								<option key={food.id} value={food.id}>
+									{food.id.replace(currentUser + "%%", "")}
+								</option>
+							))}
+						</select>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
