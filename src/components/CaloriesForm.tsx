@@ -96,8 +96,6 @@ const CaloriesForm = () => {
 		}
 	}, [currentUser]);
 
-	console.log(foodList);
-
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
 			{/*Pick User Select*/}
@@ -222,6 +220,16 @@ const CaloriesForm = () => {
 								</option>
 							))}
 						</select>
+					</div>
+					<div>
+						<label>Portion</label>
+						<input
+							type="number"
+							value={""}
+							onChange={() => {}}
+							className="p-2"
+							placeholder="Portion/gr"
+						/>
 					</div>
 				</div>
 			)}
