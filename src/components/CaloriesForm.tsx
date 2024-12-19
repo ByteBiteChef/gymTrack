@@ -1,6 +1,7 @@
 "use client";
 
 import {
+	arrayUnion,
 	collection,
 	doc,
 	onSnapshot,
@@ -125,6 +126,74 @@ const CaloriesForm = () => {
 			return () => unsubscribe && unsubscribe();
 		}
 	}, [currentUser]);
+
+	const handleSubmit = async () => {
+		if (!currentUser) {
+			toast.error("Please select a user.");
+			return;
+		}
+
+		if (!selectedDate) {
+			toast.error("Please select a date.");
+			return;
+		}
+
+		if (!selectedFood) {
+			toast.error("Please select a food.");
+			return;
+		}
+
+		if (!selectedPortion || isNaN(Number(selectedPortion))) {
+			toast.error("Please enter a valid portion.");
+			return;
+		}
+
+		if (!selectedFoodDetails) {
+			toast.error("Selected food details not found.");
+			return;
+		}
+
+		// Parse portion and calculate calories
+		const portion = Number(selectedPortion);
+		const caloriesPer100g = selectedFoodDetails.caloriesPer100g;
+		const amountOfCalories = (caloriesPer100g * portion) / 100;
+
+		// Generate a unique timestamp as a string
+		const timestamp = Date.now().toString();
+
+		// Derive foodName by removing the user prefix from the food ID
+		const foodName = selectedFoodDetails.id.replace(`${currentUser}%%`, "");
+
+		// Reference to the user's document in dailyCalories collection
+		const userDocRef = doc(db, "dailyCalories", currentUser);
+
+		try {
+			// Update the document with the new entry
+			await setDoc(
+				userDocRef,
+				{
+					dates: arrayUnion(timestamp), // Add the timestamp to the dates array
+					[timestamp]: {
+						amountOfCalories,
+						foodName,
+						portion,
+					},
+				},
+				{ merge: true } // Merge with existing data
+			);
+
+			toast.success("Daily calories added successfully!");
+
+			setSelectedDate("");
+			setSelectedFood("");
+			setSelectedPortion("");
+			setSelectedFoodDetails(null);
+			setIsOpen(false);
+		} catch (error) {
+			console.error("Error adding daily calories:", error);
+			toast.error("Failed to add daily calories. Please try again.");
+		}
+	};
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
@@ -267,6 +336,14 @@ const CaloriesForm = () => {
 							className="p-2"
 							placeholder="Portion/gr"
 						/>
+					</div>
+					<div>
+						<button
+							onClick={handleSubmit}
+							className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						>
+							submit
+						</button>
 					</div>
 				</div>
 			)}
