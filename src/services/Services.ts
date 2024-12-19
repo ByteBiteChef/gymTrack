@@ -3,8 +3,7 @@ import { db } from "../../firebase/firebase";
 import { IFood } from "./types";
 
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const fetchUsers = (setUsers: any) => {
+export const fetchUsers = (setUsers: (users: string[]) => void) => {
 	const usersRef = collection(db, "users");
 	const unsubscribe = onSnapshot(usersRef, (snapshot) => {
 		const userList = snapshot.docs.map((doc) => doc.id);

@@ -10,7 +10,7 @@ import {
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
-import { fetchDailyCalories, fetchFood } from "@/services/usersService";
+import { fetchDailyCalories, fetchFood } from "@/services/services";
 import { IDailyCalories, IFood } from "@/services/types";
 
 const CaloriesForm = () => {
