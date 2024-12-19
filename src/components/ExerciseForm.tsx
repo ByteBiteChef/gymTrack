@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { app } from "../../firebase/firebase";
 import { toast } from "sonner";
-import { fetchUsers } from "@/services/exerciseService";
+import { fetchUsers } from "@/services/usersService";
 
 const db = getFirestore(app);
 
