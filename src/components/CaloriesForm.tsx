@@ -5,14 +5,12 @@ import {
 	collection,
 	doc,
 	onSnapshot,
-	query,
 	setDoc,
-	where,
 } from "firebase/firestore";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
-import { fetchDailyCalories } from "@/services/usersService";
+import { fetchDailyCalories, fetchFood } from "@/services/usersService";
 import { IDailyCalories, IFood } from "@/services/types";
 
 const CaloriesForm = () => {
@@ -39,12 +37,14 @@ const CaloriesForm = () => {
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
-		const fetchData = async () => {
-			const data = await fetchDailyCalories(currentUser);
-			setDailyCalories(data);
-		};
+		if (currentUser) {
+			const fetchData = async () => {
+				const data = await fetchDailyCalories(currentUser);
+				setDailyCalories(data);
+			};
 
-		fetchData();
+			fetchData();
+		}
 	}, [currentUser]);
 	console.log(dailyCalories);
 
@@ -74,7 +74,7 @@ const CaloriesForm = () => {
 	//Fetch Food When CurrentUser Change
 	useEffect(() => {
 		if (currentUser) {
-			const unsubscribe = fetchFood(currentUser);
+			const unsubscribe = fetchFood(currentUser, setFoodList);
 			return () => unsubscribe && unsubscribe();
 		}
 	}, [currentUser]);
@@ -154,29 +154,6 @@ const CaloriesForm = () => {
 			console.error("Error adding daily calories:", error);
 			toast.error("Failed to add daily calories. Please try again.");
 		}
-	};
-
-	//Fetch Food By Current User
-	const fetchFood = (user: string) => {
-		if (!user) return;
-
-		const foodRef = collection(db, "food");
-
-		const q = query(
-			foodRef,
-			where("__name__", ">=", user + "%%"),
-			where("__name__", "<", user + "%%\uffff")
-		);
-
-		const unsubscribe = onSnapshot(q, (snapshot) => {
-			const updatedFoodList: IFood[] = snapshot.docs.map((doc) => ({
-				id: doc.id,
-				caloriesPer100g: doc.data().caloriesPer100g,
-			}));
-			setFoodList(updatedFoodList);
-		});
-
-		return () => unsubscribe();
 	};
 
 	//User Select Handler
