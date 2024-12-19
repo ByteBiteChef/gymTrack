@@ -31,9 +31,17 @@ const CaloriesForm = () => {
 	const [selectedFoodDetails, setSelectedFoodDetails] =
 		useState<IFood | null>(null);
 
+	//Calories Details Card States
+	const [dateForCalories, setDateForCalories] = useState<string>("");
+	console.log(dateForCalories);
+
 	//Modal States
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isFavFoodModalOpen, setIsFavFoodModalOpen] =
+		useState<boolean>(false);
+	const [isFoodCaloriesModalOpen, setIsFoodCaloriesModalOpen] =
+		useState<boolean>(false);
+	const [isCaloriesDetailModalOpen, setIsCaloriesDetailModalOpen] =
+		useState<boolean>(false);
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
@@ -149,11 +157,16 @@ const CaloriesForm = () => {
 			setSelectedFood("");
 			setSelectedPortion("");
 			setSelectedFoodDetails(null);
-			setIsOpen(false);
+			setIsFoodCaloriesModalOpen(false);
 		} catch (error) {
 			console.error("Error adding daily calories:", error);
 			toast.error("Failed to add daily calories. Please try again.");
 		}
+	};
+
+	//Calories Details Per Day Handler
+	const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setDateForCalories(e.target.value);
 	};
 
 	//User Select Handler
@@ -180,7 +193,7 @@ const CaloriesForm = () => {
 			toast.success("Food added successfully!");
 			setCalories("");
 			setFoodName("");
-			setIsModalOpen(false);
+			setIsFavFoodModalOpen(false);
 		} catch (error) {
 			console.error("Error adding food:", error);
 			toast.error("Failed to add food.");
@@ -210,21 +223,21 @@ const CaloriesForm = () => {
 			</div>
 			{/*Add Fav Food Button && Modal*/}
 			<div className="flex flex-col items-center">
-				{!isModalOpen && (
+				{!isFavFoodModalOpen && (
 					<button
 						onClick={() => {
-							setIsModalOpen(true);
+							setIsFavFoodModalOpen(true);
 						}}
 						className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						Add favorite food
 					</button>
 				)}
-				{isModalOpen && (
+				{isFavFoodModalOpen && (
 					<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white m-2">
 						<button
 							onClick={() => {
-								setIsModalOpen(false);
+								setIsFavFoodModalOpen(false);
 							}}
 							className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 						>
@@ -266,21 +279,22 @@ const CaloriesForm = () => {
 					</div>
 				)}
 			</div>
-			{!isOpen && (
+			{/*Add Calories Food Button && Modal*/}
+			{!isFoodCaloriesModalOpen && (
 				<button
 					onClick={() => {
-						setIsOpen(true);
+						setIsFoodCaloriesModalOpen(true);
 					}}
 					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 				>
 					add food calories
 				</button>
 			)}
-			{isOpen && (
+			{isFoodCaloriesModalOpen && (
 				<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
 					<button
 						onClick={() => {
-							setIsOpen(false);
+							setIsFoodCaloriesModalOpen(false);
 						}}
 						className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
@@ -336,6 +350,28 @@ const CaloriesForm = () => {
 							submit
 						</button>
 					</div>
+				</div>
+			)}
+			{/*Show More Details Button && Modal*/}
+			{!isCaloriesDetailModalOpen && (
+				<button
+					onClick={() => {
+						setIsCaloriesDetailModalOpen(true);
+					}}
+					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+				>
+					Show calories per days
+				</button>
+			)}
+			{isCaloriesDetailModalOpen && (
+				<div className="bg-white mt-4 flex items-center justify-center">
+					<label className="text-black">Pick a date </label>
+					<input
+						id="datePicker"
+						type="date"
+						value={dateForCalories}
+						onChange={handleDetailPerDayChange}
+					/>
 				</div>
 			)}
 		</div>
