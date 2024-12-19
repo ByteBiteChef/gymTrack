@@ -16,20 +16,28 @@ import { fetchDailyCalories } from "@/services/usersService";
 import { IDailyCalories, IFood } from "@/services/types";
 
 const CaloriesForm = () => {
+	//users states
 	const [currentUser, setCurrentUser] = useState("");
 	const [users, setUsers] = useState<string[]>([]);
-	const [selectedDate, setSelectedDate] = useState<string>("");
-	const [selectedPortion, setSelectedPortion] = useState<string>("");
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	//Food Form
 	const [foodName, setFoodName] = useState<string>("");
 	const [calories, setCalories] = useState<string>("");
+
+	//Daily Calories Form
+	const [selectedDate, setSelectedDate] = useState<string>("");
 	const [foodList, setFoodList] = useState<IFood[]>([]);
+	const [selectedPortion, setSelectedPortion] = useState<string>("");
+	const [dailyCalories, setDailyCalories] = useState<IDailyCalories[]>([]);
 	const [selectedFood, setSelectedFood] = useState("");
 	const [selectedFoodDetails, setSelectedFoodDetails] =
 		useState<IFood | null>(null);
-	const [dailyCalories, setDailyCalories] = useState<IDailyCalories[]>([]);
 
+	//Modal States
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	//Fetch Daily Calories by currentUser
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await fetchDailyCalories(currentUser);
@@ -40,6 +48,7 @@ const CaloriesForm = () => {
 	}, [currentUser]);
 	console.log(dailyCalories);
 
+	//Set Selected Food Details (caloriesPer100g renderization)
 	useEffect(() => {
 		if (selectedFood) {
 			const foodDetails = foodList.find(
@@ -51,14 +60,7 @@ const CaloriesForm = () => {
 		}
 	}, [selectedFood, foodList]);
 
-	const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setSelectedDate(e.target.value);
-	};
-
-	const handlePortionChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setSelectedPortion(e.target.value);
-	};
-
+	//Fetch Users
 	useEffect(() => {
 		const usersRef = collection(db, "users");
 		const unsubscribeUsers = onSnapshot(usersRef, (snapshot) => {
@@ -69,63 +71,22 @@ const CaloriesForm = () => {
 		return () => unsubscribeUsers();
 	}, []);
 
-	const fetchFood = (user: string) => {
-		if (!user) return;
-
-		const foodRef = collection(db, "food");
-
-		const q = query(
-			foodRef,
-			where("__name__", ">=", user + "%%"),
-			where("__name__", "<", user + "%%\uffff")
-		);
-
-		const unsubscribe = onSnapshot(q, (snapshot) => {
-			const updatedFoodList: IFood[] = snapshot.docs.map((doc) => ({
-				id: doc.id,
-				caloriesPer100g: doc.data().caloriesPer100g,
-			}));
-			setFoodList(updatedFoodList);
-		});
-
-		return () => unsubscribe();
-	};
-
-	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setCurrentUser(e.target.value);
-	};
-
-	const handleAddFood = async () => {
-		if (!currentUser || !foodName || !calories) {
-			toast.error("Please fill all fields!");
-			return;
-		}
-
-		const documentId = `${currentUser}%%${foodName}`;
-
-		const foodRef = doc(db, "food", documentId);
-
-		try {
-			await setDoc(foodRef, {
-				caloriesPer100g: Number(calories),
-			});
-
-			toast.success("Food added successfully!");
-			setCalories("");
-			setFoodName("");
-			setIsModalOpen(false);
-		} catch (error) {
-			console.error("Error adding food:", error);
-			toast.error("Failed to add food.");
-		}
-	};
-
+	//Fetch Food When CurrentUser Change
 	useEffect(() => {
 		if (currentUser) {
 			const unsubscribe = fetchFood(currentUser);
 			return () => unsubscribe && unsubscribe();
 		}
 	}, [currentUser]);
+
+	//Events Daily Calories Form Handelers
+	const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setSelectedDate(e.target.value);
+	};
+
+	const handlePortionChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setSelectedPortion(e.target.value);
+	};
 
 	const handleSubmit = async () => {
 		if (!currentUser) {
@@ -195,6 +156,60 @@ const CaloriesForm = () => {
 		}
 	};
 
+	//Fetch Food By Current User
+	const fetchFood = (user: string) => {
+		if (!user) return;
+
+		const foodRef = collection(db, "food");
+
+		const q = query(
+			foodRef,
+			where("__name__", ">=", user + "%%"),
+			where("__name__", "<", user + "%%\uffff")
+		);
+
+		const unsubscribe = onSnapshot(q, (snapshot) => {
+			const updatedFoodList: IFood[] = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				caloriesPer100g: doc.data().caloriesPer100g,
+			}));
+			setFoodList(updatedFoodList);
+		});
+
+		return () => unsubscribe();
+	};
+
+	//User Select Handler
+	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		setCurrentUser(e.target.value);
+	};
+
+	//Logic to Post Fav Food
+	const handleAddFood = async () => {
+		if (!currentUser || !foodName || !calories) {
+			toast.error("Please fill all fields!");
+			return;
+		}
+
+		const documentId = `${currentUser}%%${foodName}`;
+
+		const foodRef = doc(db, "food", documentId);
+
+		try {
+			await setDoc(foodRef, {
+				caloriesPer100g: Number(calories),
+			});
+
+			toast.success("Food added successfully!");
+			setCalories("");
+			setFoodName("");
+			setIsModalOpen(false);
+		} catch (error) {
+			console.error("Error adding food:", error);
+			toast.error("Failed to add food.");
+		}
+	};
+
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
 			{/*Pick User Select*/}
@@ -216,7 +231,7 @@ const CaloriesForm = () => {
 					</select>
 				</div>
 			</div>
-			{/*Add Food Button && Modal*/}
+			{/*Add Fav Food Button && Modal*/}
 			<div className="flex flex-col items-center">
 				{!isModalOpen && (
 					<button
@@ -263,7 +278,6 @@ const CaloriesForm = () => {
 								className="border p-1 w-full"
 							/>
 						</div>
-
 						<div>
 							<button
 								onClick={handleAddFood}
