@@ -12,20 +12,42 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
 
+interface IFood {
+	id: string;
+	caloriesPer100g: number;
+}
+
 const CaloriesForm = () => {
 	const [currentUser, setCurrentUser] = useState("");
 	const [users, setUsers] = useState<string[]>([]);
 	const [selectedDate, setSelectedDate] = useState<string>("");
+	const [selectedPortion, setSelectedPortion] = useState<string>("");
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [foodName, setFoodName] = useState<string>("");
 	const [calories, setCalories] = useState<string>("");
-	/* eslint-disable @typescript-eslint/no-explicit-any */
-	const [foodList, setFoodList] = useState<any>([]);
+	const [foodList, setFoodList] = useState<IFood[]>([]);
 	const [selectedFood, setSelectedFood] = useState("");
+	const [selectedFoodDetails, setSelectedFoodDetails] =
+		useState<IFood | null>(null);
 
-	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	useEffect(() => {
+		if (selectedFood) {
+			const foodDetails = foodList.find(
+				(food: IFood) => food.id === selectedFood
+			);
+			setSelectedFoodDetails(foodDetails || null);
+		} else {
+			setSelectedFoodDetails(null);
+		}
+	}, [selectedFood, foodList]);
+
+	const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSelectedDate(e.target.value);
+	};
+
+	const handlePortionChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setSelectedPortion(e.target.value);
 	};
 
 	useEffect(() => {
@@ -50,9 +72,9 @@ const CaloriesForm = () => {
 		);
 
 		const unsubscribe = onSnapshot(q, (snapshot) => {
-			const updatedFoodList = snapshot.docs.map((doc) => ({
+			const updatedFoodList: IFood[] = snapshot.docs.map((doc) => ({
 				id: doc.id,
-				...doc.data(),
+				caloriesPer100g: doc.data().caloriesPer100g,
 			}));
 			setFoodList(updatedFoodList);
 		});
@@ -214,19 +236,26 @@ const CaloriesForm = () => {
 							<option value="" disabled>
 								Pick a food
 							</option>
-							{foodList.map((food: any) => (
+							{foodList.map((food: IFood) => (
 								<option key={food.id} value={food.id}>
 									{food.id.replace(currentUser + "%%", "")}
 								</option>
 							))}
 						</select>
 					</div>
+					<div className="border border-2">
+						<p>
+							{selectedFoodDetails
+								? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
+								: ""}
+						</p>
+					</div>
 					<div>
 						<label>Portion</label>
 						<input
 							type="number"
-							value={""}
-							onChange={() => {}}
+							value={selectedPortion}
+							onChange={handlePortionChange}
 							className="p-2"
 							placeholder="Portion/gr"
 						/>
