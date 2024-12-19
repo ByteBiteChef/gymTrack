@@ -11,11 +11,8 @@ import {
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
-
-interface IFood {
-	id: string;
-	caloriesPer100g: number;
-}
+import { fetchDailyCalories } from "@/services/usersService";
+import { IDailyCalories, IFood } from "@/services/types";
 
 const CaloriesForm = () => {
 	const [currentUser, setCurrentUser] = useState("");
@@ -30,6 +27,17 @@ const CaloriesForm = () => {
 	const [selectedFood, setSelectedFood] = useState("");
 	const [selectedFoodDetails, setSelectedFoodDetails] =
 		useState<IFood | null>(null);
+	const [dailyCalories, setDailyCalories] = useState<IDailyCalories[]>([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const data = await fetchDailyCalories(currentUser);
+			setDailyCalories(data);
+		};
+
+		fetchData();
+	}, [currentUser]);
+	console.log(dailyCalories);
 
 	useEffect(() => {
 		if (selectedFood) {
