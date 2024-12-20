@@ -30,7 +30,6 @@ const CaloriesForm = () => {
 	const [selectedFood, setSelectedFood] = useState("");
 	const [selectedFoodDetails, setSelectedFoodDetails] =
 		useState<IFood | null>(null);
-	console.log(dailyCalories);
 
 	//Calories Details Card States
 	const [dateForCalories, setDateForCalories] = useState<string>("");
@@ -280,60 +279,64 @@ const CaloriesForm = () => {
 					</div>
 				)}
 			</div>
-			{/*Add Calories Food Button && Modal*/}
-			<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
-				<div>
-					<label className="text-white">Pick a date </label>
-					<input
-						id="datePicker"
-						type="date"
-						value={selectedDate}
-						onChange={handleDateChange}
-					/>
-				</div>
-				<div className="mb-4">
-					<select
-						value={selectedFood}
-						onChange={(e) => setSelectedFood(e.target.value)}
-						className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-					>
-						<option value="" disabled>
-							Pick a food
-						</option>
-						{foodList.map((food: IFood) => (
-							<option key={food.id} value={food.id}>
-								{food.id.replace(currentUser + "%%", "")}
+			{/*Add Calories Logic*/}
+			<div className="w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
+				<div className="flex p-1 w-full rounded-sm border-2 justify-around m-2 items-center">
+					<div>
+						<select
+							value={selectedFood}
+							onChange={(e) => setSelectedFood(e.target.value)}
+							className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+						>
+							<option value="" disabled>
+								Pick a food
 							</option>
-						))}
-					</select>
+							{foodList.map((food: IFood) => (
+								<option key={food.id} value={food.id}>
+									{food.id.replace(currentUser + "%%", "")}
+								</option>
+							))}
+						</select>
+					</div>
+					<div className="flex p-1 rounded-lg border ">
+						<label className="text-black mr-4">Pick a date </label>
+						<input
+							id="datePicker"
+							type="date"
+							value={selectedDate}
+							onChange={handleDateChange}
+						/>
+					</div>
 				</div>
-				<div className="border border-2">
-					<p>
-						{selectedFoodDetails
-							? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
-							: ""}
-					</p>
-				</div>
-				<div>
-					<label>Portion</label>
-					<input
-						type="number"
-						value={selectedPortion}
-						onChange={handlePortionChange}
-						className="p-2"
-						placeholder="Portion/gr"
-					/>
+				<div className="flex border-2 rounded-sm w-full justify-around items-center">
+					<div className="m-1">
+						<label className="m-2">Portion</label>
+						<input
+							type="number"
+							value={selectedPortion}
+							onChange={handlePortionChange}
+							className="p-1 w-1/3 "
+							placeholder="Portion/gr"
+						/>
+					</div>
+					<div className="">
+						<p>
+							{selectedFoodDetails
+								? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
+								: ""}
+						</p>
+					</div>
 				</div>
 				<div>
 					<button
 						onClick={handleSubmit}
-						className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						className="mt-2 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						submit
 					</button>
 				</div>
 			</div>
-			{/*Show More Details Button && Modal*/}
+			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
 				<div className="bg-white w-full p-2 flex justify-around rounded-sm">
 					<label>See previus days calories</label>
