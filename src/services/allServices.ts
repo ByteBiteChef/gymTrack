@@ -30,7 +30,7 @@ export const fetchDailyCalories = async (currentUser: string) => {
         }
 
         const userData = userDoc.data();
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
         const allEntries = Object.entries(userData).flatMap(([date, data]: [string, any]) => {
             if (data.entries && Array.isArray(data.entries)) {
                 return data.entries.map((entry: any) => ({
