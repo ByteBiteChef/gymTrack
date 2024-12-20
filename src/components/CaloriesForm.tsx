@@ -50,10 +50,11 @@ const CaloriesForm = () => {
 		}
 	}, [currentUser]);
 
+	//filter food by date
 	const filteredEntries = dailyCalories.filter(
 		(entry) => entry.date === dateForCalories
 	);
-
+	console.log(filteredEntries);
 	//Set Selected Food Details (caloriesPer100g renderization)
 	useEffect(() => {
 		if (selectedFood) {
@@ -199,6 +200,19 @@ const CaloriesForm = () => {
 			toast.error("Failed to add food.");
 		}
 	};
+
+	//Logic to get total calories
+	const totalDayCalories = filteredEntries.reduce(
+		(total, entry) => total + entry.amountOfCalories,
+		0
+	);
+
+	// Format the date for total calories render
+	const date = new Date(dateForCalories);
+
+	const formattedDate = `${date.getDate()} ${date.toLocaleString("es-ES", {
+		month: "short",
+	})}`;
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
@@ -348,13 +362,18 @@ const CaloriesForm = () => {
 					/>
 				</div>
 				{filteredEntries.length > 0 ? (
-					<ul className="mt-4 bg-white w-full p-2 rounded-sm">
-						{filteredEntries.map((entry, index) => (
-							<li key={index} className="text-black">
-								{`Food: ${entry.foodName}, Portion: ${entry.portion}, Calories: ${entry.amountOfCalories}`}
-							</li>
-						))}
-					</ul>
+					<div className="bg-white w-full p-2 rounded-sm">
+						<p className="mt-2 text-black">
+							{`Calories ${formattedDate}: ${totalDayCalories} kcal`}
+						</p>
+						<ul className="mt-4 ">
+							{filteredEntries.map((entry, index) => (
+								<li key={index} className="text-black">
+									{`Food: ${entry.foodName}, Portion: ${entry.portion}, Calories: ${entry.amountOfCalories}`}
+								</li>
+							))}
+						</ul>
+					</div>
 				) : dateForCalories ? (
 					<p className="text-white">No data on this day</p>
 				) : (
