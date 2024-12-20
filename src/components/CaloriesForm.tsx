@@ -319,7 +319,7 @@ const CaloriesForm = () => {
 						<label className="text-black mr-2">Date </label>
 						<input
 							id="datePicker"
-							type="date"
+							type="text"
 							value={selectedDate}
 							onChange={handleDateChange}
 						/>
