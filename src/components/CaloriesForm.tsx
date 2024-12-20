@@ -282,7 +282,7 @@ const CaloriesForm = () => {
 			{/*Add Calories Logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
 				<div className="flex p-1 w-full rounded-sm border-2 justify-around m-2 items-center">
-					<div>
+					<div className="mr-2">
 						<select
 							value={selectedFood}
 							onChange={(e) => setSelectedFood(e.target.value)}
@@ -298,8 +298,8 @@ const CaloriesForm = () => {
 							))}
 						</select>
 					</div>
-					<div className="flex p-1 rounded-lg border ">
-						<label className="text-black mr-4">Pick a date </label>
+					<div className="flex p-1 rounded-lg border">
+						<label className="text-black mr-2">Date </label>
 						<input
 							id="datePicker"
 							type="date"
@@ -338,8 +338,8 @@ const CaloriesForm = () => {
 			</div>
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
-				<div className="bg-white w-full p-2 flex justify-around rounded-sm">
-					<label>See previus days calories</label>
+				<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
+					<label>Previus days</label>
 					<input
 						id="datePicker2"
 						type="date"
