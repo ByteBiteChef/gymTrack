@@ -167,7 +167,6 @@ const CaloriesForm = () => {
 
 	//Calories Details Per Day Handler
 	const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
 		setDateForCalories(e.target.value);
 	};
 
@@ -319,7 +318,7 @@ const CaloriesForm = () => {
 						<label className="text-black mr-2">Date </label>
 						<input
 							id="datePicker"
-							type="text"
+							type="date"
 							value={selectedDate}
 							onChange={handleDateChange}
 						/>
@@ -363,8 +362,10 @@ const CaloriesForm = () => {
 						<input
 							id="datePicker2"
 							type="date"
-							defaultValue={dateForCalories}
-							onChange={handleDetailPerDayChange}
+							value={dateForCalories || ""}
+							onInput={(e: ChangeEvent<HTMLInputElement>) =>
+								setDateForCalories(e.target.value)
+							}
 						/>
 					</div>
 				)}
