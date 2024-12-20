@@ -55,6 +55,12 @@ const CaloriesForm = () => {
 		}
 	}, [currentUser]);
 
+	const filteredEntries = dailyCalories.filter(
+		(entry) => entry.date === dateForCalories
+	);
+
+	console.log(filteredEntries);
+
 	//Set Selected Food Details (caloriesPer100g renderization)
 	useEffect(() => {
 		if (selectedFood) {
@@ -374,6 +380,19 @@ const CaloriesForm = () => {
 						value={dateForCalories}
 						onChange={handleDetailPerDayChange}
 					/>
+					{filteredEntries.length > 0 ? (
+						<ul className="mt-4">
+							{filteredEntries.map((entry, index) => (
+								<li key={index} className="text-black">
+									{`Food: ${entry.foodName}, Portion: ${entry.portion}, Calories: ${entry.amountOfCalories}`}
+								</li>
+							))}
+						</ul>
+					) : (
+						<p className="text-black mt-4">
+							No entries found for this date.
+						</p>
+					)}
 				</div>
 			)}
 		</div>

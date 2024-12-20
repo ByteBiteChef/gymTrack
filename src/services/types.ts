@@ -4,6 +4,7 @@ export interface IFood {
 }
 
 export interface IDailyCalories {
+    date: string;
     timestamp: string;
     amountOfCalories: number;
     foodName: string;
