@@ -22,7 +22,6 @@ export const fetchDailyCalories = async (currentUser: string) => {
 
     try {
         const userDocRef = doc(db, "dailyCalories", currentUser);
-
         const userDoc = await getDoc(userDocRef);
 
         if (!userDoc.exists()) {
@@ -31,14 +30,18 @@ export const fetchDailyCalories = async (currentUser: string) => {
         }
 
         const userData = userDoc.data();
-        const { dates = [] } = userData; 
-        const entries = dates.map((timestamp: string) => ({
-            timestamp,
-            ...userData[timestamp], 
-        }));
 
-        console.log("Daily Calories Data:", entries);
-        return entries;
+        const allEntries = Object.entries(userData).flatMap(([date, data]: [string, any]) => {
+            if (data.entries && Array.isArray(data.entries)) {
+                return data.entries.map((entry: any) => ({
+                    date, 
+                    ...entry,
+                }));
+            }
+            return []; 
+        });
+
+        return allEntries;
     } catch (error) {
         console.error("Error fetching dailyCalories:", error);
         return [];

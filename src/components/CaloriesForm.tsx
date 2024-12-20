@@ -30,10 +30,10 @@ const CaloriesForm = () => {
 	const [selectedFood, setSelectedFood] = useState("");
 	const [selectedFoodDetails, setSelectedFoodDetails] =
 		useState<IFood | null>(null);
+	console.log(dailyCalories);
 
 	//Calories Details Card States
 	const [dateForCalories, setDateForCalories] = useState<string>("");
-	console.log(dateForCalories);
 
 	//Modal States
 	const [isFavFoodModalOpen, setIsFavFoodModalOpen] =
@@ -54,7 +54,6 @@ const CaloriesForm = () => {
 			fetchData();
 		}
 	}, [currentUser]);
-	console.log(dailyCalories);
 
 	//Set Selected Food Details (caloriesPer100g renderization)
 	useEffect(() => {
@@ -127,8 +126,8 @@ const CaloriesForm = () => {
 		const caloriesPer100g = selectedFoodDetails.caloriesPer100g;
 		const amountOfCalories = (caloriesPer100g * portion) / 100;
 
-		// Generate a unique timestamp as a string
-		const timestamp = Date.now().toString();
+		// Generate a unique timestamp for the entry
+		const entryTimestamp = Date.now().toString();
 
 		// Derive foodName by removing the user prefix from the food ID
 		const foodName = selectedFoodDetails.id.replace(`${currentUser}%%`, "");
@@ -137,30 +136,33 @@ const CaloriesForm = () => {
 		const userDocRef = doc(db, "dailyCalories", currentUser);
 
 		try {
-			// Update the document with the new entry
+			// Update the document with a new food entry under the selected date
 			await setDoc(
 				userDocRef,
 				{
-					dates: arrayUnion(timestamp), // Add the timestamp to the dates array
-					[timestamp]: {
-						amountOfCalories,
-						foodName,
-						portion,
+					[selectedDate]: {
+						entries: arrayUnion({
+							timestamp: entryTimestamp,
+							portion,
+							foodName,
+							amountOfCalories,
+						}),
 					},
 				},
 				{ merge: true } // Merge with existing data
 			);
 
-			toast.success("Daily calories added successfully!");
+			toast.success("Food entry added successfully!");
 
+			// Reset the form
 			setSelectedDate("");
 			setSelectedFood("");
 			setSelectedPortion("");
 			setSelectedFoodDetails(null);
 			setIsFoodCaloriesModalOpen(false);
 		} catch (error) {
-			console.error("Error adding daily calories:", error);
-			toast.error("Failed to add daily calories. Please try again.");
+			console.error("Error adding food entry:", error);
+			toast.error("Failed to add food entry. Please try again.");
 		}
 	};
 
@@ -364,10 +366,10 @@ const CaloriesForm = () => {
 				</button>
 			)}
 			{isCaloriesDetailModalOpen && (
-				<div className="bg-white mt-4 flex items-center justify-center">
+				<div className="bg-white mt-4 flex items-center justify-center flex-col">
 					<label className="text-black">Pick a date </label>
 					<input
-						id="datePicker"
+						id="datePicker2"
 						type="date"
 						value={dateForCalories}
 						onChange={handleDetailPerDayChange}
