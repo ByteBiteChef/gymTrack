@@ -370,8 +370,8 @@ const CaloriesForm = () => {
 				)}
 
 				{filteredEntries.length > 0 ? (
-					<div className="bg-white w-full rounded-sm">
-						<div className="flex justify-around items-center p-1 border">
+					<div className="bg-white w-full rounded-sm flex flex-col items-center">
+						<div className="flex justify-between w-full items-center p-1 border">
 							<div className="mt-2 flex gap-2">
 								<p className="uppercase text-black font-bold text-sm">
 									Calories {formattedDate}
@@ -382,15 +382,14 @@ const CaloriesForm = () => {
 							</div>
 							<button
 								onClick={() => {
-									setIsDetailModalOpen(
-										(prevState) => !prevState
-									);
+									setDateForCalories("");
 								}}
-								className="w-auto p-1 text-center text-sm transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+								className="right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 							>
-								{isDetailModalOpen ? "Close" : "More"}
+								x
 							</button>
 						</div>
+
 						{isDetailModalOpen && (
 							<table className="mt-4 w-full bg-white rounded-sm">
 								<thead>
@@ -432,6 +431,16 @@ const CaloriesForm = () => {
 					</div>
 				) : (
 					<></>
+				)}
+				{dateForCalories && (
+					<button
+						onClick={() => {
+							setIsDetailModalOpen((prevState) => !prevState);
+						}}
+						className="w-1/6 p-1 m-2 text-center text-sm transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+					>
+						{isDetailModalOpen ? "Close" : "More"}
+					</button>
 				)}
 			</div>
 		</div>
