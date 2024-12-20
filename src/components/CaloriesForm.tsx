@@ -38,10 +38,6 @@ const CaloriesForm = () => {
 	//Modal States
 	const [isFavFoodModalOpen, setIsFavFoodModalOpen] =
 		useState<boolean>(false);
-	const [isFoodCaloriesModalOpen, setIsFoodCaloriesModalOpen] =
-		useState<boolean>(false);
-	const [isCaloriesDetailModalOpen, setIsCaloriesDetailModalOpen] =
-		useState<boolean>(false);
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
@@ -58,8 +54,6 @@ const CaloriesForm = () => {
 	const filteredEntries = dailyCalories.filter(
 		(entry) => entry.date === dateForCalories
 	);
-
-	console.log(filteredEntries);
 
 	//Set Selected Food Details (caloriesPer100g renderization)
 	useEffect(() => {
@@ -165,7 +159,6 @@ const CaloriesForm = () => {
 			setSelectedFood("");
 			setSelectedPortion("");
 			setSelectedFoodDetails(null);
-			setIsFoodCaloriesModalOpen(false);
 		} catch (error) {
 			console.error("Error adding food entry:", error);
 			toast.error("Failed to add food entry. Please try again.");
@@ -288,121 +281,83 @@ const CaloriesForm = () => {
 				)}
 			</div>
 			{/*Add Calories Food Button && Modal*/}
-			{!isFoodCaloriesModalOpen && (
-				<button
-					onClick={() => {
-						setIsFoodCaloriesModalOpen(true);
-					}}
-					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-				>
-					add food calories
-				</button>
-			)}
-			{isFoodCaloriesModalOpen && (
-				<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
-					<button
-						onClick={() => {
-							setIsFoodCaloriesModalOpen(false);
-						}}
-						className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-					>
-						X
-					</button>
-					<div>
-						<label className="text-white">Pick a date </label>
-						<input
-							id="datePicker"
-							type="date"
-							value={selectedDate}
-							onChange={handleDateChange}
-						/>
-					</div>
-					<div className="mb-4">
-						<select
-							value={selectedFood}
-							onChange={(e) => setSelectedFood(e.target.value)}
-							className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-						>
-							<option value="" disabled>
-								Pick a food
-							</option>
-							{foodList.map((food: IFood) => (
-								<option key={food.id} value={food.id}>
-									{food.id.replace(currentUser + "%%", "")}
-								</option>
-							))}
-						</select>
-					</div>
-					<div className="border border-2">
-						<p>
-							{selectedFoodDetails
-								? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
-								: ""}
-						</p>
-					</div>
-					<div>
-						<label>Portion</label>
-						<input
-							type="number"
-							value={selectedPortion}
-							onChange={handlePortionChange}
-							className="p-2"
-							placeholder="Portion/gr"
-						/>
-					</div>
-					<div>
-						<button
-							onClick={handleSubmit}
-							className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-						>
-							submit
-						</button>
-					</div>
+			<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
+				<div>
+					<label className="text-white">Pick a date </label>
+					<input
+						id="datePicker"
+						type="date"
+						value={selectedDate}
+						onChange={handleDateChange}
+					/>
 				</div>
-			)}
-			{/*Show More Details Button && Modal*/}
-			{!isCaloriesDetailModalOpen && (
-				<button
-					onClick={() => {
-						setIsCaloriesDetailModalOpen(true);
-					}}
-					className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-				>
-					Show calories per days
-				</button>
-			)}
-			{isCaloriesDetailModalOpen && (
-				<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
-					<button
-						onClick={() => {
-							setIsCaloriesDetailModalOpen(false);
-						}}
-						className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+				<div className="mb-4">
+					<select
+						value={selectedFood}
+						onChange={(e) => setSelectedFood(e.target.value)}
+						className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 					>
-						X
+						<option value="" disabled>
+							Pick a food
+						</option>
+						{foodList.map((food: IFood) => (
+							<option key={food.id} value={food.id}>
+								{food.id.replace(currentUser + "%%", "")}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="border border-2">
+					<p>
+						{selectedFoodDetails
+							? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
+							: ""}
+					</p>
+				</div>
+				<div>
+					<label>Portion</label>
+					<input
+						type="number"
+						value={selectedPortion}
+						onChange={handlePortionChange}
+						className="p-2"
+						placeholder="Portion/gr"
+					/>
+				</div>
+				<div>
+					<button
+						onClick={handleSubmit}
+						className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+					>
+						submit
 					</button>
-					<label className="text-black">Pick a date </label>
+				</div>
+			</div>
+			{/*Show More Details Button && Modal*/}
+			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
+				<div className="bg-white w-full p-2 flex justify-around rounded-sm">
+					<label>See previus days calories</label>
 					<input
 						id="datePicker2"
 						type="date"
 						value={dateForCalories}
 						onChange={handleDetailPerDayChange}
 					/>
-					{filteredEntries.length > 0 ? (
-						<ul className="mt-4">
-							{filteredEntries.map((entry, index) => (
-								<li key={index} className="text-black">
-									{`Food: ${entry.foodName}, Portion: ${entry.portion}, Calories: ${entry.amountOfCalories}`}
-								</li>
-							))}
-						</ul>
-					) : (
-						<p className="text-black mt-4">
-							No entries found for this date.
-						</p>
-					)}
 				</div>
-			)}
+				{filteredEntries.length > 0 ? (
+					<ul className="mt-4 bg-white w-full p-2 rounded-sm">
+						{filteredEntries.map((entry, index) => (
+							<li key={index} className="text-black">
+								{`Food: ${entry.foodName}, Portion: ${entry.portion}, Calories: ${entry.amountOfCalories}`}
+							</li>
+						))}
+					</ul>
+				) : dateForCalories ? (
+					<p className="text-white">No data on this day</p>
+				) : (
+					<></>
+				)}
+			</div>
 		</div>
 	);
 };
