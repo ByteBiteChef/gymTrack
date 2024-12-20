@@ -166,9 +166,9 @@ const CaloriesForm = () => {
 	};
 
 	//Calories Details Per Day Handler
-	// const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
-	// 	setDateForCalories(e.target.value);
-	// };
+	const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setDateForCalories(e.target.value);
+	};
 
 	//User Select Handler
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -209,6 +209,7 @@ const CaloriesForm = () => {
 
 	// Format the date for total calories render
 	const date = new Date(dateForCalories);
+
 	const formattedDate = `${date.getDate()} ${date.toLocaleString("es-ES", {
 		month: "short",
 	})}`;
@@ -355,17 +356,15 @@ const CaloriesForm = () => {
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
 				{!dateForCalories && (
-					<div className="bg-white w-full flex justify-around rounded-sm p-1">
+					<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
 						<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
 							Previous days
 						</label>
 						<input
 							id="datePicker2"
 							type="date"
-							value={dateForCalories || ""}
-							onInput={(e: ChangeEvent<HTMLInputElement>) =>
-								setDateForCalories(e.target.value)
-							}
+							value={dateForCalories}
+							onChange={handleDetailPerDayChange}
 						/>
 					</div>
 				)}
