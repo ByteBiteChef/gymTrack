@@ -326,17 +326,17 @@ const CaloriesForm = () => {
 					</div>
 				</div>
 				<div className="flex border-2 rounded-sm w-full justify-around items-center">
-					<div className="m-1">
+					<div className="m-1 w-2/3 flex">
 						<label className="m-2">Portion</label>
 						<input
 							type="number"
 							value={selectedPortion}
 							onChange={handlePortionChange}
-							className="p-1 w-1/3 "
+							className="p-1 w-1/3"
 							placeholder="Portion/gr"
 						/>
 					</div>
-					<div className="">
+					<div className="w-1/3">
 						<p>
 							{selectedFoodDetails
 								? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
@@ -368,14 +368,13 @@ const CaloriesForm = () => {
 						/>
 					</div>
 				)}
-
 				{filteredEntries.length > 0 ? (
 					<div className="bg-white w-full rounded-sm flex flex-col items-center">
 						<div className="flex justify-between w-full items-center p-1 border">
 							<div className="mt-2 flex gap-2">
 								<p className="uppercase text-black font-bold text-sm">
 									Calories {formattedDate}
-								</p>{" "}
+								</p>
 								<p className="uppercase text-orange-500 font-bold text-sm">
 									{totalDayCalories} kcal
 								</p>
