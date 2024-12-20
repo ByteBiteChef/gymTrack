@@ -37,6 +37,7 @@ const CaloriesForm = () => {
 	//Modal States
 	const [isFavFoodModalOpen, setIsFavFoodModalOpen] =
 		useState<boolean>(false);
+	const [isDetailModalOpen, setIsDetailModalOpen] = useState<boolean>(false);
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
@@ -54,7 +55,6 @@ const CaloriesForm = () => {
 	const filteredEntries = dailyCalories.filter(
 		(entry) => entry.date === dateForCalories
 	);
-	console.log(filteredEntries);
 	//Set Selected Food Details (caloriesPer100g renderization)
 	useEffect(() => {
 		if (selectedFood) {
@@ -362,17 +362,48 @@ const CaloriesForm = () => {
 					/>
 				</div>
 				{filteredEntries.length > 0 ? (
-					<div className="bg-white w-full p-2 rounded-sm">
-						<p className="mt-2 text-black">
-							{`Calories ${formattedDate}: ${totalDayCalories} kcal`}
-						</p>
-						<ul className="mt-4 ">
-							{filteredEntries.map((entry, index) => (
-								<li key={index} className="text-black">
-									{`Food: ${entry.foodName}, Portion: ${entry.portion}, Calories: ${entry.amountOfCalories}`}
-								</li>
-							))}
-						</ul>
+					<div className="bg-white w-full rounded-sm">
+						<div className="flex justify-around items-center p-1 border">
+							<p className="mt-2 text-black">
+								{`Calories ${formattedDate}: ${totalDayCalories} kcal`}
+							</p>
+							<button
+								onClick={() => {
+									setIsDetailModalOpen(
+										(prevState) => !prevState
+									);
+								}}
+								className="w-auto p-1 text-center text-sm transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+							>
+								{isDetailModalOpen ? "Close" : "More"}
+							</button>
+						</div>
+						{isDetailModalOpen && (
+							<table className="mt-4 w-full bg-white rounded-sm">
+								<thead>
+									<tr className="text-left">
+										<th className="p-2">Food</th>
+										<th className="p-2">Portion</th>
+										<th className="p-2">Calories</th>
+									</tr>
+								</thead>
+								<tbody>
+									{filteredEntries.map((entry, index) => (
+										<tr key={index} className="text-black">
+											<td className="p-2">
+												{entry.foodName}
+											</td>
+											<td className="p-2">
+												{entry.portion}
+											</td>
+											<td className="p-2">
+												{entry.amountOfCalories}
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						)}
 					</div>
 				) : dateForCalories ? (
 					<p className="text-white">No data on this day</p>
