@@ -35,7 +35,7 @@ const CaloriesForm = () => {
 	const [dateForCalories, setDateForCalories] = useState<string>("");
 
 	//Modal States
-	const [isFavFoodModalOpen, setIsFavFoodModalOpen] =
+	const [isNewFoodModalOpen, setIsNewFoodModalOpen] =
 		useState<boolean>(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState<boolean>(false);
 
@@ -175,7 +175,7 @@ const CaloriesForm = () => {
 		setCurrentUser(e.target.value);
 	};
 
-	//Logic to Post Fav Food
+	//Logic to Post New Food
 	const handleAddFood = async () => {
 		if (!currentUser || !foodName || !calories) {
 			toast.error("Please fill all fields!");
@@ -194,7 +194,7 @@ const CaloriesForm = () => {
 			toast.success("Food added successfully!");
 			setCalories("");
 			setFoodName("");
-			setIsFavFoodModalOpen(false);
+			setIsNewFoodModalOpen(false);
 		} catch (error) {
 			console.error("Error adding food:", error);
 			toast.error("Failed to add food.");
@@ -235,23 +235,23 @@ const CaloriesForm = () => {
 					</select>
 				</div>
 			</div>
-			{/*Add Fav Food Button && Modal*/}
+			{/*Add New Food Button && Modal*/}
 			<div className="flex flex-col items-center">
-				{!isFavFoodModalOpen && (
+				{!isNewFoodModalOpen && (
 					<button
 						onClick={() => {
-							setIsFavFoodModalOpen(true);
+							setIsNewFoodModalOpen(true);
 						}}
 						className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
-						Add favorite food
+						Add new food
 					</button>
 				)}
-				{isFavFoodModalOpen && (
+				{isNewFoodModalOpen && (
 					<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white m-2">
 						<button
 							onClick={() => {
-								setIsFavFoodModalOpen(false);
+								setIsNewFoodModalOpen(false);
 							}}
 							className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 						>
@@ -295,6 +295,9 @@ const CaloriesForm = () => {
 			</div>
 			{/*Add Calories Logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
+				<div className="uppercase text-orange-500 font-bold text-sm">
+					What did you eat today?
+				</div>
 				<div className="flex p-1 w-full rounded-sm border-2 justify-around m-2 items-center">
 					<div className="mr-2">
 						<select
@@ -353,7 +356,9 @@ const CaloriesForm = () => {
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
 				<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
-					<label>Previus days</label>
+					<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
+						Previus days
+					</label>
 					<input
 						id="datePicker2"
 						type="date"
@@ -364,9 +369,14 @@ const CaloriesForm = () => {
 				{filteredEntries.length > 0 ? (
 					<div className="bg-white w-full rounded-sm">
 						<div className="flex justify-around items-center p-1 border">
-							<p className="mt-2 text-black">
-								{`Calories ${formattedDate}: ${totalDayCalories} kcal`}
-							</p>
+							<div className="mt-2 flex gap-2">
+								<p className="uppercase text-black font-bold text-sm">
+									Calories{formattedDate}
+								</p>{" "}
+								<p className="uppercase text-orange-500 font-bold text-sm">
+									{totalDayCalories} kcal
+								</p>
+							</div>
 							<button
 								onClick={() => {
 									setIsDetailModalOpen(
@@ -381,10 +391,10 @@ const CaloriesForm = () => {
 						{isDetailModalOpen && (
 							<table className="mt-4 w-full bg-white rounded-sm">
 								<thead>
-									<tr className="text-left">
-										<th className="p-2">Food</th>
-										<th className="p-2">Portion</th>
-										<th className="p-2">Calories</th>
+									<tr className="text-left bg-orange-400 text-white">
+										<th className="px-1">Food</th>
+										<th className="px-1">Portion</th>
+										<th className="px-1">Calories</th>
 									</tr>
 								</thead>
 								<tbody>
