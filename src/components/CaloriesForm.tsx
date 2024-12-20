@@ -355,19 +355,18 @@ const CaloriesForm = () => {
 			</div>
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
-				{!dateForCalories && (
-					<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
-						<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
-							Previous days
-						</label>
-						<input
-							id="datePicker2"
-							type="date"
-							value={dateForCalories}
-							onChange={handleDetailPerDayChange}
-						/>
-					</div>
-				)}
+				<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
+					<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
+						Previous days
+					</label>
+					<input
+						id="datePicker2"
+						type="date"
+						value={dateForCalories}
+						onChange={handleDetailPerDayChange}
+					/>
+				</div>
+
 				{filteredEntries.length > 0 ? (
 					<div className="bg-white w-full rounded-sm flex flex-col items-center">
 						<div className="flex justify-between w-full items-center p-1 border">
