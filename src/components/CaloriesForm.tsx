@@ -32,7 +32,7 @@ const CaloriesForm = () => {
 		useState<IFood | null>(null);
 
 	//Calories Details Card States
-	const [dateForCalories, setDateForCalories] = useState<string>("");
+	const [dateForCalories, setDateForCalories] = useState<string | null>(null);
 
 	//Modal States
 	const [isNewFoodModalOpen, setIsNewFoodModalOpen] =
@@ -363,7 +363,7 @@ const CaloriesForm = () => {
 						<input
 							id="datePicker2"
 							type="date"
-							value={dateForCalories}
+							value={dateForCalories || ""}
 							onChange={handleDetailPerDayChange}
 						/>
 					</div>
