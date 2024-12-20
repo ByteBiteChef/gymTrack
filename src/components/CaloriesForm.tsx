@@ -32,7 +32,7 @@ const CaloriesForm = () => {
 		useState<IFood | null>(null);
 
 	//Calories Details Card States
-	const [dateForCalories, setDateForCalories] = useState<string | null>(null);
+	const [dateForCalories, setDateForCalories] = useState<string>("");
 
 	//Modal States
 	const [isNewFoodModalOpen, setIsNewFoodModalOpen] =
@@ -167,9 +167,8 @@ const CaloriesForm = () => {
 
 	//Calories Details Per Day Handler
 	const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.value !== dateForCalories) {
-			setDateForCalories(e.target.value);
-		}
+		e.preventDefault();
+		setDateForCalories(e.target.value);
 	};
 
 	//User Select Handler
@@ -210,7 +209,7 @@ const CaloriesForm = () => {
 	);
 
 	// Format the date for total calories render
-	const date = new Date(dateForCalories || Date.now());
+	const date = new Date(dateForCalories);
 	const formattedDate = `${date.getDate()} ${date.toLocaleString("es-ES", {
 		month: "short",
 	})}`;
@@ -364,7 +363,7 @@ const CaloriesForm = () => {
 						<input
 							id="datePicker2"
 							type="date"
-							defaultValue={dateForCalories || ""}
+							defaultValue={dateForCalories}
 							onChange={handleDetailPerDayChange}
 						/>
 					</div>
