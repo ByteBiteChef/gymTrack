@@ -32,7 +32,7 @@ const CaloriesForm = () => {
 		useState<IFood | null>(null);
 
 	//Calories Details Card States
-	const [dateForCalories, setDateForCalories] = useState<string | null>(null);
+	const [dateForCalories, setDateForCalories] = useState<string>("");
 
 	//Modal States
 	const [isNewFoodModalOpen, setIsNewFoodModalOpen] =
