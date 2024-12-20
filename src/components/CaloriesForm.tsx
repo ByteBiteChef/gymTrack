@@ -166,9 +166,9 @@ const CaloriesForm = () => {
 	};
 
 	//Calories Details Per Day Handler
-	const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setDateForCalories(e.target.value);
-	};
+	// const handleDetailPerDayChange = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	setDateForCalories(e.target.value);
+	// };
 
 	//User Select Handler
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
