@@ -355,23 +355,26 @@ const CaloriesForm = () => {
 			</div>
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
-				<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
-					<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
-						Previus days
-					</label>
-					<input
-						id="datePicker2"
-						type="date"
-						value={dateForCalories}
-						onChange={handleDetailPerDayChange}
-					/>
-				</div>
+				{!dateForCalories && (
+					<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
+						<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
+							Previus days
+						</label>
+						<input
+							id="datePicker2"
+							type="date"
+							value={dateForCalories}
+							onChange={handleDetailPerDayChange}
+						/>
+					</div>
+				)}
+
 				{filteredEntries.length > 0 ? (
 					<div className="bg-white w-full rounded-sm">
 						<div className="flex justify-around items-center p-1 border">
 							<div className="mt-2 flex gap-2">
 								<p className="uppercase text-black font-bold text-sm">
-									Calories{formattedDate}
+									Calories {formattedDate}
 								</p>{" "}
 								<p className="uppercase text-orange-500 font-bold text-sm">
 									{totalDayCalories} kcal
@@ -416,7 +419,17 @@ const CaloriesForm = () => {
 						)}
 					</div>
 				) : dateForCalories ? (
-					<p className="text-white">No data on this day</p>
+					<div className="flex gap-4">
+						<p className="text-white">No data on {formattedDate}</p>
+						<button
+							onClick={() => {
+								setDateForCalories("");
+							}}
+							className="right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						>
+							back
+						</button>
+					</div>
 				) : (
 					<></>
 				)}
