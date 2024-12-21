@@ -269,7 +269,7 @@ const CaloriesForm = () => {
 										setFoodName(e.target.value)
 									}
 									placeholder="Food name"
-									className="border p-1 w-full"
+									className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 								/>
 							</div>
 							<div className="w-full items-center m-2">
@@ -325,6 +325,7 @@ const CaloriesForm = () => {
 							type="date"
 							value={selectedDate}
 							onChange={handleDateChange}
+							className="border border-gray-300 bg-white text-gray-800 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 						/>
 					</div>
 				</div>
@@ -335,15 +336,15 @@ const CaloriesForm = () => {
 							type="number"
 							value={selectedPortion}
 							onChange={handlePortionChange}
-							className="p-1 w-1/3"
+							className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 							placeholder="Portion/gr"
 						/>
 					</div>
-					<div className="w-1/3">
+					<div className="w-1/3 ">
 						<p>
 							{selectedFoodDetails
 								? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
-								: ""}
+								: "kcal/100g"}
 						</p>
 					</div>
 				</div>
@@ -358,7 +359,7 @@ const CaloriesForm = () => {
 			</div>
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
-				<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
+				<div className="bg-white w-full flex justify-between px-2 rounded-sm flex p-1">
 					<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
 						Previous days Data
 					</label>
@@ -366,6 +367,7 @@ const CaloriesForm = () => {
 						id="datePicker2"
 						type="date"
 						value={dateForCalories}
+						className="border border-gray-300 bg-white text-gray-800 p-1 w-2/5 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 						onChange={handleDetailPerDayChange}
 					/>
 				</div>
