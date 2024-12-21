@@ -1,6 +1,7 @@
 import { collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { IFood } from "./types";
+import { toast } from "sonner";
 
 
 export const fetchUsers = (setUsers: (users: string[]) => void) => {
@@ -24,10 +25,10 @@ export const fetchDailyCalories = async (currentUser: string) => {
         const userDocRef = doc(db, "dailyCalories", currentUser);
         const userDoc = await getDoc(userDocRef);
 
-        if (!userDoc.exists()) {
-            console.error("No dailyCalories data found for the user.");
-            return [];
-        }
+   if (!userDoc.exists()) {
+    toast("Time to add your first calories.");
+    return [];
+}
 
         const userData = userDoc.data();
 /* eslint-disable @typescript-eslint/no-explicit-any */
