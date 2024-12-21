@@ -242,7 +242,7 @@ const CaloriesForm = () => {
 						onClick={() => {
 							setIsNewFoodModalOpen(true);
 						}}
-						className="w-full mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						className="w-auto mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						Add new food
 					</button>
@@ -257,48 +257,51 @@ const CaloriesForm = () => {
 						>
 							X
 						</button>
-
-						<div className="w-full items-center m-2">
-							<label className="block mb-1 font-medium">
-								Food Name
-							</label>
-							<input
-								type="text"
-								value={foodName}
-								onChange={(e) => setFoodName(e.target.value)}
-								placeholder="Food name"
-								className="border p-1 w-full"
-							/>
+						<div className="flex">
+							<div className="w-full items-center m-2">
+								<label className="block mb-1 font-medium">
+									Food Name
+								</label>
+								<input
+									type="text"
+									value={foodName}
+									onChange={(e) =>
+										setFoodName(e.target.value)
+									}
+									placeholder="Food name"
+									className="border p-1 w-full"
+								/>
+							</div>
+							<div className="w-full items-center m-2">
+								<label className="block mb-1 font-medium">
+									Calories
+								</label>
+								<input
+									type="number"
+									value={calories}
+									onChange={(e) =>
+										setCalories(e.target.value)
+									}
+									placeholder="Calories/100g"
+									className="border p-1 w-full"
+								/>
+							</div>
 						</div>
-						<div className="w-full items-center m-2">
-							<label className="block mb-1 font-medium">
-								Calories
-							</label>
-							<input
-								type="number"
-								value={calories}
-								onChange={(e) => setCalories(e.target.value)}
-								placeholder="Calories/100g"
-								className="border p-1 w-full"
-							/>
-						</div>
-						<div>
-							<button
-								onClick={handleAddFood}
-								className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-							>
-								Add Food
-							</button>
-						</div>
+						<button
+							onClick={handleAddFood}
+							className="p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						>
+							Add Food
+						</button>
 					</div>
 				)}
 			</div>
 			{/*Add Calories Logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
 				<div className="uppercase text-orange-500 font-bold text-sm">
-					What did you eat today?
+					What did you eat?
 				</div>
-				<div className="flex p-1 w-full rounded-sm border-2 justify-around m-2 items-center">
+				<div className="flex p-1 w-full rounded-sm border-2 justify-between m-2 items-center">
 					<div className="mr-2">
 						<select
 							value={selectedFood}
@@ -357,7 +360,7 @@ const CaloriesForm = () => {
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
 				<div className="bg-white w-full flex justify-around rounded-sm flex p-1">
 					<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
-						Previous days
+						Previous days Data
 					</label>
 					<input
 						id="datePicker2"
@@ -375,7 +378,7 @@ const CaloriesForm = () => {
 									Calories {formattedDate}
 								</p>
 								<p className="uppercase text-orange-500 font-bold text-sm">
-									{totalDayCalories} kcal
+									{totalDayCalories.toFixed(2)} kcal
 								</p>
 							</div>
 							<button
