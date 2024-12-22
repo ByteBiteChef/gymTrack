@@ -237,13 +237,10 @@ const CaloriesForm = () => {
 				handleCloseSelect={handleCloseSelect}
 			/>
 			{/*Calories goal*/}
-			{currentUser === "Max" && (
-				<CaloriesGoalChart
-					dailyCalories={dailyCalories}
-					currentUser={currentUser}
-				/>
-			)}
-
+			<CaloriesGoalChart
+				dailyCalories={dailyCalories}
+				currentUser={currentUser}
+			/>
 			{/*Add New Food Button && Modal*/}
 			<div className="flex flex-col items-center">
 				{!isNewFoodModalOpen && (
