@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { IFood } from "./types";
 
@@ -15,6 +15,7 @@ export const fetchUsers = (setUsers: (users: string[]) => void) => {
 
 export const fetchDailyCalories = (
   currentUser: string,
+/* eslint-disable @typescript-eslint/no-explicit-any */
   callback: (data: any[]) => void
 ) => {
   if (!currentUser) {
@@ -30,8 +31,10 @@ export const fetchDailyCalories = (
         const userData = docSnap.data();
 
         const allEntries = Object.entries(userData).flatMap(
+/* eslint-disable @typescript-eslint/no-explicit-any */
           ([date, data]: [string, any]) => {
             if (data.entries && Array.isArray(data.entries)) {
+/* eslint-disable @typescript-eslint/no-explicit-any */
               return data.entries.map((entry: any) => ({
                 date,
                 ...entry,
