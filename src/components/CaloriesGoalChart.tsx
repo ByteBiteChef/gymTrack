@@ -1,16 +1,20 @@
 import { IDailyCalories } from "@/services/types";
+import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { MdEdit } from "react-icons/md";
+import { db } from "../../firebase/firebase";
 
 interface CaloriesGoalChartProps {
 	dailyCalories: IDailyCalories[];
+	currentUser: string;
 }
 const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 	dailyCalories,
+	currentUser,
 }) => {
 	const [caloriesGoal, setCaloriesGoal] = useState(0);
 	const [inputValue, setInputValue] = useState("");
-
+	console.log(currentUser);
 	const today = new Date();
 
 	const filteredEntries = dailyCalories.filter(
@@ -23,6 +27,22 @@ const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 	);
 
 	const progress = (totalDayCalories / caloriesGoal) * 300;
+
+	const handleAddGoal = async () => {
+		try {
+			const numericValue = parseInt(inputValue, 10) || 0;
+
+			setCaloriesGoal(numericValue);
+
+			await setDoc(doc(db, "CaloriesGoal", currentUser), {
+				goal: numericValue,
+				updatedAt: new Date().toISOString(),
+			});
+			console.log("Goal successfully saved to Firestore!");
+		} catch (error) {
+			console.error("Error saving goal to Firestore: ", error);
+		}
+	};
 
 	return (
 		<div className="flex flex-col items-center justify-center">
@@ -37,11 +57,7 @@ const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 							onChange={(e) => setInputValue(e.target.value)}
 						/>
 						<button
-							onClick={() => {
-								const numericValue =
-									parseInt(inputValue, 10) || 0;
-								setCaloriesGoal(numericValue);
-							}}
+							onClick={handleAddGoal}
 							className="w-6 h-6 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 						>
 							+

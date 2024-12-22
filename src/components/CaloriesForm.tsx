@@ -238,7 +238,10 @@ const CaloriesForm = () => {
 			/>
 			{/*Calories goal*/}
 			{currentUser === "Max" && (
-				<CaloriesGoalChart dailyCalories={dailyCalories} />
+				<CaloriesGoalChart
+					dailyCalories={dailyCalories}
+					currentUser={currentUser}
+				/>
 			)}
 
 			{/*Add New Food Button && Modal*/}
