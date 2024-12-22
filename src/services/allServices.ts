@@ -15,38 +15,48 @@ export const fetchUsers = (setUsers: (users: string[]) => void) => {
 };
 
 
-export const fetchDailyCalories = async (currentUser: string) => {
-    if (!currentUser) {
-        console.error("No current user specified.");
-        return [];
-    }
+export const fetchDailyCalories = (
+  currentUser: string,
+  callback: (data: any[]) => void
+) => {
+  if (!currentUser) {
+    console.error("No current user specified.");
+    return () => {};
+  }
 
-    try {
-        const userDocRef = doc(db, "dailyCalories", currentUser);
-        const userDoc = await getDoc(userDocRef);
+  try {
+    const userDocRef = doc(db, "dailyCalories", currentUser);
 
-   if (!userDoc.exists()) {
-    toast("Time to add your first calories.");
-    return [];
-}
+    // Real-time listener with onSnapshot
+    const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
 
-        const userData = userDoc.data();
-/* eslint-disable @typescript-eslint/no-explicit-any */
-        const allEntries = Object.entries(userData).flatMap(([date, data]: [string, any]) => {
+        // Transform Firestore structure into the required format
+        const allEntries = Object.entries(userData).flatMap(
+          ([date, data]: [string, any]) => {
             if (data.entries && Array.isArray(data.entries)) {
-                return data.entries.map((entry: any) => ({
-                    date, 
-                    ...entry,
-                }));
+              return data.entries.map((entry: any) => ({
+                date,
+                ...entry,
+              }));
             }
-            return []; 
-        });
+            return [];
+          }
+        );
 
-        return allEntries;
-    } catch (error) {
-        console.error("Error fetching dailyCalories:", error);
-        return [];
-    }
+        callback(allEntries); // Pass transformed data to the callback
+      } else {
+        console.log("No dailyCalories data found.");
+        callback([]); // Pass empty array if no data exists
+      }
+    });
+
+    return unsubscribe; // Return unsubscribe function to stop the listener when no longer needed
+  } catch (error) {
+    console.error("Error subscribing to dailyCalories:", error);
+    return () => {};
+  }
 };
 
 const createFoodQuery = (user: string) => {

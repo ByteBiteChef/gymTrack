@@ -45,12 +45,14 @@ const CaloriesForm = () => {
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
 		if (currentUser) {
-			const fetchData = async () => {
-				const data = await fetchDailyCalories(currentUser);
-				setDailyCalories(data);
-			};
+			// Set up subscription
+			const unsubscribe = fetchDailyCalories(
+				currentUser,
+				(data) => setDailyCalories(data) // Update state when data changes
+			);
 
-			fetchData();
+			// Cleanup listener on unmount or when currentUser changes
+			return () => unsubscribe();
 		}
 	}, [currentUser]);
 
