@@ -15,6 +15,7 @@ import {
 import { app } from "../../firebase/firebase";
 import { toast } from "sonner";
 import { fetchUsers } from "@/services/allServices";
+import UserSelectInput from "./UserSelect";
 
 const db = getFirestore(app);
 
@@ -208,28 +209,12 @@ const ExerciseForm = () => {
 	}
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-8 p-4 border-orange-400">
-			<div className="mb-4 flex">
-				<select
-					value={currentUser}
-					onChange={handleUserChange}
-					className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-				>
-					<option value="" disabled>
-						Who&apos;s there?
-					</option>
-					{users.map((user) => (
-						<option key={user} value={user}>
-							{user}
-						</option>
-					))}
-				</select>
-				<button
-					onClick={handleCloseSelect}
-					className="w-auto ml-2 px-2 text-center text-xs uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-				>
-					x
-				</button>
-			</div>
+			<UserSelectInput
+				currentUser={currentUser}
+				users={users}
+				handleUserChange={handleUserChange}
+				handleCloseSelect={handleCloseSelect}
+			/>
 			{currentUser ? (
 				<></>
 			) : (

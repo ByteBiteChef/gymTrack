@@ -12,6 +12,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from "recharts";
+import UserSelectInput from "./UserSelect";
 
 const db = getFirestore(app);
 
@@ -57,6 +58,11 @@ const Progress = () => {
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setCurrentUser(e.target.value);
 		setExerciseName("");
+	};
+
+	const handleCloseSelect = () => {
+		setCurrentUser("");
+		setExercises([]);
 	};
 
 	const handleExerciseChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -119,22 +125,12 @@ const Progress = () => {
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
-			<div className="mb-4">
-				<select
-					value={currentUser}
-					onChange={handleUserChange}
-					className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-				>
-					<option value="" disabled>
-						Who&apos;s there?
-					</option>
-					{users.map((user) => (
-						<option key={user} value={user}>
-							{user}
-						</option>
-					))}
-				</select>
-			</div>
+			<UserSelectInput
+				currentUser={currentUser}
+				users={users}
+				handleUserChange={handleUserChange}
+				handleCloseSelect={handleCloseSelect}
+			/>
 
 			{currentUser && exercises.length > 0 && (
 				<div className="mb-4">

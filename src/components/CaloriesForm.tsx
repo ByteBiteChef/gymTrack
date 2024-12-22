@@ -12,6 +12,7 @@ import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
 import { fetchDailyCalories, fetchFood } from "../services/allServices";
 import { IDailyCalories, IFood } from "@/services/types";
+import UserSelectInput from "./UserSelect";
 
 const CaloriesForm = () => {
 	//users states
@@ -214,27 +215,20 @@ const CaloriesForm = () => {
 		month: "short",
 	})}`;
 
+	const handleCloseSelect = () => {
+		setCurrentUser("");
+		setFoodList([]);
+	};
+
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
 			{/*Pick User Select*/}
-			<div className="p-2">
-				<div className="mb-4">
-					<select
-						value={currentUser}
-						onChange={handleUserChange}
-						className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-					>
-						<option value="" disabled>
-							Who&apos;s there?
-						</option>
-						{users.map((user) => (
-							<option key={user} value={user}>
-								{user}
-							</option>
-						))}
-					</select>
-				</div>
-			</div>
+			<UserSelectInput
+				currentUser={currentUser}
+				users={users}
+				handleUserChange={handleUserChange}
+				handleCloseSelect={handleCloseSelect}
+			/>
 			{/*Add New Food Button && Modal*/}
 			<div className="flex flex-col items-center">
 				{!isNewFoodModalOpen && (
