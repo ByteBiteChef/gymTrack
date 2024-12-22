@@ -1,6 +1,6 @@
 import { IDailyCalories } from "@/services/types";
-import { doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { db } from "../../firebase/firebase";
 
@@ -14,8 +14,32 @@ const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 }) => {
 	const [caloriesGoal, setCaloriesGoal] = useState(0);
 	const [inputValue, setInputValue] = useState("");
-	console.log(currentUser);
 	const today = new Date();
+
+	useEffect(() => {
+		const fetchGoal = async () => {
+			try {
+				if (!currentUser) return;
+
+				const docRef = doc(db, "CaloriesGoal", currentUser);
+
+				const docSnap = await getDoc(docRef);
+
+				if (docSnap.exists()) {
+					const data = docSnap.data();
+					if (data.goal) {
+						setCaloriesGoal(data.goal);
+					}
+				} else {
+					console.log("No goal found for this user.");
+				}
+			} catch (error) {
+				console.error("Error getting goal: ", error);
+			}
+		};
+
+		fetchGoal();
+	}, [currentUser]);
 
 	const filteredEntries = dailyCalories.filter(
 		(entry) => entry.date === today.toISOString().split("T")[0]
