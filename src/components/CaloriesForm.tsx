@@ -50,7 +50,6 @@ const CaloriesForm = () => {
 				currentUser,
 				(data) => setDailyCalories(data) // Update state when data changes
 			);
-
 			// Cleanup listener on unmount or when currentUser changes
 			return () => unsubscribe();
 		}

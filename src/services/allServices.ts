@@ -1,8 +1,6 @@
 import { collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { IFood } from "./types";
-import { toast } from "sonner";
-
 
 export const fetchUsers = (setUsers: (users: string[]) => void) => {
 	const usersRef = collection(db, "users");
@@ -27,12 +25,10 @@ export const fetchDailyCalories = (
   try {
     const userDocRef = doc(db, "dailyCalories", currentUser);
 
-    // Real-time listener with onSnapshot
     const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
         const userData = docSnap.data();
 
-        // Transform Firestore structure into the required format
         const allEntries = Object.entries(userData).flatMap(
           ([date, data]: [string, any]) => {
             if (data.entries && Array.isArray(data.entries)) {
@@ -45,14 +41,14 @@ export const fetchDailyCalories = (
           }
         );
 
-        callback(allEntries); // Pass transformed data to the callback
+        callback(allEntries); 
       } else {
         console.log("No dailyCalories data found.");
-        callback([]); // Pass empty array if no data exists
+        callback([]); 
       }
     });
 
-    return unsubscribe; // Return unsubscribe function to stop the listener when no longer needed
+    return unsubscribe; 
   } catch (error) {
     console.error("Error subscribing to dailyCalories:", error);
     return () => {};
