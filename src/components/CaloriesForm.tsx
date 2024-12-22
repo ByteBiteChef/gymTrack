@@ -39,6 +39,7 @@ const CaloriesForm = () => {
 	const [isNewFoodModalOpen, setIsNewFoodModalOpen] =
 		useState<boolean>(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState<boolean>(false);
+	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
@@ -160,6 +161,7 @@ const CaloriesForm = () => {
 			setSelectedFood("");
 			setSelectedPortion("");
 			setSelectedFoodDetails(null);
+			setAddModalOpen(false);
 		} catch (error) {
 			console.error("Error adding food entry:", error);
 			toast.error("Failed to add food entry. Please try again.");
@@ -218,6 +220,10 @@ const CaloriesForm = () => {
 	const handleCloseSelect = () => {
 		setCurrentUser("");
 		setFoodList([]);
+	};
+
+	const handleModalAdd = () => {
+		setAddModalOpen((prevState) => !prevState);
 	};
 
 	return (
@@ -292,64 +298,83 @@ const CaloriesForm = () => {
 			</div>
 			{/*Add Calories Logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col p-2 bg-white mt-4">
-				<div className="uppercase text-orange-500 font-bold text-sm">
-					What did you eat?
-				</div>
-				<div className="flex p-1 w-full rounded-sm border-2 justify-between m-2 items-center">
-					<div className="mr-2">
-						<select
-							value={selectedFood}
-							onChange={(e) => setSelectedFood(e.target.value)}
-							className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+				<div className="flex justify-between w-full items-center p-1">
+					<div className="uppercase text-orange-500 font-bold text-sm">
+						What did you eat?
+					</div>
+					<div>
+						<button
+							onClick={handleModalAdd}
+							className="w-6 h-6 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-full font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 						>
-							<option value="" disabled>
-								Pick a food
-							</option>
-							{foodList.map((food: IFood) => (
-								<option key={food.id} value={food.id}>
-									{food.id.replace(currentUser + "%%", "")}
-								</option>
-							))}
-						</select>
-					</div>
-					<div className="flex p-1 rounded-lg border">
-						<label className="text-black mr-2">Date </label>
-						<input
-							id="datePicker"
-							type="date"
-							value={selectedDate}
-							onChange={handleDateChange}
-							className="border border-gray-300 bg-white text-gray-800 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-						/>
+							+
+						</button>
 					</div>
 				</div>
-				<div className="flex border-2 rounded-sm w-full justify-around items-center">
-					<div className="m-1 w-2/3 flex">
-						<label className="m-2">Portion</label>
-						<input
-							type="number"
-							value={selectedPortion}
-							onChange={handlePortionChange}
-							className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-							placeholder="Portion/gr"
-						/>
+				{addModalOpen && (
+					<div>
+						<div className="flex p-1 w-full rounded-sm border-2 justify-between m-2 items-center">
+							<div className="mr-2">
+								<select
+									value={selectedFood}
+									onChange={(e) =>
+										setSelectedFood(e.target.value)
+									}
+									className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+								>
+									<option value="" disabled>
+										Pick a food
+									</option>
+									{foodList.map((food: IFood) => (
+										<option key={food.id} value={food.id}>
+											{food.id.replace(
+												currentUser + "%%",
+												""
+											)}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className="flex p-1 rounded-lg border">
+								<label className="text-black mr-2">Date </label>
+								<input
+									id="datePicker"
+									type="date"
+									value={selectedDate}
+									onChange={handleDateChange}
+									className="border border-gray-300 bg-white text-gray-800 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+								/>
+							</div>
+						</div>
+						<div className="flex border-2 rounded-sm w-full justify-around items-center">
+							<div className="m-1 w-2/3 flex">
+								<label className="m-2">Portion</label>
+								<input
+									type="number"
+									value={selectedPortion}
+									onChange={handlePortionChange}
+									className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+									placeholder="Portion/gr"
+								/>
+							</div>
+							<div className="w-1/3 ">
+								<p>
+									{selectedFoodDetails
+										? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
+										: "kcal/100g"}
+								</p>
+							</div>
+						</div>
+						<div>
+							<button
+								onClick={handleSubmit}
+								className="mt-2 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+							>
+								submit
+							</button>
+						</div>
 					</div>
-					<div className="w-1/3 ">
-						<p>
-							{selectedFoodDetails
-								? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
-								: "kcal/100g"}
-						</p>
-					</div>
-				</div>
-				<div>
-					<button
-						onClick={handleSubmit}
-						className="mt-2 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-					>
-						submit
-					</button>
-				</div>
+				)}
 			</div>
 			{/*Prev Calories logic*/}
 			<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
