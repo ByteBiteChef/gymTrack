@@ -342,6 +342,7 @@ const CaloriesForm = () => {
 									</select>
 									<input
 										id="datePicker"
+										placeholder="Date"
 										type="date"
 										value={selectedDate}
 										onChange={handleDateChange}
