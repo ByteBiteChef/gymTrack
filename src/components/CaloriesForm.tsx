@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { fetchDailyCalories, fetchFood } from "../services/allServices";
 import { IDailyCalories, IFood } from "@/services/types";
 import UserSelectInput from "./UserSelect";
+import CaloriesGoalChart from "./CaloriesGoalChart";
 
 const CaloriesForm = () => {
 	//users states
@@ -235,6 +236,11 @@ const CaloriesForm = () => {
 				handleUserChange={handleUserChange}
 				handleCloseSelect={handleCloseSelect}
 			/>
+			{/*Calories goal*/}
+			{currentUser === "Max" && (
+				<CaloriesGoalChart dailyCalories={dailyCalories} />
+			)}
+
 			{/*Add New Food Button && Modal*/}
 			<div className="flex flex-col items-center">
 				{!isNewFoodModalOpen && (
