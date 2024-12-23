@@ -485,17 +485,16 @@ const CaloriesForm = () => {
 							<></>
 						)}
 						{filteredEntries.length > 0 && (
-							<div className="w-full bg-white flex items-center justify-center">
-								<button
-									onClick={() => {
+							<div className="w-full bg-white flex items-center justify-center p-4">
+								<ActionButton
+									text={isDetailModalOpen ? "Close" : "More"}
+									handleAction={() => {
 										setIsDetailModalOpen(
 											(prevState) => !prevState
 										);
 									}}
-									className="w-1/6 p-1 m-2 text-center text-sm transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-								>
-									{isDetailModalOpen ? "Close" : "More"}
-								</button>
+									className="p-1 px-2 roundeed-sm"
+								/>
 							</div>
 						)}
 					</div>
