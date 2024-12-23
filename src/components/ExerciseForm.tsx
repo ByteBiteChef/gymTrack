@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { fetchUsers } from "@/services/allServices";
 import UserSelectInput from "./UserSelect";
 import ActionButton from "./ActionButton";
+import { Exercise } from "@/services/types";
 
 const db = getFirestore(app);
 
@@ -54,6 +55,7 @@ const ExerciseForm = () => {
 
 	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setExerciseName(e.target.value);
+		setIsOpen(true); // Show the dropdown when user types
 	};
 
 	const handleSeriesChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -206,6 +208,12 @@ const ExerciseForm = () => {
 	let recentData = null;
 	let mostRecentDate: number | null = null;
 
+	//filter exercises for search bar
+	const filteredExercises: Exercise[] = exercises.filter(
+		(exercise: Exercise) =>
+			exercise.id.toLowerCase().includes(exerciseName.toLowerCase())
+	);
+
 	if (exerciseName && exercises.length > 0) {
 		/* eslint-disable @typescript-eslint/no-explicit-any */
 		selectedExercise = exercises.find((ex: any) => ex.id === exerciseName);
@@ -253,29 +261,22 @@ const ExerciseForm = () => {
 				<></>
 			) : (
 				<div className="flex-1 items-center flex flex-col p-4 bg-white mt-4 rounded-sm">
-					{/* Exercise select input */}
-					<button
-						onClick={() => setIsOpen(!isOpen)}
-						className="border w-full "
-					>
-						{exerciseName.replace(currentUser + "%%", "") ||
-							"Pick an Exercise"}
-					</button>
-					{/* Exercise list input */}
-					{isOpen && (
-						<div className="bg-white shadow-lg w-64">
-							<div className="mb-2">
-								<input
-									type="text"
-									onChange={handleExerciseNameChange}
-									placeholder="Add Exercise Name"
-									className="border p-2 w-full"
-								/>
-							</div>
-							<div className="exercise-list">
-								{exercises.length > 0 ? (
-									/* eslint-disable @typescript-eslint/no-explicit-any */
-									exercises.map((exercise: any) => (
+					<div className="w-full">
+						{/* Search input field */}
+						<input
+							type="text"
+							value={exerciseName.replace(currentUser + "%%", "")}
+							onChange={handleExerciseNameChange}
+							onFocus={() => setIsOpen(true)}
+							placeholder="Search for an Exercise"
+							className="border rounded-sm w-full p-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+						/>
+
+						{/* Exercise list (appears when isOpen = true) */}
+						{isOpen && (
+							<div className="bg-white border shadow-lg mt-1">
+								{filteredExercises.length > 0 ? (
+									filteredExercises.map((exercise) => (
 										<div
 											key={exercise.id}
 											className="p-2 hover:bg-gray-100 cursor-pointer border-b"
@@ -286,17 +287,17 @@ const ExerciseForm = () => {
 											{exercise.id.replace(
 												currentUser + "%%",
 												""
-											)}{" "}
+											)}
 										</div>
 									))
 								) : (
 									<p className="p-2 text-gray-500">
-										No exercises added yet
+										Exercise is not on the list. Add it
 									</p>
 								)}
 							</div>
-						</div>
-					)}
+						)}
+					</div>
 					{/* Series and Weight input */}
 					<div className="w-full items-center my-2">
 						<label className="mb-1 font-medium">Series</label>

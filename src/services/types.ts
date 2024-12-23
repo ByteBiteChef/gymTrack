@@ -10,3 +10,12 @@ export interface IDailyCalories {
     foodName: string;
     portion: number;
 }
+
+export interface Exercise {
+    id: string;
+    dates: number[];
+    [key: number]: {
+        series: number[];
+        weight: number[];
+    };
+}
