@@ -259,7 +259,7 @@ const ExerciseForm = () => {
 						className="border w-full "
 					>
 						{exerciseName.replace(currentUser + "%%", "") ||
-							"Pick an Exercise"}{" "}
+							"Pick an Exercise"}
 					</button>
 					{/* Exercise list input */}
 					{isOpen && (

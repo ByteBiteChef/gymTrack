@@ -17,7 +17,9 @@ const NavBar = () => {
 			<div className="flex items-center justify-around h-full w-full relative">
 				<div
 					className={`text-3xl ${
-						isActive("/") ? "text-orange-500" : "text-white"
+						isActive("/")
+							? "text-orange-500 text-5xl"
+							: "text-white text-3xl"
 					}`}
 				>
 					<Link href="/">
@@ -26,8 +28,10 @@ const NavBar = () => {
 				</div>
 
 				<div
-					className={`text-3xl ${
-						isActive("/progress") ? "text-orange-500" : "text-white"
+					className={` ${
+						isActive("/progress")
+							? "text-orange-500 text-5xl"
+							: "text-white text-3xl"
 					}`}
 				>
 					<Link href="/progress">
@@ -38,8 +42,8 @@ const NavBar = () => {
 				<div
 					className={`text-3xl ${
 						isActive("/calories-tracker")
-							? "text-orange-500"
-							: "text-white"
+							? "text-orange-500 text-5xl"
+							: "text-white text-3xl"
 					}`}
 				>
 					<Link href="/calories-tracker">
