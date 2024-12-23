@@ -266,7 +266,7 @@ const CaloriesForm = () => {
 										handleAction={() => {
 											setIsNewFoodModalOpen(false);
 										}}
-										className=" right-2 px-2"
+										className="rounded-sm right-2 px-2"
 										text="x"
 									/>
 								</div>
@@ -282,7 +282,7 @@ const CaloriesForm = () => {
 												setFoodName(e.target.value)
 											}
 											placeholder="Food name"
-											className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+											className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 										/>
 									</div>
 									<div className="w-full items-center m-2">
@@ -326,7 +326,7 @@ const CaloriesForm = () => {
 										onChange={(e) =>
 											setSelectedFood(e.target.value)
 										}
-										className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+										className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 									>
 										<option value="" disabled>
 											Pick a food
@@ -354,7 +354,7 @@ const CaloriesForm = () => {
 												.split("T")[0]
 										}
 										onChange={handleDateChange}
-										className="p-1 border border-gray-300 bg-white text-gray-800 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+										className="p-1 border border-gray-300 bg-white text-gray-800 w-1/2 rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 									/>
 								</div>
 								<div className="flex border-t-2 w-full justify-between items-center gap-2 p-1">
@@ -362,11 +362,11 @@ const CaloriesForm = () => {
 										type="number"
 										value={selectedPortion}
 										onChange={handlePortionChange}
-										className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+										className="border border-gray-300 bg-white text-gray-800 p-1 w-1/2 rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 										placeholder="Portion in gr"
 									/>
 
-									<p className="border border-gray-300 rounded-md w-1/2 p-1">
+									<p className="border border-gray-300 rounded-sm w-1/2 p-1">
 										{selectedFoodDetails
 											? `${selectedFoodDetails.caloriesPer100g} kcal/100g`
 											: "kcal/100g"}
@@ -403,7 +403,7 @@ const CaloriesForm = () => {
 									id="datePicker2"
 									type="date"
 									value={dateForCalories}
-									className="border border-gray-300 bg-white text-gray-800 m-2 p-1 h-8 w-2/5 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+									className="border border-gray-300 bg-white text-gray-800 m-2 p-1 h-8 w-2/5 rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 									onChange={handleDetailPerDayChange}
 								/>
 							</div>
@@ -425,7 +425,7 @@ const CaloriesForm = () => {
 											setDateForCalories("");
 										}}
 										text="X"
-										className="px-2 right-2"
+										className="px-2 right-2 rounded-sm"
 									/>
 								</div>
 
@@ -477,7 +477,7 @@ const CaloriesForm = () => {
 											setDateForCalories("");
 										}}
 										text="x"
-										className="px-2"
+										className="px-2 rounded-sm"
 									/>
 								</div>
 							</div>
