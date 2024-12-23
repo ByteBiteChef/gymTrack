@@ -3,6 +3,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { db } from "../../firebase/firebase";
+import ActionButton from "./ActionButton";
 
 interface CaloriesGoalChartProps {
 	dailyCalories: IDailyCalories[];
@@ -76,16 +77,15 @@ const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 						<input
 							type="number"
 							placeholder="Today's Goal"
-							className="w-2/3 rounded-md rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+							className="w-2/3 p-0.5 rounded-sm rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 							value={inputValue}
 							onChange={(e) => setInputValue(e.target.value)}
 						/>
-						<button
-							onClick={handleAddGoal}
-							className="w-6 h-6 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-						>
-							+
-						</button>
+						<ActionButton
+							className="text-xl px-2 rounded-sm"
+							handleAction={handleAddGoal}
+							text="+"
+						/>
 					</div>
 				) : (
 					<div className="flex items-center justify-center gap-4">
