@@ -18,8 +18,8 @@ const NavBar = () => {
 				<div
 					className={`text-3xl ${
 						isActive("/")
-							? "text-orange-500 text-5xl"
-							: "text-white text-3xl"
+							? "text-orange-500 text-4xl"
+							: "text-white text-2xl"
 					}`}
 				>
 					<Link href="/">
@@ -30,8 +30,8 @@ const NavBar = () => {
 				<div
 					className={` ${
 						isActive("/progress")
-							? "text-orange-500 text-5xl"
-							: "text-white text-3xl"
+							? "text-orange-500 text-4xl"
+							: "text-white text-2xl"
 					}`}
 				>
 					<Link href="/progress">
@@ -42,8 +42,8 @@ const NavBar = () => {
 				<div
 					className={`text-3xl ${
 						isActive("/calories-tracker")
-							? "text-orange-500 text-5xl"
-							: "text-white text-3xl"
+							? "text-orange-500 text-4xl"
+							: "text-white text-2xl"
 					}`}
 				>
 					<Link href="/calories-tracker">
