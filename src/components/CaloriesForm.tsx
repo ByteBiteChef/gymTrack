@@ -344,7 +344,12 @@ const CaloriesForm = () => {
 										id="datePicker"
 										placeholder="Date"
 										type="date"
-										value={selectedDate}
+										value={
+											selectedDate ||
+											new Date()
+												.toISOString()
+												.split("T")[0]
+										}
 										onChange={handleDateChange}
 										className="p-1 border border-gray-300 bg-white text-gray-800 w-1/2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 									/>
