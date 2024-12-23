@@ -4,14 +4,15 @@ import Image from "next/image";
 const Home = () => {
 	return (
 		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a] overflow-scroll pb-28">
-			<div className="bg-[#0a0a0a] justify-center items-center flex border-b border-gray-950">
+			<div className="flex justify-center py-4">
 				<Image
-					src="/gym-tracker-logo.png"
+					src="/gym-tracker.png"
 					alt="App Logo"
-					width={300}
+					width={250}
 					height={200}
 				/>
 			</div>
+
 			<ExerciseForm />
 		</div>
 	);

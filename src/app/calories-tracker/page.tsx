@@ -4,16 +4,16 @@ import CaloriesForm from "@/components/CaloriesForm";
 
 const CaloriesTracker = () => {
 	return (
-		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a] overflow-scroll pb-28">
-			<div className="bg-[#0a0a0a] justify-center items-center flex border-b border-gray-950 ">
+		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a] overflow-scroll pb-28 item">
+			<div className="flex justify-center py-4">
 				<Image
-					src="/calories-tracker-logo.png"
-					className="mt-8"
+					src="/calories-tracker.png"
 					alt="App Logo"
-					width={250}
-					height={200}
+					width={350}
+					height={100}
 				/>
 			</div>
+
 			<CaloriesForm />
 		</div>
 	);

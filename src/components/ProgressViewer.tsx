@@ -124,7 +124,7 @@ const Progress = () => {
 	}
 
 	return (
-		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
+		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400 text-white">
 			<UserSelectInput
 				currentUser={currentUser}
 				users={users}
@@ -152,9 +152,9 @@ const Progress = () => {
 				</div>
 			)}
 
-			<div className="mt-4 flex-1">
+			<div className="flex-1">
 				{exerciseName && selectedExercise && recentData ? (
-					<div className="bg-white p-4 rounded-sm shadow">
+					<div className="bg-white p-4 rounded-sm shadow mt-4">
 						<div className="bg-white shadow p-2 rounded-sm border">
 							<h3 className="font-bold text-lg mb-2">
 								{exerciseName.replace(currentUser + "%%", "")}
