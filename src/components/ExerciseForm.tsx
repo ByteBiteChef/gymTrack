@@ -16,6 +16,7 @@ import { app } from "../../firebase/firebase";
 import { toast } from "sonner";
 import { fetchUsers } from "@/services/allServices";
 import UserSelectInput from "./UserSelect";
+import ActionButton from "./ActionButton";
 
 const db = getFirestore(app);
 
@@ -240,12 +241,13 @@ const ExerciseForm = () => {
 						placeholder="Not in the list?"
 						className="border-gray-300 p-1 w-2/3 rounded-sm focus:ring-2 focus:ring-orange-500 focus:outline-none appearance-none"
 					/>
-					<button
-						onClick={handleAddUser}
-						className="w-1/3 ml-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-					>
-						Add User
-					</button>
+					<div className="w-1/3 ml-2">
+						<ActionButton
+							handleAction={handleAddUser}
+							className="p-2"
+							text="Add User"
+						/>
+					</div>
 				</div>
 			)}
 			{!currentUser ? (
