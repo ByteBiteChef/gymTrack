@@ -252,11 +252,11 @@ const ExerciseForm = () => {
 			{!currentUser ? (
 				<></>
 			) : (
-				<div className="shadow flex-1 items-center flex flex-col p-4 bg-white mt-4">
+				<div className="flex-1 items-center flex flex-col p-4 bg-white mt-4 rounded-sm">
 					{/* Exercise select input */}
 					<button
 						onClick={() => setIsOpen(!isOpen)}
-						className="border w-36 "
+						className="border w-full "
 					>
 						{exerciseName.replace(currentUser + "%%", "") ||
 							"Pick an Exercise"}{" "}
@@ -298,8 +298,8 @@ const ExerciseForm = () => {
 						</div>
 					)}
 					{/* Series and Weight input */}
-					<div className="items-center mb-2 mt-2">
-						<label className="block mb-1 font-medium">Series</label>
+					<div className="w-full items-center my-2">
+						<label className="mb-1 font-medium">Series</label>
 						<input
 							type="text"
 							value={seriesInput}
@@ -308,8 +308,8 @@ const ExerciseForm = () => {
 							className="border p-2 w-full"
 						/>
 					</div>
-					<div className="items-center mb-2">
-						<label className="block mb-1 font-medium">Weight</label>
+					<div className="w-full items-center mb-2">
+						<label className="mb-1 font-medium">Weight</label>
 						<input
 							type="text"
 							value={weightInput}
