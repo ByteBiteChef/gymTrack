@@ -20,23 +20,24 @@ import UserSelectInput from "./UserSelect";
 const db = getFirestore(app);
 
 const ExerciseForm = () => {
-	const [isOpen, setIsOpen] = useState(false);
+	//inputs state
 	const [exerciseName, setExerciseName] = useState("");
 	const [seriesInput, setSeriesInput] = useState("");
 	const [weightInput, setWeightInput] = useState("");
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises]: any = useState([]);
+	console.log(exercises[0]);
+	//prefix delimiter
+	const PREFIX_DELIMITER = "%%";
+
+	//user state
 	const [currentUser, setCurrentUser] = useState("");
 	const [users, setUsers] = useState<string[]>([]);
 	const [newUser, setNewUser] = useState("");
-	const PREFIX_DELIMITER = "%%";
-	const [isOpenShowMore, setIsOpenShowMore] = useState(false);
 
-	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		const user = e.target.value;
-		setCurrentUser(user);
-		fetchExercises(user);
-	};
+	//modal state
+	const [isOpenShowMore, setIsOpenShowMore] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const handleCloseSelect = () => {
 		setIsOpen(false);
@@ -44,13 +45,15 @@ const ExerciseForm = () => {
 		setExerciseName("");
 	};
 
-	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setExerciseName(e.target.value);
+	//input handlers
+	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		const user = e.target.value;
+		setCurrentUser(user);
+		fetchExercises(user);
 	};
 
-	const handleInputClick = (exerciseId: string) => {
-		setExerciseName(exerciseId);
-		setIsOpen(false);
+	const handleExerciseNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setExerciseName(e.target.value);
 	};
 
 	const handleSeriesChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +62,41 @@ const ExerciseForm = () => {
 
 	const handleWeightChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setWeightInput(e.target.value);
+	};
+
+	const handleInputClick = (exerciseId: string) => {
+		setExerciseName(exerciseId);
+		setIsOpen(false);
+	};
+
+	//add user and exercise submit handlers
+	const handleAddUser = async () => {
+		const trimmedUser = newUser.trim();
+		if (!trimmedUser) {
+			toast.error("User name cannot be empty.");
+			return;
+		}
+
+		const userDocRef = doc(db, "users", trimmedUser);
+		const userDocSnapshot = await getDoc(userDocRef);
+
+		try {
+			if (userDocSnapshot.exists()) {
+				toast.error(
+					"User name already exists. Please choose a different name."
+				);
+				return;
+			}
+			// Create a doc in 'users' collection with the user's name as the doc ID
+			await setDoc(doc(db, "users", trimmedUser), {
+				createdAt: serverTimestamp(),
+			});
+			toast.success("User added successfully!");
+			setNewUser("");
+		} catch (error) {
+			console.error(error);
+			toast.error("Failed to add user.");
+		}
 	};
 
 	const handleAddExercise = async (): Promise<void> => {
@@ -129,6 +167,7 @@ const ExerciseForm = () => {
 		}
 	};
 
+	//fetch exercises
 	const fetchExercises = (user: string) => {
 		if (!user) return;
 
@@ -151,39 +190,12 @@ const ExerciseForm = () => {
 		return () => unsubscribe();
 	};
 
-	const handleAddUser = async () => {
-		const trimmedUser = newUser.trim();
-		if (!trimmedUser) {
-			toast.error("User name cannot be empty.");
-			return;
-		}
-
-		const userDocRef = doc(db, "users", trimmedUser);
-		const userDocSnapshot = await getDoc(userDocRef);
-
-		try {
-			if (userDocSnapshot.exists()) {
-				toast.error(
-					"User name already exists. Please choose a different name."
-				);
-				return;
-			}
-			// Create a doc in 'users' collection with the user's name as the doc ID
-			await setDoc(doc(db, "users", trimmedUser), {
-				createdAt: serverTimestamp(),
-			});
-			toast.success("User added successfully!");
-			setNewUser("");
-		} catch (error) {
-			console.error(error);
-			toast.error("Failed to add user.");
-		}
-	};
-
+	//fetch users
 	useEffect(() => {
 		return fetchUsers(setUsers);
 	}, []);
 
+	//fetch exercises on user change
 	useEffect(() => {
 		if (currentUser) {
 			fetchExercises(currentUser);
@@ -208,7 +220,8 @@ const ExerciseForm = () => {
 		}
 	}
 	return (
-		<div className="flex flex-col border h-auto rounded-md m-8 p-4 border-orange-400">
+		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
+			{/* User select input */}
 			<UserSelectInput
 				currentUser={currentUser}
 				users={users}
@@ -219,6 +232,7 @@ const ExerciseForm = () => {
 				<></>
 			) : (
 				<div className="mb-4 flex">
+					{/* Add user input */}
 					<input
 						type="text"
 						value={newUser}
@@ -238,6 +252,7 @@ const ExerciseForm = () => {
 				<></>
 			) : (
 				<div className="shadow flex-1 items-center flex flex-col p-4 bg-white">
+					{/* Exercise select input */}
 					<button
 						onClick={() => setIsOpen(!isOpen)}
 						className="border w-36 "
@@ -245,6 +260,7 @@ const ExerciseForm = () => {
 						{exerciseName.replace(currentUser + "%%", "") ||
 							"Pick an Exercise"}{" "}
 					</button>
+					{/* Exercise list input */}
 					{isOpen && (
 						<div className="bg-white shadow-lg w-64">
 							<div className="mb-2">
@@ -280,6 +296,7 @@ const ExerciseForm = () => {
 							</div>
 						</div>
 					)}
+					{/* Series and Weight input */}
 					<div className="items-center mb-2 mt-2">
 						<label className="block mb-1 font-medium">Series</label>
 						<input
@@ -308,43 +325,41 @@ const ExerciseForm = () => {
 					</button>
 				</div>
 			)}
+			{/* Exercise details card*/}
 			<div className="mt-2 flex-1">
 				{exerciseName &&
 				exercises.length > 0 &&
 				selectedExercise &&
 				recentData ? (
-					<div className="bg-white p-2 shodow border">
-						<div className="bg-white shadow p-2 rounded border">
-							<h3 className="font-bold text-lg mb-2">
-								{exerciseName.replace(currentUser + "%%", "")}
-							</h3>
-							<div className="border rounded-md p-2">
-								<p className="justify-between flex">
-									<strong>Last Training: </strong>
-									{typeof window !== "undefined" &&
-									mostRecentDate
-										? new Date(
-												mostRecentDate
-										  ).toLocaleDateString("en-GB", {
-												weekday: "short",
-												day: "numeric",
-												month: "short",
-										  })
-										: "Loading..."}
-								</p>
-								<p className="justify-between flex">
-									<strong>Series: </strong>
-									{Array.isArray(recentData.series)
-										? recentData.series.join(", ")
-										: ""}
-								</p>
-								<p className="justify-between flex">
-									<strong>Weight: </strong>
-									{Array.isArray(recentData.weight)
-										? recentData.weight.join(", ")
-										: ""}
-								</p>
-							</div>
+					<div className="bg-white p-2 rounded-sm border">
+						<h3 className="font-bold text-lg mb-2">
+							{exerciseName.replace(currentUser + "%%", "")}
+						</h3>
+						<div className="border rounded-sm p-2">
+							<p className="justify-between flex">
+								<strong>Last Training: </strong>
+								{typeof window !== "undefined" && mostRecentDate
+									? new Date(
+											mostRecentDate
+									  ).toLocaleDateString("en-GB", {
+											weekday: "short",
+											day: "numeric",
+											month: "short",
+									  })
+									: "Loading..."}
+							</p>
+							<p className="justify-between flex">
+								<strong>Series: </strong>
+								{Array.isArray(recentData.series)
+									? recentData.series.join(", ")
+									: ""}
+							</p>
+							<p className="justify-between flex">
+								<strong>Weight: </strong>
+								{Array.isArray(recentData.weight)
+									? recentData.weight.join(", ")
+									: ""}
+							</p>
 						</div>
 						{!isOpenShowMore && (
 							<button
