@@ -399,8 +399,8 @@ const CaloriesForm = () => {
 								<input
 									id="datePicker2"
 									type="date"
-									value={dateForCalories || "Pick a date"}
-									className="border border-gray-300 bg-white text-gray-800 m-2 p-1 w-2/5 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+									value={dateForCalories}
+									className="border border-gray-300 bg-white text-gray-800 m-2 p-1 h-8 w-2/5 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 									onChange={handleDetailPerDayChange}
 								/>
 							</div>
