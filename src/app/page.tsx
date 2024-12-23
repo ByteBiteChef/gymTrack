@@ -1,5 +1,4 @@
 import ExerciseForm from "@/components/ExerciseForm";
-import Image from "next/image";
 
 const Home = () => {
 	return (

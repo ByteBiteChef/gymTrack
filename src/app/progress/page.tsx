@@ -1,5 +1,4 @@
 import ProgressViewer from "@/components/ProgressViewer";
-import Image from "next/image";
 
 const Progress = () => {
 	return (
