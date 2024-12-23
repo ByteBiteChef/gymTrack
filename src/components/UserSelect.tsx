@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import ActionButton from "./ActionButton";
 
 interface UserSelectInputProps {
 	currentUser: string;
@@ -14,7 +15,7 @@ const UserSelectInput: React.FC<UserSelectInputProps> = ({
 	handleCloseSelect,
 }) => {
 	return (
-		<div className="flex">
+		<div className="flex gap-1">
 			<select
 				value={currentUser}
 				onChange={handleUserChange}
@@ -29,13 +30,13 @@ const UserSelectInput: React.FC<UserSelectInputProps> = ({
 					</option>
 				))}
 			</select>
-
-			<button
-				onClick={handleCloseSelect}
-				className="w-auto ml-1 px-2 text-center text-xs uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-			>
-				x
-			</button>
+			<div>
+				<ActionButton
+					className="p-2"
+					text="X"
+					handleAction={handleCloseSelect}
+				/>
+			</div>
 		</div>
 	);
 };

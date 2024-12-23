@@ -27,7 +27,6 @@ const ExerciseForm = () => {
 	const [weightInput, setWeightInput] = useState("");
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises]: any = useState([]);
-	console.log(exercises[0]);
 	//prefix delimiter
 	const PREFIX_DELIMITER = "%%";
 
@@ -319,12 +318,11 @@ const ExerciseForm = () => {
 							className="border p-2 w-full"
 						/>
 					</div>
-					<button
-						onClick={handleAddExercise}
-						className="ml-4 p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-					>
-						Add Exercise
-					</button>
+					<ActionButton
+						handleAction={handleAddExercise}
+						className="p-2"
+						text="Add Exercise"
+					/>
 				</div>
 			)}
 			{/* Exercise details card*/}
