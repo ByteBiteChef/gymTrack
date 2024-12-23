@@ -243,7 +243,7 @@ const ExerciseForm = () => {
 					<div className="w-1/3 ml-2">
 						<ActionButton
 							handleAction={handleAddUser}
-							className="p-2"
+							className="p-2 rounded-sm"
 							text="Add User"
 						/>
 					</div>
@@ -320,7 +320,7 @@ const ExerciseForm = () => {
 					</div>
 					<ActionButton
 						handleAction={handleAddExercise}
-						className="p-2"
+						className="p-2 rounded-sm mt-2"
 						text="Add Exercise"
 					/>
 				</div>

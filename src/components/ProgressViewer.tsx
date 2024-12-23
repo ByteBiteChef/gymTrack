@@ -133,11 +133,11 @@ const Progress = () => {
 			/>
 
 			{currentUser && exercises.length > 0 && (
-				<div className="mb-4">
+				<div className=" mt-4">
 					<select
 						value={exerciseName}
 						onChange={handleExerciseChange}
-						className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+						className="border border-gray-300 bg-white text-gray-800 p-1 w-full rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 					>
 						<option value="" disabled>
 							Pick an Exercise
@@ -154,12 +154,12 @@ const Progress = () => {
 
 			<div className="mt-4 flex-1">
 				{exerciseName && selectedExercise && recentData ? (
-					<div className="bg-white p-4 rounded shadow">
-						<div className="bg-white shadow p-2 rounded border">
+					<div className="bg-white p-4 rounded-sm shadow">
+						<div className="bg-white shadow p-2 rounded-sm border">
 							<h3 className="font-bold text-lg mb-2">
 								{exerciseName.replace(currentUser + "%%", "")}
 							</h3>
-							<div className="border rounded-md p-2">
+							<div className="border rounded-sm p-2">
 								<p className="justify-between flex">
 									<strong>Last Training: </strong>
 									{typeof window !== "undefined" &&

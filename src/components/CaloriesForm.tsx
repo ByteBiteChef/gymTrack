@@ -14,6 +14,7 @@ import { fetchDailyCalories, fetchFood } from "../services/allServices";
 import { IDailyCalories, IFood } from "@/services/types";
 import UserSelectInput from "./UserSelect";
 import CaloriesGoalChart from "./CaloriesGoalChart";
+import ActionButton from "./ActionButton";
 
 const CaloriesForm = () => {
 	//users states
@@ -371,12 +372,11 @@ const CaloriesForm = () => {
 											: "kcal/100g"}
 									</p>
 								</div>
-								<button
-									onClick={handleSubmit}
-									className="mt-4 w-full p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white font-bold border-0 hover:bg-right active:scale-95"
-								>
-									submit
-								</button>
+								<ActionButton
+									handleAction={handleSubmit}
+									text="submit"
+									className="p-1 mt-4"
+								/>
 							</div>
 						)}
 					</div>
@@ -420,14 +420,13 @@ const CaloriesForm = () => {
 											{totalDayCalories.toFixed(2)} kcal
 										</p>
 									</div>
-									<button
-										onClick={() => {
+									<ActionButton
+										handleAction={() => {
 											setDateForCalories("");
 										}}
-										className="right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-									>
-										x
-									</button>
+										text="X"
+										className="px-2 right-2"
+									/>
 								</div>
 
 								{isDetailModalOpen && (

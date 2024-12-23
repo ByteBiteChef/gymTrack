@@ -32,7 +32,7 @@ const UserSelectInput: React.FC<UserSelectInputProps> = ({
 			</select>
 			<div>
 				<ActionButton
-					className="p-2"
+					className="p-2 rounded-sm"
 					text="X"
 					handleAction={handleCloseSelect}
 				/>
