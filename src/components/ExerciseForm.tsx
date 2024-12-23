@@ -231,18 +231,18 @@ const ExerciseForm = () => {
 			{currentUser ? (
 				<></>
 			) : (
-				<div className="mb-4 flex">
+				<div className="flex mt-4">
 					{/* Add user input */}
 					<input
 						type="text"
 						value={newUser}
 						onChange={(e) => setNewUser(e.target.value)}
 						placeholder="Not in the list?"
-						className="border-gray-300 p-1 w-2/3 rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none appearance-none"
+						className="border-gray-300 p-1 w-2/3 rounded-sm focus:ring-2 focus:ring-orange-500 focus:outline-none appearance-none"
 					/>
 					<button
 						onClick={handleAddUser}
-						className="w-1/3 ml-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+						className="w-1/3 ml-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 					>
 						Add User
 					</button>
@@ -251,7 +251,7 @@ const ExerciseForm = () => {
 			{!currentUser ? (
 				<></>
 			) : (
-				<div className="shadow flex-1 items-center flex flex-col p-4 bg-white">
+				<div className="shadow flex-1 items-center flex flex-col p-4 bg-white mt-4">
 					{/* Exercise select input */}
 					<button
 						onClick={() => setIsOpen(!isOpen)}

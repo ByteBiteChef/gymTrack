@@ -14,7 +14,7 @@ const UserSelectInput: React.FC<UserSelectInputProps> = ({
 	handleCloseSelect,
 }) => {
 	return (
-		<div className="mb-4 flex">
+		<div className="flex">
 			<select
 				value={currentUser}
 				onChange={handleUserChange}
