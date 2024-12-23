@@ -13,6 +13,7 @@ import {
 	ResponsiveContainer,
 } from "recharts";
 import UserSelectInput from "./UserSelect";
+import Card from "./DefaultCard";
 
 const db = getFirestore(app);
 
@@ -154,12 +155,12 @@ const Progress = () => {
 
 			<div className="flex-1">
 				{exerciseName && selectedExercise && recentData ? (
-					<div className="bg-white p-4 rounded-sm shadow mt-4">
-						<div className="bg-white shadow p-2 rounded-sm border">
-							<h3 className="font-bold text-lg mb-2">
+					<Card className="text-black">
+						<Card className="shadow p-2 border">
+							<h3 className="font-bold text-lg mb-2 text-black">
 								{exerciseName.replace(currentUser + "%%", "")}
 							</h3>
-							<div className="border rounded-sm p-2">
+							<div className="w-full border rounded-sm p-2">
 								<p className="justify-between flex">
 									<strong>Last Training: </strong>
 									{typeof window !== "undefined" &&
@@ -186,10 +187,10 @@ const Progress = () => {
 										: ""}
 								</p>
 							</div>
-						</div>
+						</Card>
 						{/* Render the chart if we have multiple data points */}
 						{chartData && chartData.length > 0 && (
-							<div className="mt-8">
+							<div className="w-full mt-6 border rounded-sm p-2 shadow">
 								<h4 className="font-bold text-md mb-2">
 									Progress Over Time
 								</h4>
@@ -216,7 +217,7 @@ const Progress = () => {
 								</ResponsiveContainer>
 							</div>
 						)}
-					</div>
+					</Card>
 				) : (
 					exerciseName && (
 						<p className="text-white">

@@ -18,6 +18,7 @@ import { fetchUsers } from "@/services/allServices";
 import UserSelectInput from "./UserSelect";
 import ActionButton from "./ActionButton";
 import { Exercise } from "@/services/types";
+import Card from "./DefaultCard";
 
 const db = getFirestore(app);
 
@@ -260,7 +261,7 @@ const ExerciseForm = () => {
 			{!currentUser ? (
 				<></>
 			) : (
-				<div className="flex-1 items-center flex flex-col p-4 bg-white mt-4 rounded-sm">
+				<Card>
 					<div className="w-full">
 						{/* Search input field */}
 						<input
@@ -324,7 +325,7 @@ const ExerciseForm = () => {
 						className="p-2 rounded-sm mt-2"
 						text="Add Exercise"
 					/>
-				</div>
+				</Card>
 			)}
 			{/* Exercise details card*/}
 			<div className="mt-2 flex-1">
@@ -332,11 +333,11 @@ const ExerciseForm = () => {
 				exercises.length > 0 &&
 				selectedExercise &&
 				recentData ? (
-					<div className="bg-white p-2 rounded-sm border">
-						<h3 className="font-bold text-lg mb-2">
+					<Card>
+						<h3 className="font-bold text-lg mb-2 text-center">
 							{exerciseName.replace(currentUser + "%%", "")}
 						</h3>
-						<div className="border rounded-sm p-2">
+						<div className="border rounded-sm p-2 w-full">
 							<p className="justify-between flex">
 								<strong>Last Training: </strong>
 								{typeof window !== "undefined" && mostRecentDate
@@ -371,7 +372,7 @@ const ExerciseForm = () => {
 							</button>
 						)}
 						{isOpenShowMore && (
-							<div className="bg-white shadow-md p-4 rounded border mt-2">
+							<div className="bg-white shadow-md p-4 rounded border mt-2 w-full">
 								<h2 className="font-bold text-lg mb-2">
 									Exercise List
 								</h2>
@@ -445,7 +446,7 @@ const ExerciseForm = () => {
 								</button>
 							</div>
 						)}
-					</div>
+					</Card>
 				) : (
 					exerciseName && (
 						<p className="text-white">
