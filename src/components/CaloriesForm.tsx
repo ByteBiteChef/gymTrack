@@ -395,7 +395,10 @@ const CaloriesForm = () => {
 							</button>
 						</div>
 						{caloriesPerDayModalOpen && (
-							<div className="w-full items-center flex flex-col bg-white">
+							<div className="w-full items-center flex bg-white items-center justify-center">
+								<label className="block mb-1 font-medium ">
+									Select a date
+								</label>
 								<input
 									id="datePicker2"
 									type="date"
