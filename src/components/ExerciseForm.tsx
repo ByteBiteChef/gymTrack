@@ -306,7 +306,7 @@ const ExerciseForm = () => {
 							value={seriesInput}
 							onChange={handleSeriesChange}
 							placeholder="10,12,8"
-							className="border p-2 w-full"
+							className="border p-2 w-full rounded-sm focus:ring-2 focus:ring-orange-500 focus:outline-none"
 						/>
 					</div>
 					<div className="w-full items-center mb-2">
@@ -316,7 +316,7 @@ const ExerciseForm = () => {
 							value={weightInput}
 							onChange={handleWeightChange}
 							placeholder="40,45,50"
-							className="border p-2 w-full"
+							className="border p-2 w-full rounded-sm focus:ring-2 focus:ring-orange-500 focus:outline-none"
 						/>
 					</div>
 					<ActionButton
