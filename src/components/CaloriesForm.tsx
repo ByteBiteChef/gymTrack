@@ -15,6 +15,7 @@ import { IDailyCalories, IFood } from "@/services/types";
 import UserSelectInput from "./UserSelect";
 import CaloriesGoalChart from "./CaloriesGoalChart";
 import ActionButton from "./ActionButton";
+import Card from "./DefaultCard";
 
 const CaloriesForm = () => {
 	//users states
@@ -260,7 +261,7 @@ const CaloriesForm = () => {
 							/>
 						)}
 						{isNewFoodModalOpen && (
-							<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white m-2">
+							<Card className="relative">
 								<div className="absolute right-2">
 									<ActionButton
 										handleAction={() => {
@@ -306,11 +307,11 @@ const CaloriesForm = () => {
 									text="Add Food"
 									className="p-2 rounded-sm"
 								/>
-							</div>
+							</Card>
 						)}
 					</div>
 					{/*Add Calories Logic*/}
-					<div className="w-full items-center flex flex-col bg-white mt-4">
+					<div className="w-full items-center flex flex-col bg-white mt-4 rounded-sm">
 						<button
 							onClick={handleModalAdd}
 							className="uppercase text-orange-500 font-bold text-sm p-2 w-full text-center"
@@ -381,8 +382,8 @@ const CaloriesForm = () => {
 						)}
 					</div>
 					{/*Prev Calories logic*/}
-					<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
-						<div className="w-full items-center flex flex-col bg-white mt-4">
+					<div className="w-full shadow flex-1 items-center flex flex-col">
+						<div className="w-full items-center flex flex-col bg-white mt-4 rounded-sm">
 							<button
 								onClick={() => {
 									setCaloriesPerDayModalOpen(
@@ -493,7 +494,7 @@ const CaloriesForm = () => {
 											(prevState) => !prevState
 										);
 									}}
-									className="p-1 px-2 roundeed-sm"
+									className="p-1 px-2 rounded-sm"
 								/>
 							</div>
 						)}
