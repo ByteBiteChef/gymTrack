@@ -251,25 +251,25 @@ const CaloriesForm = () => {
 					{/*Add New Food Button && Modal*/}
 					<div className="flex flex-col items-center">
 						{!isNewFoodModalOpen && (
-							<button
-								onClick={() => {
+							<ActionButton
+								handleAction={() => {
 									setIsNewFoodModalOpen(true);
 								}}
-								className="w-auto mt-4 p-1 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-							>
-								Add new food
-							</button>
+								text="Add products"
+								className="p-2 mt-4 rounded-sm"
+							/>
 						)}
 						{isNewFoodModalOpen && (
 							<div className="relative w-full shadow flex-1 items-center flex flex-col p-2 bg-white m-2">
-								<button
-									onClick={() => {
-										setIsNewFoodModalOpen(false);
-									}}
-									className="absolute right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-								>
-									X
-								</button>
+								<div className="absolute right-2">
+									<ActionButton
+										handleAction={() => {
+											setIsNewFoodModalOpen(false);
+										}}
+										className=" right-2 px-2"
+										text="x"
+									/>
+								</div>
 								<div className="flex">
 									<div className="w-full items-center m-2">
 										<label className="block mb-1 font-medium">
@@ -300,12 +300,12 @@ const CaloriesForm = () => {
 										/>
 									</div>
 								</div>
-								<button
-									onClick={handleAddFood}
-									className="p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-								>
-									Add Food
-								</button>
+
+								<ActionButton
+									handleAction={handleAddFood}
+									text="Add Food"
+									className="p-2 rounded-sm"
+								/>
 							</div>
 						)}
 					</div>
@@ -470,14 +470,16 @@ const CaloriesForm = () => {
 						) : dateForCalories ? (
 							<div className="w-full bg-white p-2 flex items-center justify-center gap-4">
 								<p>No data on {formattedDate}</p>
-								<button
-									onClick={() => {
-										setDateForCalories("");
-									}}
-									className="right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-								>
-									X
-								</button>
+
+								<div className="right-2 px-2">
+									<ActionButton
+										handleAction={() => {
+											setDateForCalories("");
+										}}
+										text="x"
+										className="px-2"
+									/>
+								</div>
 							</div>
 						) : (
 							<></>
