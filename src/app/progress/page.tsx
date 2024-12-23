@@ -9,7 +9,7 @@ const Progress = () => {
 					src="/gym-stats-logo.png"
 					alt="App Logo"
 					width={200}
-					height={200}
+					height={100}
 				/>
 			</div>
 			<ProgressViewer />
