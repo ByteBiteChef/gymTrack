@@ -41,6 +41,8 @@ const CaloriesForm = () => {
 		useState<boolean>(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+	const [caloriesPerDayModalOpen, setCaloriesPerDayModalOpen] =
+		useState<boolean>(false);
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
@@ -380,18 +382,29 @@ const CaloriesForm = () => {
 					</div>
 					{/*Prev Calories logic*/}
 					<div className="w-full shadow flex-1 items-center flex flex-col mt-4">
-						<div className="bg-white w-full flex justify-between px-2 rounded-sm flex p-1">
-							<label className="uppercase text-orange-500 font-bold text-sm items-center flex">
+						<div className="w-full items-center flex flex-col bg-white mt-4">
+							<button
+								onClick={() => {
+									setCaloriesPerDayModalOpen(
+										(prevState) => !prevState
+									);
+								}}
+								className="uppercase text-orange-500 font-bold text-sm p-2 w-full text-center"
+							>
 								Previous days Data
-							</label>
-							<input
-								id="datePicker2"
-								type="date"
-								value={dateForCalories}
-								className="border border-gray-300 bg-white text-gray-800 p-1 w-2/5 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-								onChange={handleDetailPerDayChange}
-							/>
+							</button>
 						</div>
+						{caloriesPerDayModalOpen && (
+							<div className="w-full items-center flex flex-col bg-white">
+								<input
+									id="datePicker2"
+									type="date"
+									value={dateForCalories || "Pick a date"}
+									className="border border-gray-300 bg-white text-gray-800 m-2 p-1 w-2/5 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+									onChange={handleDetailPerDayChange}
+								/>
+							</div>
+						)}
 
 						{filteredEntries.length > 0 ? (
 							<div className="bg-white w-full rounded-sm flex flex-col items-center">
@@ -453,33 +466,33 @@ const CaloriesForm = () => {
 								)}
 							</div>
 						) : dateForCalories ? (
-							<div className="flex gap-4">
-								<p className="text-white">
-									No data on {formattedDate}
-								</p>
+							<div className="w-full bg-white p-2 flex items-center justify-center gap-4">
+								<p>No data on {formattedDate}</p>
 								<button
 									onClick={() => {
 										setDateForCalories("");
 									}}
 									className="right-2 px-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-sm font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 								>
-									back
+									X
 								</button>
 							</div>
 						) : (
 							<></>
 						)}
-						{dateForCalories && (
-							<button
-								onClick={() => {
-									setIsDetailModalOpen(
-										(prevState) => !prevState
-									);
-								}}
-								className="w-1/6 p-1 m-2 text-center text-sm transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
-							>
-								{isDetailModalOpen ? "Close" : "More"}
-							</button>
+						{filteredEntries.length > 0 && (
+							<div className="w-full bg-white flex items-center justify-center">
+								<button
+									onClick={() => {
+										setIsDetailModalOpen(
+											(prevState) => !prevState
+										);
+									}}
+									className="w-1/6 p-1 m-2 text-center text-sm transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white rounded-md font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
+								>
+									{isDetailModalOpen ? "Close" : "More"}
+								</button>
+							</div>
 						)}
 					</div>
 				</div>
