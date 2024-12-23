@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { ReactNode } from "react";
 import NavBar from "@/components/NavBar";
+import LogoHeader from "@/components/LogoHeader";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<LogoHeader />
 				<Toaster />
 				{children}
 				<NavBar />
