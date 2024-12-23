@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import CaloriesForm from "@/components/CaloriesForm";
-import NavBar from "@/components/NavBar";
 
 const CaloriesTracker = () => {
 	return (
@@ -16,7 +15,6 @@ const CaloriesTracker = () => {
 				/>
 			</div>
 			<CaloriesForm />
-			<NavBar />
 		</div>
 	);
 };

@@ -1,6 +1,5 @@
 import ProgressViewer from "@/components/ProgressViewer";
 import Image from "next/image";
-import NavBar from "@/components/NavBar";
 
 const Progress = () => {
 	return (
@@ -13,8 +12,7 @@ const Progress = () => {
 					height={200}
 				/>
 			</div>
-			<ProgressViewer />
-			<NavBar />
+			<ProgressViewer />]{" "}
 		</div>
 	);
 };

@@ -1,6 +1,5 @@
 import ExerciseForm from "@/components/ExerciseForm";
 import Image from "next/image";
-import NavBar from "@/components/NavBar";
 
 const Home = () => {
 	return (
@@ -14,7 +13,6 @@ const Home = () => {
 				/>
 			</div>
 			<ExerciseForm />
-			<NavBar />
 		</div>
 	);
 };
