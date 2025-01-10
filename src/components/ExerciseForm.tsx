@@ -19,6 +19,7 @@ import UserSelectInput from "./UserSelect";
 import ActionButton from "./ActionButton";
 import { Exercise } from "@/services/types";
 import Card from "./DefaultCard";
+import NavBar from "./NavBar";
 
 const db = getFirestore(app);
 
@@ -455,6 +456,7 @@ const ExerciseForm = () => {
 					)
 				)}
 			</div>
+			<NavBar user={currentUser} />
 		</div>
 	);
 };
