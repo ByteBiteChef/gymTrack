@@ -15,7 +15,7 @@ function insumosTotales(docenasDeEmpas: number) {
 
 	// Insumos para el relleno
 	const carne = empanadas * 0.036;
-	const huevos = docenasDeEmpas * 2.6;
+	const huevos = Math.ceil(docenasDeEmpas * 2.6);
 	const verdeo = docenasDeEmpas / 2.5;
 	const grasaCoccion = docenasDeEmpas * 0.024;
 
@@ -26,16 +26,16 @@ function insumosTotales(docenasDeEmpas: number) {
 		masa: {
 			harina: `${harina.toFixed(2)} kg`,
 			agua: `${agua.toFixed(2)} litros`,
-			grasa: `${grasa.toFixed(2)} kg`,
-			sal: `${sal.toFixed(2)} kg`,
+			grasa: `${(grasa * 1000).toFixed(0)} g`,
+			sal: `${(sal * 1000).toFixed(0)} g`,
 		},
 		relleno: {
 			carne: `${carne.toFixed(2)} kg`,
-			huevos: `${huevos.toFixed(2)} unidades`,
-			verdeo: `${verdeo.toFixed(2)} kg`,
-			grasaCoccion: `${grasaCoccion.toFixed(2)} kg`,
+			huevos: `${huevos} unidades`,
+			verdeo: `${verdeo.toFixed(2)} atados`,
+			grasaCoccion: `${(grasaCoccion * 1000).toFixed(0)} g`,
 		},
-		grasaTotal: `${grasaTotal.toFixed(2)} kg`,
+		grasaTotal: `${(grasaTotal * 1000).toFixed(0)} g`,
 	};
 }
 
