@@ -58,11 +58,11 @@ const CalculateEmpanadasPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a]  py-28 items-center overflow-scroll">
+		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a]  py-28 items-center overflow-scroll p-4">
 			<h1 className="text-white text-2xl mb-6">
 				Calculadora de Empanadas
 			</h1>
-			<div className="border-orange-400 w-5/6 border-2 rounded-md p-4">
+			<div className="border-orange-400 w-full border-2 rounded-md p-4">
 				<form
 					onSubmit={handleSubmit}
 					className="flex flex-col items-center space-y-4 bg-white p-4 rounded w-full "
@@ -89,7 +89,7 @@ const CalculateEmpanadasPage = () => {
 					<div className="mt-8 bg-white p-4 rounded w-full flex flex-col">
 						<div className="w-full flex justify-end">
 							<ActionButton
-								className="rounded-sm w-8"
+								className="rounded-sm w-9"
 								text="X"
 								handleAction={() => {
 									setResult(null);
@@ -99,12 +99,13 @@ const CalculateEmpanadasPage = () => {
 						</div>
 
 						<h2 className="text-lg mb-2 mt-4">
-							Resultado para {docenas} docenas
+							Resultado para {docenas}{" "}
+							{docenas === "1" ? "docena" : "docenas"}
 						</h2>
-						<p>Total de Empanadas: {result.totalDeEmpanadas}</p>
+						<p>Empanadas: {result.totalDeEmpanadas}</p>
 
 						<div className="mt-4 border-2 p-4 rounded">
-							<h3 className="font-semibold">Masa:</h3>
+							<h3 className="font-semibold">Masa</h3>
 							<ul className="list-disc list-inside space-y-2 mt-2">
 								<li className="flex items-center justify-between">
 									<span>Harina: {result.masa.harina}</span>
@@ -126,7 +127,7 @@ const CalculateEmpanadasPage = () => {
 						</div>
 
 						<div className="mt-4 border-2 p-4 rounded">
-							<h3 className="font-semibold">Relleno:</h3>
+							<h3 className="font-semibold">Relleno</h3>
 							<ul className="list-disc list-inside space-y-2 mt-2">
 								<li className="flex items-center justify-between">
 									<span>Carne: {result.relleno.carne}</span>
