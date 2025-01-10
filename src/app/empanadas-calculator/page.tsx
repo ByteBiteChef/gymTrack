@@ -3,22 +3,22 @@
 import React, { useState } from "react";
 
 function insumosTotales(docenasDeEmpas: number) {
-	let empanadas = docenasDeEmpas * 12;
-	let discosPorKgHarina = 42;
+	const empanadas = docenasDeEmpas * 12;
+	const discosPorKgHarina = 42;
 
 	// Insumos para la masa
-	let harina = empanadas / discosPorKgHarina;
-	let agua = harina * 0.45;
-	let grasa = harina * 0.2;
-	let sal = harina * 0.02;
+	const harina = empanadas / discosPorKgHarina;
+	const agua = harina * 0.45;
+	const grasa = harina * 0.2;
+	const sal = harina * 0.02;
 
 	// Insumos para el relleno
-	let carne = empanadas * 0.036;
-	let huevos = docenasDeEmpas * 2.6;
-	let verdeo = docenasDeEmpas / 2.5;
-	let grasaCoccion = docenasDeEmpas * 0.024;
+	const carne = empanadas * 0.036;
+	const huevos = docenasDeEmpas * 2.6;
+	const verdeo = docenasDeEmpas / 2.5;
+	const grasaCoccion = docenasDeEmpas * 0.024;
 
-	let grasaTotal = grasa + grasaCoccion;
+	const grasaTotal = grasa + grasaCoccion;
 
 	return {
 		totalDeEmpanadas: `${empanadas} unidades`,
@@ -38,7 +38,7 @@ function insumosTotales(docenasDeEmpas: number) {
 	};
 }
 
-const page = () => {
+const CalculateEmpanadasPage = () => {
 	const [docenas, setDocenas] = useState<string>("");
 	const [result, setResult] = useState<ReturnType<
 		typeof insumosTotales
@@ -149,4 +149,4 @@ const page = () => {
 	);
 };
 
-export default page;
+export default CalculateEmpanadasPage;
