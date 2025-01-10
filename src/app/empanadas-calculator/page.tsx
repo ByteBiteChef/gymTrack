@@ -89,7 +89,7 @@ const CalculateEmpanadasPage = () => {
 					<div className="mt-8 bg-white p-4 rounded w-full flex flex-col">
 						<div className="w-full flex justify-end">
 							<ActionButton
-								className="rounded-sm w-9"
+								className="rounded-sm px-3"
 								text="X"
 								handleAction={() => {
 									setResult(null);
