@@ -1,5 +1,6 @@
 "use client";
 
+import ActionButton from "@/components/ActionButton";
 import React, { useState } from "react";
 
 function insumosTotales(docenasDeEmpas: number) {
@@ -57,7 +58,7 @@ const CalculateEmpanadasPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a]  pt-28 items-center ">
+		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a]  py-28 items-center overflow-scroll">
 			<h1 className="text-white text-2xl mb-6">
 				Calculadora de Empanadas
 			</h1>
@@ -80,15 +81,25 @@ const CalculateEmpanadasPage = () => {
 
 				<button
 					type="submit"
-					className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors"
+					className="w-full h-full rounded-sm p-2 text-center text-sm uppercase transition duration-500 bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left text-white font-bold shadow-[0_0_14px_-7px_#f09819] border-0 hover:bg-right active:scale-95"
 				>
 					Calcular
 				</button>
 			</form>
 
 			{result && (
-				<div className="mt-8 text-white bg-gray-800 p-4 rounded w-80">
-					<h2 className="text-xl font-bold mb-2">
+				<div className="mt-8 text-white bg-gray-800 p-4 rounded w-80 flex flex-col">
+					<div className="w-full justify-end">
+						<ActionButton
+							className="rounded-sm w-8"
+							text="X"
+							handleAction={() => {
+								setResult(null);
+							}}
+						/>
+					</div>
+
+					<h2 className="text-lg mb-2 mt-4">
 						Resultado para {docenas} docenas
 					</h2>
 					<p>Total de Empanadas: {result.totalDeEmpanadas}</p>
