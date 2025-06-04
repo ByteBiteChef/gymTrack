@@ -16,6 +16,7 @@ import UserSelectInput from "./UserSelect";
 import CaloriesGoalChart from "./CaloriesGoalChart";
 import ActionButton from "./ActionButton";
 import Card from "./DefaultCard";
+import NavBar from "./NavBar";
 
 const CaloriesForm = () => {
 	//users states
@@ -396,7 +397,7 @@ const CaloriesForm = () => {
 							</button>
 						</div>
 						{caloriesPerDayModalOpen && (
-							<div className="w-full items-center flex bg-white items-center justify-center">
+							<div className="w-full items-center flex bg-white justify-center">
 								<label className="block mb-1 font-medium ">
 									Select a date
 								</label>
@@ -501,6 +502,7 @@ const CaloriesForm = () => {
 					</div>
 				</div>
 			)}
+			<NavBar user={currentUser} />
 		</div>
 	);
 };

@@ -77,7 +77,7 @@ const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 						<input
 							type="number"
 							placeholder="Today's Goal"
-							className="w-2/3 p-0.5 rounded-sm rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
+							className="w-2/3 p-0.5 rounded-sm appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
 							value={inputValue}
 							onChange={(e) => setInputValue(e.target.value)}
 						/>
@@ -105,7 +105,7 @@ const CaloriesGoalChart: React.FC<CaloriesGoalChartProps> = ({
 			</div>
 			{caloriesGoal ? (
 				<div
-					className="h-3 bg-gray-900 h-6 rounded-full m-2 overflow-hidden border border-gray-400"
+					className="h-3 bg-gray-900 rounded-full m-2 overflow-hidden border border-gray-400"
 					style={{ width: `300px` }}
 				>
 					<div
