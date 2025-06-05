@@ -107,7 +107,7 @@ const Timer = () => {
 
 export default Timer;
 
-const RADIUS = 70;
+const RADIUS = 60;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 const CircularProgress = ({ progress }: { progress: number }) => {
@@ -120,7 +120,7 @@ const CircularProgress = ({ progress }: { progress: number }) => {
 				cy="50%"
 				r={RADIUS}
 				stroke="#0f0f0f"
-				strokeWidth="8"
+				strokeWidth="6"
 				fill="transparent"
 			/>
 			<circle
@@ -128,7 +128,7 @@ const CircularProgress = ({ progress }: { progress: number }) => {
 				cy="50%"
 				r={RADIUS}
 				stroke="#f97316"
-				strokeWidth="8"
+				strokeWidth="6"
 				fill="transparent"
 				strokeDasharray={CIRCUMFERENCE}
 				strokeDashoffset={strokeDashoffset}
