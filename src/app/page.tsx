@@ -6,21 +6,18 @@ import Timer from "@/components/Timer";
 import { MdOutlineTimer } from "react-icons/md";
 
 const Home = () => {
-	const timerEnabled = process.env.NEXT_PUBLIC_TIMER === "true";
 	const [showTimerModal, setShowTimerModal] = useState(false);
 
 	return (
 		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a] overflow-scroll pb-28">
-			{timerEnabled && (
-				<div className="flex items-center justify-end mt-4 px-4">
-					<button
-						onClick={() => setShowTimerModal(true)}
-						className="bg-orange-600 text-white text-3xl p-2 rounded-full"
-					>
-						<MdOutlineTimer />
-					</button>
-				</div>
-			)}
+			<div className="flex items-center justify-end mt-4 px-4">
+				<button
+					onClick={() => setShowTimerModal(true)}
+					className="bg-orange-600 text-white text-3xl p-2 rounded-full"
+				>
+					<MdOutlineTimer />
+				</button>
+			</div>
 
 			{showTimerModal && (
 				<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
