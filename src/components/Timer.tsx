@@ -62,51 +62,41 @@ const Timer = () => {
 	};
 
 	return (
-		<div className="w-40 h-40 flex m-2">
-			<div className="flex flex-col border-orange-400 border rounded-full w-full h-full p-2 items-center justify-center gap-2">
+		<div className="relative w-40 h-40 flex items-center justify-center m-2">
+			<CircularProgress progress={timeLeft / initialTime} />
+
+			<div className="z-10 flex flex-col items-center justify-center gap-2">
 				{!isRunning && timeLeft === initialTime ? (
 					<div className="text-white">
-						<label>
-							<select
-								className="bg-gray-950"
-								value={initialTime}
-								onChange={handleChange}
-							>
-								<option value={30}>00:30</option>
-								<option value={45}>00:45</option>
-								<option value={60}>01:00</option>
-								<option value={90}>01:30</option>
-								<option value={120}>02:00</option>
-							</select>
-						</label>
+						<select
+							className="bg-gray-950"
+							value={initialTime}
+							onChange={handleChange}
+						>
+							<option value={30}>00:30</option>
+							<option value={45}>00:45</option>
+							<option value={60}>01:00</option>
+							<option value={90}>01:30</option>
+							<option value={120}>02:00</option>
+						</select>
 					</div>
 				) : (
-					<div className="text-white">{formatTime(timeLeft)}</div>
+					<div className="text-white text-lg">
+						{formatTime(timeLeft)}
+					</div>
 				)}
 
 				<div className="flex gap-2">
 					{isRunning ? (
-						<button
-							className="rounded-sm w-fit text-white"
-							onClick={stopTimer}
-						>
+						<button className="text-white" onClick={stopTimer}>
 							<CiPause1 />
 						</button>
 					) : (
-						<div className="w-auto">
-							<button
-								onClick={startTimer}
-								className="rounded-sm w-fit text-white"
-							>
-								<CiPlay1 />
-							</button>
-						</div>
+						<button onClick={startTimer} className="text-white">
+							<CiPlay1 />
+						</button>
 					)}
-
-					<button
-						className="rounded-sm w-fit text-white"
-						onClick={resetTimer}
-					>
+					<button className="text-white" onClick={resetTimer}>
 						<RiResetLeftFill />
 					</button>
 				</div>
@@ -116,3 +106,34 @@ const Timer = () => {
 };
 
 export default Timer;
+
+const RADIUS = 70;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+const CircularProgress = ({ progress }: { progress: number }) => {
+	const strokeDashoffset = (1 - progress) * CIRCUMFERENCE;
+
+	return (
+		<svg className="absolute top-0 left-0 w-full h-full transform -rotate-90">
+			<circle
+				cx="50%"
+				cy="50%"
+				r={RADIUS}
+				stroke="#0f0f0f"
+				strokeWidth="8"
+				fill="transparent"
+			/>
+			<circle
+				cx="50%"
+				cy="50%"
+				r={RADIUS}
+				stroke="#f97316"
+				strokeWidth="8"
+				fill="transparent"
+				strokeDasharray={CIRCUMFERENCE}
+				strokeDashoffset={strokeDashoffset}
+				style={{ transition: "stroke-dashoffset 1s linear" }}
+			/>
+		</svg>
+	);
+};
