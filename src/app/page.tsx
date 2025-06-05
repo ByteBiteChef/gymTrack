@@ -1,17 +1,43 @@
 "use client";
 
+import { useState } from "react";
 import ExerciseForm from "@/components/ExerciseForm";
 import Timer from "@/components/Timer";
+import { MdOutlineTimer } from "react-icons/md";
 
 const Home = () => {
-	const timer = process.env.NEXT_PUBLIC_TIMER;
+	const timerEnabled = process.env.NEXT_PUBLIC_TIMER === "true";
+	const [showTimerModal, setShowTimerModal] = useState(false);
+
 	return (
 		<div className="flex flex-col h-screen w-screen bg-[#0a0a0a] overflow-scroll pb-28">
-			{timer === "true" && (
-				<div className="flex items-center justify-end mt-4">
-					<Timer />
+			{timerEnabled && (
+				<div className="flex items-center justify-end mt-4 px-4">
+					<button
+						onClick={() => setShowTimerModal(true)}
+						className="bg-orange-600 text-white text-3xl p-2 rounded-full"
+					>
+						<MdOutlineTimer />
+					</button>
 				</div>
 			)}
+
+			{showTimerModal && (
+				<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+					<div className="relative bg-[#1a1a1a] p-6 rounded-xl shadow-lg w-80">
+						<button
+							onClick={() => setShowTimerModal(false)}
+							className="absolute top-2 right-2 text-white text-xl"
+						>
+							×
+						</button>
+						<div className="flex flex-col items-center">
+							<Timer />
+						</div>
+					</div>
+				</div>
+			)}
+
 			<ExerciseForm />
 		</div>
 	);

@@ -69,7 +69,7 @@ const Timer = () => {
 				{!isRunning && timeLeft === initialTime ? (
 					<div className="text-white">
 						<select
-							className="bg-gray-950"
+							className="bg-[#1a1a1a]"
 							value={initialTime}
 							onChange={handleChange}
 						>
