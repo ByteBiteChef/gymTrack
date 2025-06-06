@@ -1,12 +1,6 @@
 "use client";
 
-import {
-	arrayUnion,
-	collection,
-	doc,
-	onSnapshot,
-	setDoc,
-} from "firebase/firestore";
+import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
