@@ -13,7 +13,7 @@ const Home = () => {
 			<div className="flex items-center justify-end mt-4 px-4">
 				<button
 					onClick={() => setShowTimerModal(true)}
-					className="bg-orange-600 text-white text-3xl p-2 rounded-full"
+					className="text-white text-3xl p-1 rounded-full bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left font-bold shadow-[0_0_14px_-7px_#f09819] border-0 active:scale-95"
 				>
 					<MdOutlineTimer />
 				</button>
