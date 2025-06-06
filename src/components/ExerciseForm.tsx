@@ -42,6 +42,14 @@ const ExerciseForm = () => {
 	const [isOpenShowMore, setIsOpenShowMore] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
+	useEffect(() => {
+		const savedUser = localStorage.getItem("selectedUser");
+		if (savedUser) {
+			setCurrentUser(savedUser);
+			fetchExercises(savedUser);
+		}
+	}, []);
+
 	const handleCloseSelect = () => {
 		setIsOpen(false);
 		setCurrentUser("");
@@ -52,6 +60,7 @@ const ExerciseForm = () => {
 	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		const user = e.target.value;
 		setCurrentUser(user);
+		localStorage.setItem("selectedUser", user);
 		fetchExercises(user);
 	};
 

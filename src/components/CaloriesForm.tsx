@@ -12,7 +12,6 @@ import { db } from "../../firebase/firebase";
 import { toast } from "sonner";
 import { fetchDailyCalories, fetchFood } from "../services/allServices";
 import { IDailyCalories, IFood } from "@/services/types";
-import UserSelectInput from "./UserSelect";
 import CaloriesGoalChart from "./CaloriesGoalChart";
 import ActionButton from "./ActionButton";
 import Card from "./DefaultCard";
@@ -46,6 +45,15 @@ const CaloriesForm = () => {
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 	const [caloriesPerDayModalOpen, setCaloriesPerDayModalOpen] =
 		useState<boolean>(false);
+
+	useEffect(() => {
+		const savedUser = localStorage.getItem("selectedUser");
+		if (savedUser) {
+			setCurrentUser(savedUser);
+		} else {
+			console.warn("No user found in localStorage.");
+		}
+	}, []);
 
 	//Fetch Daily Calories by currentUser
 	useEffect(() => {
@@ -180,11 +188,6 @@ const CaloriesForm = () => {
 		setDateForCalories(e.target.value);
 	};
 
-	//User Select Handler
-	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setCurrentUser(e.target.value);
-	};
-
 	//Logic to Post New Food
 	const handleAddFood = async () => {
 		if (!currentUser || !foodName || !calories) {
@@ -224,24 +227,16 @@ const CaloriesForm = () => {
 		month: "short",
 	})}`;
 
-	const handleCloseSelect = () => {
-		setCurrentUser("");
-		setFoodList([]);
-	};
-
 	const handleModalAdd = () => {
 		setAddModalOpen((prevState) => !prevState);
 	};
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400">
-			{/*Pick User Select*/}
-			<UserSelectInput
-				currentUser={currentUser}
-				users={users}
-				handleUserChange={handleUserChange}
-				handleCloseSelect={handleCloseSelect}
-			/>
+			{!currentUser ? (
+				<p className="text-white">Loading user...</p>
+			) : null}
+
 			{/*Calories goal*/}
 			{currentUser && (
 				<div>

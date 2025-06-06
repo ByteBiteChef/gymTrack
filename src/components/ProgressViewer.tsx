@@ -12,7 +12,6 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from "recharts";
-import UserSelectInput from "./UserSelect";
 import Card from "./DefaultCard";
 import NavBar from "./NavBar";
 
@@ -24,6 +23,15 @@ const Progress = () => {
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises] = useState<any[]>([]);
 	const [exerciseName, setExerciseName] = useState("");
+
+	useEffect(() => {
+		const savedUser = localStorage.getItem("selectedUser");
+		if (savedUser) {
+			setCurrentUser(savedUser);
+		} else {
+			console.warn("No user found in localStorage.");
+		}
+	}, []);
 
 	useEffect(() => {
 		// Fetch users
@@ -56,16 +64,6 @@ const Progress = () => {
 
 		return () => unsubscribeExercises();
 	}, [currentUser]);
-
-	const handleUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setCurrentUser(e.target.value);
-		setExerciseName("");
-	};
-
-	const handleCloseSelect = () => {
-		setCurrentUser("");
-		setExercises([]);
-	};
 
 	const handleExerciseChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setExerciseName(e.target.value);
@@ -127,15 +125,12 @@ const Progress = () => {
 
 	return (
 		<div className="flex flex-col border h-auto rounded-md m-4 p-4 border-orange-400 text-white">
-			<UserSelectInput
-				currentUser={currentUser}
-				users={users}
-				handleUserChange={handleUserChange}
-				handleCloseSelect={handleCloseSelect}
-			/>
+			{!currentUser ? (
+				<p className="text-white">Loading user...</p>
+			) : null}
 
 			{currentUser && exercises.length > 0 && (
-				<div className=" mt-4">
+				<div>
 					<select
 						value={exerciseName}
 						onChange={handleExerciseChange}
