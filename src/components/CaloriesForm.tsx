@@ -20,7 +20,6 @@ import NavBar from "./NavBar";
 const CaloriesForm = () => {
 	//users states
 	const [currentUser, setCurrentUser] = useState("");
-	const [users, setUsers] = useState<string[]>([]);
 
 	//Food Form
 	const [foodName, setFoodName] = useState<string>("");
@@ -83,17 +82,6 @@ const CaloriesForm = () => {
 			setSelectedFoodDetails(null);
 		}
 	}, [selectedFood, foodList]);
-
-	//Fetch Users
-	useEffect(() => {
-		const usersRef = collection(db, "users");
-		const unsubscribeUsers = onSnapshot(usersRef, (snapshot) => {
-			const userList = snapshot.docs.map((doc) => doc.id);
-			setUsers(userList);
-		});
-
-		return () => unsubscribeUsers();
-	}, []);
 
 	//Fetch Food When CurrentUser Change
 	useEffect(() => {

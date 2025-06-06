@@ -19,7 +19,7 @@ const db = getFirestore(app);
 
 const Progress = () => {
 	const [currentUser, setCurrentUser] = useState("");
-	const [users, setUsers] = useState<string[]>([]);
+
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const [exercises, setExercises] = useState<any[]>([]);
 	const [exerciseName, setExerciseName] = useState("");
@@ -31,17 +31,6 @@ const Progress = () => {
 		} else {
 			console.warn("No user found in localStorage.");
 		}
-	}, []);
-
-	useEffect(() => {
-		// Fetch users
-		const usersRef = collection(db, "users");
-		const unsubscribeUsers = onSnapshot(usersRef, (snapshot) => {
-			const userList = snapshot.docs.map((doc) => doc.id);
-			setUsers(userList);
-		});
-
-		return () => unsubscribeUsers();
 	}, []);
 
 	useEffect(() => {

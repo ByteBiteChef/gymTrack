@@ -54,6 +54,7 @@ const ExerciseForm = () => {
 		setIsOpen(false);
 		setCurrentUser("");
 		setExerciseName("");
+		localStorage.removeItem("selectedUser");
 	};
 
 	//input handlers
