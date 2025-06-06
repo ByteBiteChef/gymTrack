@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
+import { CiPause1, CiPlay1 } from "react-icons/ci";
 import { IoIosTimer } from "react-icons/io";
+import { RiResetLeftFill } from "react-icons/ri";
 
 const formatTime = (totalSeconds: number): string => {
 	const hours = Math.floor(totalSeconds / 3600);
@@ -63,7 +65,7 @@ const WorkoutTimer = () => {
 					<div className="relative bg-[#1a1a1a] p-6 rounded-xl shadow-lg w-80 text-white">
 						<button
 							onClick={() => setShowModal(false)}
-							className="absolute top-2 right-2 text-white text-xl"
+							className="absolute top-2 right-2 text-xl"
 						>
 							×
 						</button>
@@ -76,15 +78,15 @@ const WorkoutTimer = () => {
 						<div className="flex justify-center gap-4">
 							<button
 								onClick={handleStartPause}
-								className="px-4 py-2 rounded bg-orange-500 text-white hover:bg-orange-600 transition"
+								className="px-4 py-2 rounded bg-orange-500 hover:bg-orange-600 transition"
 							>
-								{isRunning ? "Pause" : "Start"}
+								{isRunning ? <CiPause1 /> : <CiPlay1 />}
 							</button>
 							<button
 								onClick={handleReset}
 								className="px-4 py-2 rounded bg-gray-300 text-black hover:bg-gray-400 transition"
 							>
-								Reset
+								<RiResetLeftFill />
 							</button>
 						</div>
 					</div>

@@ -62,36 +62,37 @@ const Timer = () => {
 
 	return (
 		<>
-			{/* Trigger button */}
-			<button
-				onClick={() => setShowModal(true)}
-				className="text-white text-3xl p-1 rounded-full bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left font-bold shadow-[0_0_14px_-7px_#f09819] border-0 active:scale-95"
-			>
-				<MdOutlineTimer />
-			</button>
-
+			<div className="flex items-center gap-2 text-white">
+				<div className="text-sm font-mono">{formatTime(timeLeft)}</div>
+				<button
+					onClick={() => setShowModal(true)}
+					className="text-3xl p-1 rounded-full bg-gradient-to-r from-[#FF512F] via-[#F09819] to-[#FF512F] bg-[length:200%] bg-left font-bold shadow-[0_0_14px_-7px_#f09819] border-0 active:scale-95"
+				>
+					<MdOutlineTimer />
+				</button>
+			</div>
 			{/* Timer Modal */}
 			{showModal && (
 				<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-					<div className="relative bg-[#1a1a1a] p-6 rounded-xl shadow-lg w-80">
+					<div className="relative bg-[#1a1a1a] p-6 rounded-xl shadow-lg w-80 text-white">
 						<button
 							onClick={() => setShowModal(false)}
-							className="absolute top-2 right-2 text-white text-xl"
+							className="absolute top-2 right-2 text-xl"
 						>
 							×
 						</button>
+						<h2 className="text-lg font-bold mb-4 text-center">
+							Resting timer
+						</h2>
 
 						<div className="flex flex-col items-center justify-center gap-4">
 							{/* Timer content */}
-							<div className="relative w-40 h-40 flex items-center justify-center">
-								<CircularProgress
-									progress={timeLeft / initialTime}
-								/>
+							<div className="relative flex items-center justify-center">
 								<div className="z-10 flex flex-col items-center justify-center gap-2">
 									{!isRunning && timeLeft === initialTime ? (
-										<div className="text-white">
+										<div className="text-center font-mono mb-4">
 											<select
-												className="bg-[#1a1a1a]"
+												className="bg-[#1a1a1a] text-4xl"
 												value={initialTime}
 												onChange={handleChange}
 											>
@@ -113,15 +114,15 @@ const Timer = () => {
 											</select>
 										</div>
 									) : (
-										<div className="text-white text-lg">
+										<h2 className="text-center text-4xl font-mono mb-4">
 											{formatTime(timeLeft)}
-										</div>
+										</h2>
 									)}
 
 									<div className="flex gap-2">
 										{isRunning ? (
 											<button
-												className="text-white"
+												className="px-4 py-2 rounded bg-orange-500 hover:bg-orange-600 transition"
 												onClick={stopTimer}
 											>
 												<CiPause1 />
@@ -129,13 +130,13 @@ const Timer = () => {
 										) : (
 											<button
 												onClick={startTimer}
-												className="text-white"
+												className="px-4 py-2 rounded bg-orange-500 hover:bg-orange-600 transition"
 											>
 												<CiPlay1 />
 											</button>
 										)}
 										<button
-											className="text-white"
+											className="px-4 py-2 rounded bg-gray-300 text-black hover:bg-gray-400 transition"
 											onClick={resetTimer}
 										>
 											<RiResetLeftFill />
@@ -143,7 +144,6 @@ const Timer = () => {
 									</div>
 								</div>
 							</div>
-							{/* Optional: Add label or completion message */}
 						</div>
 					</div>
 				</div>
@@ -154,33 +154,33 @@ const Timer = () => {
 
 export default Timer;
 
-// Circular Progress Bar
-const RADIUS = 60;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+// // Circular Progress Bar
+// const RADIUS = 60;
+// const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
-const CircularProgress = ({ progress }: { progress: number }) => {
-	const strokeDashoffset = (1 - progress) * CIRCUMFERENCE;
-	return (
-		<svg className="absolute top-0 left-0 w-full h-full transform -rotate-90">
-			<circle
-				cx="50%"
-				cy="50%"
-				r={RADIUS}
-				stroke="#0f0f0f"
-				strokeWidth="6"
-				fill="transparent"
-			/>
-			<circle
-				cx="50%"
-				cy="50%"
-				r={RADIUS}
-				stroke="#f97316"
-				strokeWidth="6"
-				fill="transparent"
-				strokeDasharray={CIRCUMFERENCE}
-				strokeDashoffset={strokeDashoffset}
-				style={{ transition: "stroke-dashoffset 1s linear" }}
-			/>
-		</svg>
-	);
-};
+// const CircularProgress = ({ progress }: { progress: number }) => {
+// 	const strokeDashoffset = (1 - progress) * CIRCUMFERENCE;
+// 	return (
+// 		<svg className="absolute top-0 left-0 w-full h-full transform -rotate-90">
+// 			<circle
+// 				cx="50%"
+// 				cy="50%"
+// 				r={RADIUS}
+// 				stroke="#0f0f0f"
+// 				strokeWidth="6"
+// 				fill="transparent"
+// 			/>
+// 			<circle
+// 				cx="50%"
+// 				cy="50%"
+// 				r={RADIUS}
+// 				stroke="#f97316"
+// 				strokeWidth="6"
+// 				fill="transparent"
+// 				strokeDasharray={CIRCUMFERENCE}
+// 				strokeDashoffset={strokeDashoffset}
+// 				style={{ transition: "stroke-dashoffset 1s linear" }}
+// 			/>
+// 		</svg>
+// 	);
+// };
